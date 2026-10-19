@@ -170,6 +170,68 @@ The application is being developed as a modular Django web application, with an 
 | Profiles & Help | User information and student support |
 | Email Management | Account credential delivery |
 
+## 📁 Project Structure
+
+```text
+nouLMS/
+│
+├── myapp/
+│   ├── migrations/
+│   ├── static/
+│   │   ├── css/
+│   │   ├── images/
+│   │   └── js/
+│   │
+│   ├── templates/
+│   │   ├── admin/
+│   │   │   └── add_course.html
+│   │   │   └── session.html
+│   │   │   └── adminbase.html
+│   │   │   └── admindash.html
+│   │   │   └── delete_course.html
+│   │   │   └── delete_session.html
+│   │   │   └── edit_course.html
+│   │   │   └── edit_session.html
+│   │   │   └── view_courses.html
+│   │   │   └── view_session.html
+│   │   ├── teacher/
+│   │   │   └── teacherdash.html
+│   │   └── index.html
+│   │
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+│
+├── nouLMS/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── db.sqlite3
+├── manage.py
+└── README.md
+```
+
+### Folder & File Description
+
+- **myapp/** — Contains application logic, models, views, templates, static assets, and migrations.
+- **myapp/templates/** — Contains HTML templates for different sections of the application.
+- **myapp/static/** — Stores CSS, JavaScript, and image assets.
+- **myapp/models.py** — Defines database models.
+- **myapp/views.py** — Handles application views and request processing.
+- **myapp/admin.py** — Registers models with Django Admin.
+- **nouLMS/settings.py** — Contains Django project configuration.
+- **nouLMS/urls.py** — Defines project-level URL routing.
+- **nouLMS/asgi.py** and **nouLMS/wsgi.py** — Provide ASGI and WSGI application entry points.
+- **manage.py** — Provides Django management commands.
+- **db.sqlite3** — SQLite database file used by the project.
+
+
 ## ⚙️ Getting Started
 
 Follow these steps to run the project locally after cloning the repository.
