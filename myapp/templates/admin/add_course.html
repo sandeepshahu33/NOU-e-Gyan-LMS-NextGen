@@ -1,0 +1,258 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Add Course | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/add_course.css' %}">
+
+<div class="course-page">
+
+    <!-- Page Header -->
+    <div class="course-page-header">
+        <div class="course-heading-content">
+            <span class="course-breadcrumb">ADMINISTRATION / ACADEMICS</span>
+            <h2>Add New Course</h2>
+            <p>Create and manage academic courses for your institution.</p>
+        </div>
+
+        <a href="{% url 'view_courses' %}" class="course-back-btn">
+            <span>←</span> View Courses
+        </a>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="course-form-card">
+
+        <!-- Card Header -->
+        <div class="course-card-header">
+            <div class="course-header-icon">✦</div>
+
+            <div>
+                <h3>Course Information</h3>
+                <p>Enter the details below to register a new course.</p>
+            </div>
+
+            <span class="course-required-label">
+                <span>*</span> Required fields
+            </span>
+        </div>
+
+        <!-- Form -->
+        <form method="POST" action="" class="course-form">
+            {% csrf_token %}
+
+            <!-- Section 1 -->
+            <div class="course-form-section">
+                <div class="course-section-title">
+                    <span class="section-number">01</span>
+                    <div>
+                        <h4>Basic Information</h4>
+                        <p>Course name and identification details</p>
+                    </div>
+                </div>
+
+                <div class="course-form-grid">
+
+                    <!-- Course Name -->
+                    <div class="course-field">
+                        <label for="course_name">
+                            Course Name <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="course_name"
+                            name="course_name"
+                            maxlength="150"
+                            placeholder="e.g. Bachelor of Computer Applications"
+                            value="{{ request.POST.course_name|default:'' }}"
+                            required>
+                    </div>
+
+                    <!-- Course Code -->
+                    <div class="course-field">
+                        <label for="course_code">
+                            Course Code <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="course_code"
+                            name="course_code"
+                            maxlength="30"
+                            placeholder="e.g. BCA-2026"
+                            value="{{ request.POST.course_code|default:'' }}"
+                            required>
+
+                        <small>Use a unique code for each course.</small>
+                    </div>
+
+                    <!-- Academic Session -->
+                    <div class="course-field">
+                        <label for="session_id">
+                            Academic Session <span>*</span>
+                        </label>
+
+                        <select id="session_id" name="session_id" required>
+                            <option value="">Select Academic Session</option>
+
+                            {% for session in sessions %}
+                            <option
+                                value="{{ session.id }}"
+                                {% if request.POST.session_id == session.id|stringformat:"s" %}selected{% endif %}>
+                                {{ session.session_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                        <small>Select the academic year for this course.</small>
+                    </div>
+
+                    <!-- Course Level -->
+                    <div class="course-field">
+                        <label for="level">
+                            Course Level <span>*</span>
+                        </label>
+
+                        <select id="level" name="level" required>
+                            <option value="">Select Course Level</option>
+
+                            <option value="Undergraduate"
+                                {% if request.POST.level == 'Undergraduate' %}selected{% endif %}>
+                                Undergraduate
+                            </option>
+
+                            <option value="Postgraduate"
+                                {% if request.POST.level == 'Postgraduate' %}selected{% endif %}>
+                                Postgraduate
+                            </option>
+
+                            <option value="Diploma"
+                                {% if request.POST.level == 'Diploma' %}selected{% endif %}>
+                                Diploma
+                            </option>
+
+                            <option value="Certificate"
+                                {% if request.POST.level == 'Certificate' %}selected{% endif %}>
+                                Certificate
+                            </option>
+
+                            <option value="Doctoral"
+                                {% if request.POST.level == 'Doctoral' %}selected{% endif %}>
+                                Doctoral
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="course-form-section">
+                <div class="course-section-title">
+                    <span class="section-number">02</span>
+                    <div>
+                        <h4>Course Details</h4>
+                        <p>Duration, description and availability</p>
+                    </div>
+                </div>
+
+                <div class="course-form-grid">
+
+                    <!-- Duration -->
+                    <div class="course-field">
+                        <label for="duration">
+                            Course Duration <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="duration"
+                            name="duration"
+                            maxlength="50"
+                            placeholder="e.g. 3 Years / 6 Semesters"
+                            value="{{ request.POST.duration|default:'' }}"
+                            required>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="course-field">
+                        <label for="status">
+                            Course Status <span>*</span>
+                        </label>
+
+                        <select id="status" name="status" required>
+                            <option value="">Select Status</option>
+
+                            <option value="Active"
+                                {% if request.POST.status == 'Active' %}selected{% endif %}>
+                                Active
+                            </option>
+
+                            <option value="Inactive"
+                                {% if request.POST.status == 'Inactive' %}selected{% endif %}>
+                                Inactive
+                            </option>
+                            <option value="Inactive"
+                                {% if request.POST.status == 'Inactive' %}selected{% endif %}>
+                                Upcomming
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="course-field course-field-full">
+                        <label for="description">
+                            Course Description <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="5"
+                            placeholder="Describe the course, its learning objectives and key academic details..."
+                            required>{{ request.POST.description|default:'' }}</textarea>
+
+                        <small>Provide a clear overview of this course.</small>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Information Note -->
+            <div class="course-info-note">
+                <span class="course-info-icon">ⓘ</span>
+                <p>
+                    Please verify the course code, academic session and
+                    other details before saving. The course code must be unique.
+                </p>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="course-form-actions">
+                <a href="#" class="course-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="course-reset-btn">
+                    Reset Form
+                </button>
+
+                <button type="submit" class="course-submit-btn">
+                    <span>＋</span> Create Course
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="course-page-footer">
+        <span>NOU LMS · Academic Management</span>
+        <span>All fields marked <strong>*</strong> are required.</span>
+    </div>
+
+</div>
+{% endblock %}

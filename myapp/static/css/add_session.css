@@ -1,0 +1,580 @@
+
+/* ========================================
+   ADD ACADEMIC SESSION
+   NOU e-Gyan LMS - Maroon & White Theme
+======================================== */
+
+.add-session-page {
+    --maroon: #800020;
+    --maroon-dark: #5e0018;
+    --maroon-light: #f8e9ee;
+    --text-dark: #30232b;
+    --text-muted: #827781;
+    --border: #eee3e8;
+    --white: #ffffff;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28px;
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+}
+
+.add-session-page *,
+.add-session-page *::before,
+.add-session-page *::after {
+    box-sizing: border-box;
+}
+
+/* Page Header */
+
+.session-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 27px;
+}
+
+.session-eyebrow {
+    display: inline-block;
+    color: var(--maroon);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.session-page-header h2 {
+    margin: 9px 0 7px;
+    color: var(--maroon-dark);
+    font-size: 28px;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+.session-page-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Header Button */
+
+.session-outline-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    padding: 12px 17px;
+    border: 1px solid #e5cbd5;
+    border-radius: 9px;
+    background: #ffffff;
+    color: var(--maroon);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+.session-outline-btn:hover {
+    border-color: var(--maroon);
+    background: var(--maroon);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.outline-icon {
+    font-size: 16px;
+}
+
+/* Information Banner */
+
+.session-info-card {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 23px;
+    padding: 22px 24px;
+    border: 1px solid #f0dfe6;
+    border-left: 4px solid var(--maroon);
+    border-radius: 13px;
+    background: linear-gradient(110deg, #fff6f9, #ffffff);
+}
+
+.session-info-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 49px;
+    height: 49px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--maroon);
+    color: #ffffff;
+    font-size: 27px;
+    box-shadow: 0 5px 13px rgba(128, 0, 32, .15);
+}
+
+.session-info-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.session-info-content h3 {
+    margin: 0 0 6px;
+    color: var(--maroon-dark);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.session-info-content p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.session-info-label {
+    flex-shrink: 0;
+    padding: 8px 11px;
+    border: 1px solid #eed9e1;
+    border-radius: 7px;
+    background: #ffffff;
+    color: var(--maroon);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .6px;
+}
+
+/* Messages */
+
+.session-messages {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.session-message {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px 15px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.session-message.success {
+    border-color: #cdebd8;
+    background: #eaf8ef;
+    color: #17683b;
+}
+
+.session-message.error {
+    border-color: #f5d1ce;
+    background: #fff0ef;
+    color: #b42318;
+}
+
+.message-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .05);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Form Card */
+
+.session-form-card {
+    display: block !important;
+    visibility: visible !important;
+    width: 100%;
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--maroon);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 7px 26px rgba(75, 0, 25, .045);
+}
+
+/* Form Heading */
+
+.session-form-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 29px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.form-heading-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+}
+
+.form-heading-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: var(--maroon-light);
+    color: var(--maroon);
+    font-size: 21px;
+}
+
+.session-form-heading h3 {
+    margin: 0 0 6px;
+    color: var(--maroon-dark);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.session-form-heading p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.required-label {
+    flex-shrink: 0;
+    color: #9b6d7c;
+    font-size: 10px;
+}
+
+/* Form Grid */
+
+.session-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px 23px;
+}
+
+.session-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.session-field label {
+    color: #44343e;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.session-field label span {
+    color: var(--maroon);
+}
+
+/* Input Wrapper */
+
+.session-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 48px;
+    padding: 0 13px;
+    border: 1px solid #e5dce1;
+    border-radius: 9px;
+    background: #ffffff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.session-input-wrapper:focus-within {
+    border-color: var(--maroon);
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, .075);
+}
+
+.input-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 19px;
+    color: var(--maroon);
+    font-size: 16px;
+}
+
+.session-input-wrapper input,
+.session-input-wrapper select {
+    width: 100%;
+    min-width: 0;
+    min-height: 45px;
+    padding: 10px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #352832;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.session-input-wrapper input::placeholder {
+    color: #aaa0a6;
+}
+
+.session-input-wrapper select {
+    cursor: pointer;
+}
+
+.session-field small {
+    color: var(--text-muted);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* Important Note */
+
+.session-form-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 29px;
+    padding: 15px 17px;
+    border: 1px solid #f1e2c6;
+    border-radius: 9px;
+    background: #fffaf0;
+}
+
+.note-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+    border: 1px solid #d7b76c;
+    border-radius: 50%;
+    color: #9a701d;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.session-form-note strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #795717;
+    font-size: 11px;
+}
+
+.session-form-note p {
+    margin: 0;
+    color: #8c754b;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* Form Actions */
+
+.session-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin-top: 27px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+}
+
+.session-cancel-btn,
+.session-reset-btn,
+.session-submit-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.session-cancel-btn {
+    border: 1px solid #e5dce1;
+    background: #ffffff;
+    color: #62545d;
+}
+
+.session-cancel-btn:hover {
+    border-color: #d8b8c5;
+    background: #fbf5f7;
+    color: var(--maroon);
+}
+
+.session-reset-btn {
+    border: 1px solid #e5cbd5;
+    background: var(--maroon-light);
+    color: var(--maroon);
+}
+
+.session-reset-btn:hover {
+    background: #f0d8e1;
+}
+
+.session-submit-btn {
+    border: 1px solid var(--maroon);
+    background: var(--maroon);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(128, 0, 32, .12);
+}
+
+.session-submit-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--maroon-dark);
+    background: var(--maroon-dark);
+    box-shadow: 0 6px 15px rgba(128, 0, 32, .17);
+}
+
+.session-submit-btn span {
+    font-size: 17px;
+}
+
+/* Bottom Note */
+
+.session-bottom-note {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 20px;
+    padding: 13px 2px;
+}
+
+.bottom-note-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 27px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #e7f7ed;
+    color: #16834b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.session-bottom-note p {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin: 0;
+}
+
+.session-bottom-note strong {
+    color: #55434d;
+    font-size: 11px;
+}
+
+.session-bottom-note p span {
+    color: var(--text-muted);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .add-session-page {
+        padding: 21px;
+    }
+
+    .session-info-label {
+        display: none;
+    }
+
+    .session-form-card {
+        padding: 23px;
+    }
+}
+
+@media (max-width: 650px) {
+    .add-session-page {
+        padding: 15px;
+    }
+
+    .session-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .session-page-header h2 {
+        font-size: 23px;
+    }
+
+    .session-outline-btn {
+        width: 100%;
+    }
+
+    .session-info-card {
+        align-items: flex-start;
+        padding: 17px;
+    }
+
+    .session-info-icon {
+        width: 41px;
+        height: 41px;
+    }
+
+    .session-info-content h3 {
+        font-size: 14px;
+    }
+
+    .session-info-content p {
+        font-size: 11px;
+    }
+
+    .session-form-card {
+        padding: 19px;
+    }
+
+    .session-form-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 13px;
+    }
+
+    .session-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 21px;
+    }
+
+    .session-form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .session-cancel-btn,
+    .session-reset-btn,
+    .session-submit-btn {
+        width: 100%;
+    }
+
+    .session-bottom-note {
+        align-items: flex-start;
+    }
+}

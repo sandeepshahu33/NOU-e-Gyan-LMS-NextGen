@@ -1,0 +1,654 @@
+
+/* ============================================
+   NOU LMS — PREMIUM DELETE COURSE UI
+   Theme: Deep Maroon + Champagne Gold + White
+============================================ */
+
+.delete-course-page {
+    --maroon: #64152d;
+    --maroon-dark: #421020;
+    --maroon-soft: #f7f0f2;
+    --gold: #c6a15b;
+    --gold-light: #f5edda;
+    --white: #ffffff;
+    --page-bg: #faf9f7;
+    --text-primary: #30272b;
+    --text-secondary: #81757a;
+    --border: #eae4e2;
+
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 30px;
+    box-sizing: border-box;
+    color: var(--text-primary);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.delete-course-page *,
+.delete-course-page *::before,
+.delete-course-page *::after {
+    box-sizing: border-box;
+}
+
+/* ============================================
+   PAGE HEADER
+============================================ */
+
+.delete-course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.delete-course-breadcrumb {
+    display: inline-block;
+    margin-bottom: 11px;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.delete-course-header h2 {
+    margin: 0 0 9px;
+    color: var(--maroon-dark);
+    font-size: 31px;
+    font-weight: 750;
+    letter-spacing: -0.8px;
+}
+
+.delete-course-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.delete-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 12px 19px;
+    border: 1px solid #dfd2b6;
+    border-radius: 9px;
+    background: var(--white);
+    color: var(--maroon);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.delete-back-btn span {
+    color: var(--gold);
+    font-size: 19px;
+}
+
+.delete-back-btn:hover {
+    border-color: var(--maroon);
+    background: var(--maroon);
+    color: var(--white);
+    box-shadow: 0 6px 16px rgba(66, 16, 32, 0.12);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   MAIN CARD
+============================================ */
+
+.delete-course-card {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: var(--white);
+    box-shadow:
+        0 12px 35px rgba(48, 39, 43, 0.045),
+        0 2px 6px rgba(48, 39, 43, 0.025);
+}
+
+.delete-course-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--maroon-dark),
+        var(--maroon),
+        var(--gold),
+        #e5d2a5
+    );
+    content: "";
+}
+
+/* ============================================
+   PREMIUM WARNING ICON
+============================================ */
+
+.delete-warning-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 20px;
+    border: 1px solid #e7d8b5;
+    border-radius: 20px;
+    background: linear-gradient(
+        145deg,
+        #fffdf8,
+        var(--gold-light)
+    );
+    box-shadow: 0 6px 17px rgba(198, 161, 91, 0.12);
+    color: var(--maroon);
+}
+
+.delete-warning-icon span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+/* ============================================
+   TITLE SECTION
+============================================ */
+
+.delete-course-title {
+    max-width: 650px;
+    margin: 0 auto 34px;
+    text-align: center;
+}
+
+.delete-status-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 7px 12px;
+    border: 1px solid #eadfc7;
+    border-radius: 5px;
+    background: #fcf9f1;
+    color: #98763c;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.delete-course-title h3 {
+    margin: 0 0 12px;
+    color: var(--maroon-dark);
+    font-size: 23px;
+    font-weight: 750;
+    line-height: 1.5;
+    letter-spacing: -0.35px;
+}
+
+.delete-course-title p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+/* ============================================
+   COURSE INFORMATION PANEL
+============================================ */
+
+.delete-course-details {
+    padding: 27px;
+    border: 1px solid #e9e2df;
+    border-radius: 13px;
+    background: #fdfcfb;
+}
+
+.delete-details-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 26px;
+    padding-bottom: 19px;
+    border-bottom: 1px solid #eae3df;
+}
+
+.delete-details-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    border: 1px solid #e8d8b5;
+    border-radius: 12px;
+    background: var(--gold-light);
+    color: var(--maroon);
+    font-size: 22px;
+}
+
+.delete-details-heading h4 {
+    margin: 0 0 6px;
+    color: var(--maroon-dark);
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.delete-details-heading p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.delete-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px 30px;
+}
+
+.delete-detail-item {
+    min-width: 0;
+    padding: 3px 0;
+}
+
+.delete-detail-label {
+    display: block;
+    margin-bottom: 9px;
+    color: #9a8c82;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.delete-detail-item h5 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.delete-detail-full {
+    grid-column: 1 / -1;
+    padding-top: 20px;
+    border-top: 1px solid #eae3df;
+}
+
+.delete-detail-full p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+/* Course Status Badge */
+
+.delete-course-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border: 1px solid #e6d7b6;
+    border-radius: 6px;
+    background: #fbf6e9;
+    color: #84662f;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+/* ============================================
+   WARNING INFORMATION
+============================================ */
+
+.delete-course-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 24px;
+    padding: 18px 20px;
+    border: 1px solid #e8dcc6;
+    border-left: 3px solid var(--gold);
+    border-radius: 9px;
+    background: #fdfaf4;
+}
+
+.delete-warning-note-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    border: 1px solid #e9d9b6;
+    border-radius: 50%;
+    background: var(--gold-light);
+    color: #8a6b33;
+    font-size: 14px;
+}
+
+.delete-course-warning h4 {
+    margin: 2px 0 7px;
+    color: var(--maroon-dark);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.delete-course-warning p {
+    margin: 0;
+    color: #786c62;
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+/* ============================================
+   ACTION BUTTONS
+============================================ */
+
+.delete-course-form {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 13px;
+    margin-top: 28px;
+    padding-top: 25px;
+    border-top: 1px solid #ece6e2;
+}
+
+.delete-cancel-btn,
+.delete-confirm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 45px;
+    padding: 12px 21px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.delete-cancel-btn {
+    border: 1px solid #ded5d1;
+    background: #fff;
+    color: #66585b;
+}
+
+.delete-cancel-btn span {
+    color: var(--gold);
+    font-size: 17px;
+}
+
+.delete-cancel-btn:hover {
+    border-color: var(--gold);
+    background: #fdfaf4;
+    color: var(--maroon);
+}
+
+.delete-confirm-btn {
+    border: 1px solid var(--maroon);
+    background: var(--maroon);
+    color: #fff;
+    box-shadow: 0 5px 13px rgba(66, 16, 32, 0.13);
+}
+
+.delete-confirm-btn span {
+    color: #e5c783;
+    font-size: 15px;
+}
+
+.delete-confirm-btn:hover {
+    border-color: var(--maroon-dark);
+    background: var(--maroon-dark);
+    box-shadow: 0 7px 17px rgba(66, 16, 32, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+
+.delete-course-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 23px;
+    padding: 0 4px;
+    color: #968982;
+    font-size: 10px;
+}
+
+.delete-course-footer span:first-child {
+    color: var(--maroon);
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
+
+@media (max-width: 768px) {
+    .delete-course-page {
+        padding: 20px;
+    }
+
+    .delete-course-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .delete-course-header h2 {
+        font-size: 27px;
+    }
+
+    .delete-course-card {
+        padding: 27px 22px;
+    }
+
+    .delete-course-details {
+        padding: 21px;
+    }
+
+    .delete-details-grid {
+        gap: 21px;
+    }
+}
+
+@media (max-width: 480px) {
+    .delete-course-page {
+        padding: 13px;
+    }
+
+    .delete-course-header h2 {
+        font-size: 24px;
+    }
+
+    .delete-course-card {
+        padding: 22px 15px;
+    }
+
+    .delete-course-title h3 {
+        font-size: 19px;
+    }
+
+    .delete-course-details {
+        padding: 17px;
+    }
+
+    .delete-details-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 19px;
+    }
+
+    .delete-detail-full {
+        grid-column: auto;
+    }
+
+    .delete-course-warning {
+        padding: 15px;
+    }
+
+    .delete-course-form {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .delete-cancel-btn,
+    .delete-confirm-btn {
+        width: 100%;
+    }
+
+    .delete-course-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
+/* =====================================
+   TYPOGRAPHY FIX — NORMAL & READABLE
+===================================== */
+
+.delete-course-page {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Main heading */
+.delete-course-header h2 {
+    font-size: 29px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+/* Breadcrumb */
+.delete-course-breadcrumb {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+}
+
+/* Header description */
+.delete-course-header p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+/* Confirmation heading */
+.delete-course-title h3 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0;
+}
+
+/* Normal paragraphs */
+.delete-course-title p,
+.delete-course-warning p,
+.delete-detail-full p {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+/* Section headings */
+.delete-details-heading h4,
+.delete-course-warning h4 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Course information labels */
+.delete-detail-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+/* Course values */
+.delete-detail-item h5 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7;
+}
+
+/* Status badge */
+.delete-course-status {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Warning label */
+.delete-status-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+}
+
+/* Information card description */
+.delete-details-heading p {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Buttons */
+.delete-back-btn,
+.delete-cancel-btn,
+.delete-confirm-btn {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+/* Footer */
+.delete-course-footer {
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.delete-course-footer span:first-child {
+    font-weight: 500;
+}
+
+/* Responsive headings */
+@media (max-width: 768px) {
+    .delete-course-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .delete-course-title h3 {
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 480px) {
+    .delete-course-header h2 {
+        font-size: 24px;
+    }
+
+    .delete-course-title h3 {
+        font-size: 19px;
+    }
+}

@@ -1,0 +1,249 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Courses Directory | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/view_courses.css' %}">
+
+<div class="courses-page">
+
+    <!-- Page Header -->
+    <div class="courses-page-header">
+        <div>
+            <span class="courses-breadcrumb">ADMINISTRATION / ACADEMICS</span>
+            <h2>Courses Directory</h2>
+            <p>View, search and manage all academic courses.</p>
+        </div>
+
+        <a href="{% url 'add_course' %}" class="add-course-btn">
+            <span>＋</span> Add New Course
+        </a>
+    </div>
+
+    <!-- Statistics -->
+    <div class="course-stats-grid">
+
+        <div class="course-stat-card">
+            <div class="course-stat-icon total-icon">▤</div>
+            <div class="course-stat-info">
+                <p>Total Courses</p>
+                <h3>{{ courses.count }}</h3>
+                <span>Registered courses</span>
+            </div>
+        </div>
+
+        <div class="course-stat-card">
+            <div class="course-stat-icon active-icon">✓</div>
+            <div class="course-stat-info">
+                <p>Active Courses</p>
+                <h3>{{ active_count }}</h3>
+                <span>Currently active</span>
+            </div>
+        </div>
+
+        <div class="course-stat-card">
+            <div class="course-stat-icon inactive-icon">◷</div>
+            <div class="course-stat-info">
+                <p>Inactive Courses</p>
+                <h3>{{ inactive_count }}</h3>
+                <span>Currently inactive</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Courses Table Card -->
+    <div class="courses-table-card">
+
+        <div class="courses-table-header">
+            <div>
+                <h3>All Academic Courses</h3>
+                <p>Manage your institution's course directory.</p>
+            </div>
+
+            <div class="courses-search">
+                <span class="search-icon">⌕</span>
+                <input
+                    type="search"
+                    id="courseSearch"
+                    placeholder="Search courses..."
+                    oninput="filterCourses()"
+                    aria-label="Search courses">
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="courses-table-responsive">
+            <table class="courses-table" id="coursesTable">
+
+                <thead>
+                    <tr>
+                        <th>COURSE</th>
+                        <th>COURSE CODE</th>
+                        <th>ACADEMIC SESSION</th>
+                        <th>LEVEL</th>
+                        <th>DURATION</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <!-- Course Name and Description -->
+                        <td>
+                            <div class="course-name-cell">
+                                <div class="course-avatar">
+                                    {{ course.course_name|slice:":1"|upper }}
+                                </div>
+
+                                <div class="course-name-details">
+                                    <strong>{{ course.course_name }}</strong>
+                                    <span>
+                                        {{ course.description|default:"No description added"|truncatechars:65 }}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Code -->
+                        <td>
+                            <span class="course-code">
+                                {{ course.course_code }}
+                            </span>
+                        </td>
+
+                        <!-- Academic Session -->
+                        <td>
+                            {% if course.session_id %}
+                                <span class="session-name">
+                                    {{ course.session_id.session_name }}
+                                </span>
+                            {% else %}
+                                <span class="not-assigned">Not assigned</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Level -->
+                        <td>
+                            <span class="course-level">
+                                {{ course.level }}
+                            </span>
+                        </td>
+
+                        <!-- Duration -->
+                        <td class="course-duration">
+                            {{ course.duration }}
+                        </td>
+
+                        <!-- Status -->
+                        <td>
+                            <span class="course-status
+                                {% if course.status == 'Active' %}
+                                    status-active
+                                {% else %}
+                                    status-inactive
+                                {% endif %}">
+                                <span class="status-dot"></span>
+                                {{ course.status }}
+                            </span>
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+                            <div class="course-actions">
+
+                                <a
+                                    href="{% url 'edit_course' id=course.id %}"
+                                    class="course-action-btn edit-course-btn"
+                                    title="Edit course"
+                                    aria-label="Edit {{ course.course_name }}">
+                                    <span>✎</span>
+                                </a>
+
+                                <a
+                                    href="{% url 'delete_course' id=course.id %}"
+                                    class="course-action-btn delete-course-btn"
+                                    title="Delete course"
+                                    aria-label="Delete {{ course.course_name }}">
+                                    <span>⌫</span>
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">
+                            <div class="courses-empty-state">
+                                <div class="empty-course-icon">▤</div>
+                                <h4>No Courses Found</h4>
+                                <p>
+                                    You haven't added any courses yet.
+                                    Create your first course to get started.
+                                </p>
+                                <a href="{% url 'add_course' %}"
+                                   class="empty-add-course-btn">
+                                    ＋ Add Your First Course
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="courses-table-footer">
+            <span>
+                Showing
+                <strong id="visibleCourseCount">{{ courses.count }}</strong>
+                course(s)
+            </span>
+
+            <span class="courses-footer-label">
+                NOU LMS · Academic Management
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function filterCourses() {
+        const searchInput = document.getElementById('courseSearch');
+        const search = searchInput.value.toLowerCase().trim();
+
+        const rows = document.querySelectorAll(
+            '#coursesTable tbody tr'
+        );
+
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            if (row.querySelector('.courses-empty-state')) {
+                return;
+            }
+
+            const matches = row.innerText.toLowerCase().includes(search);
+
+            row.style.display = matches ? '' : 'none';
+
+            if (matches) {
+                visibleCount++;
+            }
+        });
+
+        document.getElementById('visibleCourseCount').textContent =
+            visibleCount;
+    }
+</script>
+
+{% endblock %}

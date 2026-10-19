@@ -1,0 +1,299 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Edit Course | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/edit_course.css' %}">
+
+<div class="edit-course-page">
+
+    <!-- Page Header -->
+    <div class="edit-course-header">
+        <div class="edit-course-heading">
+            <span class="edit-course-breadcrumb">
+                ADMINISTRATION / ACADEMICS / COURSES
+            </span>
+
+            <h2>Edit Course</h2>
+            <p>Update course information and academic details.</p>
+        </div>
+
+        <a href="{% url 'view_courses' %}" class="edit-course-back-btn">
+            <span>←</span> View Courses
+        </a>
+    </div>
+
+    <!-- Course Summary -->
+    <div class="edit-course-summary">
+        <div class="edit-summary-icon">✦</div>
+
+        <div class="edit-summary-content">
+            <span class="edit-summary-label">EDITING COURSE</span>
+            <h3>{{ course.course_name }}</h3>
+            <p>Course Code: {{ course.course_code }}</p>
+        </div>
+
+        <div class="edit-summary-badge">
+            <span class="edit-summary-dot"></span>
+            Update Mode
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="edit-course-messages">
+            {% for message in messages %}
+                <div class="edit-course-message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Form Card -->
+    <div class="edit-course-card">
+
+        <div class="edit-course-card-header">
+            <div>
+                <h3>Course Information</h3>
+                <p>Modify the fields below and save your changes.</p>
+            </div>
+
+            <span class="edit-required-label">
+                <span>*</span> Required fields
+            </span>
+        </div>
+
+        <form method="POST"
+              action=""
+              class="edit-course-form">
+
+            {% csrf_token %}
+
+            <!-- Section 1 -->
+            <div class="edit-course-section">
+
+                <div class="edit-section-heading">
+                    <span class="edit-section-number">01</span>
+
+                    <div>
+                        <h4>Basic Information</h4>
+                        <p>Course identification and academic session</p>
+                    </div>
+                </div>
+
+                <div class="edit-course-grid">
+
+                    <!-- Course Name -->
+                    <div class="edit-course-field">
+                        <label for="course_name">
+                            Course Name <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="course_name"
+                            name="course_name"
+                            maxlength="150"
+                            value="{{ course.course_name }}"
+                            placeholder="Enter course name"
+                            required>
+                    </div>
+
+                    <!-- Course Code -->
+                    <div class="edit-course-field">
+                        <label for="course_code">
+                            Course Code <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="course_code"
+                            name="course_code"
+                            maxlength="30"
+                            value="{{ course.course_code }}"
+                            placeholder="Enter course code"
+                            required>
+
+                        <small>Course code must be unique.</small>
+                    </div>
+
+                    <!-- Academic Session -->
+                    <div class="edit-course-field">
+                        <label for="session_id">
+                            Academic Session <span>*</span>
+                        </label>
+
+                        <select id="session_id"
+                                name="session_id"
+                                >
+                            {% for s in sessions %}
+                                <option
+                                    value="{{ s.id }}"
+                                    {% if s.id == course.session_id.id %}
+                                        selected
+                                    {% endif %}>
+                                    {{ s.session_name }}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+
+                        <small>Select the session assigned to this course.</small>
+                    </div>
+
+                    <!-- Course Level -->
+                    <div class="edit-course-field">
+                        <label for="level">
+                            Course Level <span>*</span>
+                        </label>
+
+                        <select id="level" name="level" required>
+                            <option value="">Select Course Level</option>
+
+                            <option value="Undergraduate"
+                                {% if course.level == 'Undergraduate' %}selected{% endif %}>
+                                Undergraduate
+                            </option>
+
+                            <option value="Postgraduate"
+                                {% if course.level == 'Postgraduate' %}selected{% endif %}>
+                                Postgraduate
+                            </option>
+
+                            <option value="Diploma"
+                                {% if course.level == 'Diploma' %}selected{% endif %}>
+                                Diploma
+                            </option>
+
+                            <option value="Certificate"
+                                {% if course.level == 'Certificate' %}selected{% endif %}>
+                                Certificate
+                            </option>
+
+                            <option value="Doctoral"
+                                {% if course.level == 'Doctoral' %}selected{% endif %}>
+                                Doctoral
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="edit-course-section">
+
+                <div class="edit-section-heading">
+                    <span class="edit-section-number">02</span>
+
+                    <div>
+                        <h4>Course Details</h4>
+                        <p>Duration, description and availability</p>
+                    </div>
+                </div>
+
+                <div class="edit-course-grid">
+
+                    <!-- Duration -->
+                    <div class="edit-course-field">
+                        <label for="duration">
+                            Course Duration <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="duration"
+                            name="duration"
+                            maxlength="50"
+                            value="{{ course.duration }}"
+                            placeholder="e.g. 3 Years / 6 Semesters"
+                            required>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="edit-course-field">
+                        <label for="status">
+                            Course Status <span>*</span>
+                        </label>
+
+                        <select id="status" name="status" required>
+                            <option value="">Select Status</option>
+
+                            <option value="Active"
+                                {% if course.status == 'Active' %}selected{% endif %}>
+                                Active
+                            </option>
+
+                            <option value="Inactive"
+                                {% if course.status == 'Inactive' %}selected{% endif %}>
+                                Inactive
+                            </option>
+
+                            <option value="Upcoming"
+                                {% if course.status == 'Upcoming' %}selected{% endif %}>
+                                Upcoming
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="edit-course-field edit-course-field-full">
+                        <label for="description">
+                            Course Description <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="5"
+                            placeholder="Enter course description..."
+                            required>{{ course.description }}</textarea>
+
+                        <small>Update the course overview and learning objectives.</small>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Information Note -->
+            <div class="edit-course-info">
+                <span class="edit-course-info-icon">ⓘ</span>
+
+                <p>
+                    Review the updated details before submitting.
+                    Changes will be saved to the course record.
+                </p>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="edit-course-actions">
+
+                <a href="{% url 'view_courses' %}"
+                   class="edit-course-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="edit-course-reset-btn">
+                    Reset Changes
+                </button>
+
+                <button type="submit" class="edit-course-submit-btn">
+                    <span>✓</span> Update Course
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="edit-course-footer">
+        <span>NOU LMS · Academic Management</span>
+        <span>All fields marked <strong>*</strong> are required.</span>
+    </div>
+
+</div>
+{% endblock %}

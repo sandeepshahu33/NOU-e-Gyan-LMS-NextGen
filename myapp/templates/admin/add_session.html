@@ -1,0 +1,235 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Add Academic Session{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/add_session.css' %}">
+
+<div class="add-session-page">
+
+    <!-- Page Header -->
+    <div class="session-page-header">
+        <div class="session-header-content">
+            <span class="session-eyebrow">
+                ADMINISTRATION / ACADEMICS
+            </span>
+
+            <h2>Add Academic Session</h2>
+
+            <p>
+                Create and configure a new academic session
+                for your university.
+            </p>
+        </div>
+
+        <a href="{% url 'view_sessions' %}"
+           class="session-outline-btn">
+            <span class="outline-icon">▤</span>
+            View All Sessions
+        </a>
+    </div>
+
+    <!-- Information Banner -->
+    <div class="session-info-card">
+        <div class="session-info-icon">
+            <span>＋</span>
+        </div>
+
+        <div class="session-info-content">
+            <h3>Create New Session</h3>
+            <p>
+                Set up an academic year by entering its name,
+                schedule and current status.
+            </p>
+        </div>
+
+        <div class="session-info-label">
+            ACADEMIC SETUP
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="session-messages">
+            {% for message in messages %}
+                <div class="session-message {{ message.tags }}">
+                    <span class="message-icon">
+                        {% if message.tags == 'success' %}
+                            ✓
+                        {% else %}
+                            !
+                        {% endif %}
+                    </span>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Session Form -->
+    <div class="session-form-card">
+
+        <div class="session-form-heading">
+            <div class="form-heading-left">
+                <div class="form-heading-icon">✎</div>
+
+                <div>
+                    <h3>Session Information</h3>
+                    <p>
+                        Provide the details required to register
+                        this academic session.
+                    </p>
+                </div>
+            </div>
+
+            <span class="required-label">
+                * Required fields
+            </span>
+        </div>
+
+        <form method="POST" action="{% url 'add_session' %}">
+            {% csrf_token %}
+
+            <div class="session-form-grid">
+
+                <!-- Session Name -->
+                <div class="session-field">
+                    <label for="session_name">
+                        Session Name <span>*</span>
+                    </label>
+
+                    <div class="session-input-wrapper">
+                        <span class="input-icon">▤</span>
+
+                        <input
+                            type="text"
+                            id="session_name"
+                            name="session_name"
+                            maxlength="30"
+                            placeholder="e.g. 2026-2027"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+
+                    <small>
+                        Enter a unique academic session name.
+                    </small>
+                </div>
+
+                <!-- Session Status -->
+                <div class="session-field">
+                    <label for="status">
+                        Session Status <span>*</span>
+                    </label>
+
+                    <div class="session-input-wrapper">
+                        <span class="input-icon">◉</span>
+
+                        <select id="status" name="status" required>
+                            <option value="" selected disabled>
+                                Select session status
+                            </option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Upcoming">Upcoming</option>
+                        </select>
+                    </div>
+
+                    <small>
+                        Choose the current state of this session.
+                    </small>
+                </div>
+
+                <!-- Start Date -->
+                <div class="session-field">
+                    <label for="start_date">
+                        Start Date <span>*</span>
+                    </label>
+
+                    <div class="session-input-wrapper">
+                        <span class="input-icon">▦</span>
+
+                        <input
+                            type="date"
+                            id="start_date"
+                            name="start_date"
+                            required
+                        >
+                    </div>
+
+                    <small>
+                        The date on which the session begins.
+                    </small>
+                </div>
+
+                <!-- End Date -->
+                <div class="session-field">
+                    <label for="end_date">
+                        End Date <span>*</span>
+                    </label>
+
+                    <div class="session-input-wrapper">
+                        <span class="input-icon">▦</span>
+
+                        <input
+                            type="date"
+                            id="end_date"
+                            name="end_date"
+                            required
+                        >
+                    </div>
+
+                    <small>
+                        The date on which the session ends.
+                    </small>
+                </div>
+
+            </div>
+
+            <!-- Important Note -->
+            <div class="session-form-note">
+                <div class="note-icon">i</div>
+
+                <div>
+                    <strong>Important Note</strong>
+                    <p>
+                        The end date must be later than the start date.
+                        Make sure the session details are correct before saving.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="session-form-actions">
+                <a href="{% url 'view_sessions' %}"
+                   class="session-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="session-reset-btn">
+                    Reset Form
+                </button>
+
+                <button type="submit" class="session-submit-btn">
+                    <span>＋</span>
+                    Save Academic Session
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Bottom Information -->
+    <div class="session-bottom-note">
+        <span class="bottom-note-icon">✓</span>
+        <p>
+            <strong>Secure Administration</strong>
+            <span>Session information is managed through the university portal.</span>
+        </p>
+    </div>
+
+</div>
+{% endblock %}

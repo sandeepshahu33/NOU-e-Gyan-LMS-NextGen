@@ -1,0 +1,189 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}View Academic Sessions{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/view_sessions.css' %}">
+
+<div class="view-sessions-page">
+
+    <div class="vs-page-header">
+        <div>
+            <span class="vs-eyebrow">ADMINISTRATION / ACADEMICS</span>
+            <h2>Academic Sessions</h2>
+            <p>View and manage all registered academic sessions.</p>
+        </div>
+
+        <a href="{% url 'add_session' %}" class="vs-primary-btn">
+            <span>＋</span> Add New Session
+        </a>
+    </div>
+
+    <!-- Statistics -->
+    <div class="vs-stats-grid">
+
+        <div class="vs-stat-card">
+            <div class="vs-stat-icon">▤</div>
+            <div>
+                <p>Total Sessions</p>
+                <h3>{{ sessions.count }}</h3>
+            </div>
+        </div>
+
+        <div class="vs-stat-card">
+            <div class="vs-stat-icon vs-active-icon">✓</div>
+            <div>
+                <p>Active Sessions</p>
+                <h3>{{ active_count }}</h3>
+            </div>
+        </div>
+
+        <div class="vs-stat-card">
+            <div class="vs-stat-icon vs-upcoming-icon">◷</div>
+            <div>
+                <p>Upcoming Sessions</p>
+                <h3>{{ upcoming_count }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Sessions Table -->
+    <div class="vs-table-card">
+
+        <div class="vs-table-heading">
+            <div>
+                <h3>All Academic Sessions</h3>
+                <p>Review session dates, status and available actions.</p>
+            </div>
+
+            <div class="vs-search-box">
+                <span>⌕</span>
+                <input
+                    type="search"
+                    id="sessionSearch"
+                    placeholder="Search sessions..."
+                    oninput="filterSessions()"
+                >
+            </div>
+        </div>
+
+        <div class="vs-table-responsive">
+            <table class="vs-session-table" id="sessionTable">
+                <thead>
+                    <tr>
+                        <th>SR. NO.</th>
+                        <th>SESSION NAME</th>
+                        <th>START DATE</th>
+                        <th>END DATE</th>
+                        <th>STATUS</th>
+                        <th>CREATED AT</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for session in sessions %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            <div class="vs-session-name">
+                                <div class="vs-avatar">A</div>
+                                <strong>{{ session.session_name }}</strong>
+                            </div>
+                        </td>
+
+                        <td>{{ session.start_date|date:"d M Y" }}</td>
+                        <td>{{ session.end_date|date:"d M Y" }}</td>
+
+                        <td>
+                            <span class="vs-status-badge
+                                {% if session.status == 'Active' %}
+                                    vs-status-active
+                                {% elif session.status == 'Upcoming' %}
+                                    vs-status-upcoming
+                                {% else %}
+                                    vs-status-inactive
+                                {% endif %}">
+                                {{ session.status }}
+                            </span>
+                        </td>
+
+                        <td>{{ session.create_at|date:"d M Y" }}</td>
+
+                        <td>
+                            <div class="vs-actions">
+                                <a
+                                    href="{% url 'edit_session' id=session.id %}"
+                                    class="vs-action-btn vs-edit-btn"
+                                    title="Edit session"
+                                    aria-label="Edit {{ session.session_name }}"
+                                >✎</a>
+
+                                <a
+                                    href="{% url 'delete_session' id=session.id %}"
+                                    class="vs-action-btn vs-delete-btn"
+                                    title="Delete session"
+                                    aria-label="Delete {{ session.session_name }}"
+                                >⌫</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="vs-empty-state">
+                            <div class="vs-empty-icon">▤</div>
+                            <h4>No Academic Sessions Found</h4>
+                            <p>Start by adding your first academic session.</p>
+                            <a href="{% url 'add_session' %}"
+                               class="vs-primary-btn">
+                                ＋ Add Academic Session
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="vs-table-footer">
+            <span>
+                Showing <strong id="visibleCount">{{ sessions.count }}</strong>
+                session(s)
+            </span>
+            <span>Academic Session Management</span>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function filterSessions() {
+        const searchInput = document.getElementById("sessionSearch");
+        const search = searchInput.value.toLowerCase();
+        const rows = document.querySelectorAll("#sessionTable tbody tr");
+
+        let count = 0;
+
+        rows.forEach(function (row) {
+            if (row.querySelector(".vs-empty-state")) {
+                return;
+            }
+
+            const matches = row.innerText.toLowerCase().includes(search);
+            row.style.display = matches ? "" : "none";
+
+            if (matches) {
+                count++;
+            }
+        });
+
+        document.getElementById("visibleCount").textContent = count;
+    }
+</script>
+
+{% endblock %}

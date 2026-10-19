@@ -1,0 +1,109 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Delete Academic Session{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/delete_session.css' %}">
+
+<div class="delete-session-page">
+
+    <!-- Page Header -->
+    <div class="delete-page-header">
+        <div>
+            <span class="delete-subtitle">ADMINISTRATION / ACADEMICS</span>
+            <h2>Delete Academic Session</h2>
+            <p>Review the session details before deleting.</p>
+        </div>
+
+        <a href="{% url 'view_sessions' %}" class="back-sessions-btn">
+            <span>←</span> Back to Sessions
+        </a>
+    </div>
+
+    <!-- Delete Confirmation Card -->
+    <div class="delete-confirm-card">
+
+        <div class="delete-icon-wrap">
+            <span class="delete-warning-icon">!</span>
+        </div>
+
+        <h3>Are you sure you want to delete?</h3>
+
+        <p class="delete-description">
+            You are about to delete this academic session.
+            This action may not be reversible.
+        </p>
+
+        <!-- Session Details -->
+        <div class="delete-session-details">
+
+            <div class="delete-detail-row">
+                <span class="detail-label">Session Name</span>
+                <strong>{{ session.session_name }}</strong>
+            </div>
+
+            <div class="delete-detail-row">
+                <span class="detail-label">Start Date</span>
+                <strong>{{ session.start_date|date:"d M Y" }}</strong>
+            </div>
+
+            <div class="delete-detail-row">
+                <span class="detail-label">End Date</span>
+                <strong>{{ session.end_date|date:"d M Y" }}</strong>
+            </div>
+
+            <div class="delete-detail-row">
+                <span class="detail-label">Status</span>
+
+                <span class="delete-status
+                    {% if session.status == 'Active' %}
+                        delete-status-active
+                    {% elif session.status == 'Upcoming' %}
+                        delete-status-upcoming
+                    {% else %}
+                        delete-status-inactive
+                    {% endif %}">
+                    {{ session.status }}
+                </span>
+            </div>
+
+        </div>
+
+        <!-- Warning Message -->
+        <div class="delete-warning-message">
+            <span class="warning-info-icon">ⓘ</span>
+            <p>
+                Please verify the session details before proceeding.
+                Deleting this record may affect features linked to this session.
+            </p>
+        </div>
+
+        <!-- Confirmation Actions -->
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class="delete-form-actions">
+
+                <a href="{% url 'view_sessions' %}"
+                   class="cancel-delete-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="confirm-delete-btn">
+                    <span>⌫</span> Yes, Delete Session
+                </button>
+
+            </div>
+        </form>
+
+    </div>
+
+    <div class="delete-page-footer">
+        <span>Academic Session Management</span>
+        <span>Delete Confirmation</span>
+    </div>
+
+</div>
+{% endblock %}

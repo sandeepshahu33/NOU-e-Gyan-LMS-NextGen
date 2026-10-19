@@ -1,0 +1,138 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Edit Academic Session{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/edit_session.css' %}">
+
+<div class="edit-session-page">
+
+    <!-- Page Header -->
+    <div class="edit-page-header">
+        <div>
+            <span class="edit-page-subtitle">ADMINISTRATION / ACADEMICS</span>
+            <h2>Edit Academic Session</h2>
+            <p>Update the academic year, schedule and session status.</p>
+        </div>
+
+        <a href="{% url 'view_sessions' %}" class="back-btn">
+            <span>←</span> Back to Sessions
+        </a>
+    </div>
+
+    <!-- Edit Session Card -->
+    <div class="edit-session-card">
+
+        <div class="edit-card-heading">
+            <div class="edit-heading-icon">✎</div>
+            <div>
+                <h3>Session Details</h3>
+                <p>Modify the details below and save your changes.</p>
+            </div>
+        </div>
+
+        <div class="current-session">
+            <div class="current-session-icon">A</div>
+            <div>
+                <span class="current-label">EDITING SESSION</span>
+                <h4>{{ session.session_name }}</h4>
+            </div>
+            <span class="current-status
+                {% if session.status == 'Active' %}
+                    current-active
+                {% elif session.status == 'Upcoming' %}
+                    current-upcoming
+                {% else %}
+                    current-inactive
+                {% endif %}">
+                {{ session.status }}
+            </span>
+        </div>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class="edit-form-grid">
+
+                <div class="edit-form-group">
+                    <label for="session_name">Session Name <span>*</span></label>
+                    <input
+                        type="text"
+                        id="session_name"
+                        name="session_name"
+                        value="{{ session.session_name }}"
+                        placeholder="e.g. 2026-2027"
+                        maxlength="30"
+                        required>
+                </div>
+
+                <div class="edit-form-group">
+                    <label for="status">Session Status <span>*</span></label>
+                    <select id="status" name="status" required>
+                        <option value="Active"
+                            {% if session.status == 'Active' %}selected{% endif %}>
+                            Active
+                        </option>
+
+                        <option value="Inactive"
+                            {% if session.status == 'Inactive' %}selected{% endif %}>
+                            Inactive
+                        </option>
+
+                        <option value="Upcoming"
+                            {% if session.status == 'Upcoming' %}selected{% endif %}>
+                            Upcoming
+                        </option>
+                    </select>
+                </div>
+
+                <div class="edit-form-group">
+                    <label for="start_date">Start Date <span>*</span></label>
+                    <input
+                        type="date"
+                        id="start_date"
+                        name="start_date"
+                        value="{{ session.start_date|date:'Y-m-d' }}"
+                        required>
+                </div>
+
+                <div class="edit-form-group">
+                    <label for="end_date">End Date <span>*</span></label>
+                    <input
+                        type="date"
+                        id="end_date"
+                        name="end_date"
+                        value="{{ session.end_date|date:'Y-m-d' }}"
+                        required>
+                </div>
+
+            </div>
+
+            <div class="edit-form-note">
+                <span class="note-icon">ⓘ</span>
+                <p>Review the dates and status carefully before updating this session.</p>
+            </div>
+
+            <div class="edit-form-actions">
+                <a href="{% url 'view_sessions' %}" class="edit-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="edit-update-btn">
+                    <span>✓</span> Update Session
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Information Footer -->
+    <div class="edit-session-footer">
+        <span>Academic Session Management</span>
+        <span>Fields marked <strong>*</strong> are required</span>
+    </div>
+
+</div>
+{% endblock %}

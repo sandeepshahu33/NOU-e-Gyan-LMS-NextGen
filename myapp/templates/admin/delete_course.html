@@ -1,0 +1,142 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Delete Course | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/delete_course.css' %}">
+
+<div class="delete-course-page">
+
+    <!-- Page Header -->
+    <div class="delete-course-header">
+        <div>
+            <span class="delete-course-breadcrumb">
+                ADMINISTRATION / ACADEMICS / COURSES
+            </span>
+
+            <h2>Delete Course</h2>
+            <p>Review the course information before confirming deletion.</p>
+        </div>
+
+        <a href="{% url 'view_courses' %}" class="delete-back-btn">
+            <span>←</span> View Courses
+        </a>
+    </div>
+
+    <!-- Main Confirmation Card -->
+    <div class="delete-course-card">
+
+        <!-- Warning Icon -->
+        <div class="delete-warning-icon">
+            <span>!</span>
+        </div>
+
+        <div class="delete-course-title">
+            <span class="delete-status-label">DELETE CONFIRMATION</span>
+
+            <h3>Are you sure you want to delete this course?</h3>
+
+            <p>
+                This action may permanently remove the course record.
+                Please verify the details below before proceeding.
+            </p>
+        </div>
+
+        <!-- Course Information -->
+        <div class="delete-course-details">
+
+            <div class="delete-details-heading">
+                <div class="delete-details-icon">✦</div>
+
+                <div>
+                    <h4>Course Information</h4>
+                    <p>Details of the selected course</p>
+                </div>
+            </div>
+
+            <div class="delete-details-grid">
+
+                <div class="delete-detail-item">
+                    <span class="delete-detail-label">COURSE NAME</span>
+                    <h5>{{ course.course_name }}</h5>
+                </div>
+
+                <div class="delete-detail-item">
+                    <span class="delete-detail-label">COURSE CODE</span>
+                    <h5>{{ course.course_code }}</h5>
+                </div>
+
+                <div class="delete-detail-item">
+                    <span class="delete-detail-label">ACADEMIC SESSION</span>
+                    <h5>{{ course.session_id.session_name}}</h5>
+                </div>
+
+                <div class="delete-detail-item">
+                    <span class="delete-detail-label">COURSE LEVEL</span>
+                    <h5>{{ course.level }}</h5>
+                </div>
+
+                <div class="delete-detail-item">
+                    <span class="delete-detail-label">DURATION</span>
+                    <h5>{{ course.duration }}</h5>
+                </div>
+
+                <div class="delete-detail-item">
+                    <span class="delete-detail-label">STATUS</span>
+                    <span class="delete-course-status">
+                        {{ course.status }}
+                    </span>
+                </div>
+
+                <div class="delete-detail-item delete-detail-full">
+                    <span class="delete-detail-label">DESCRIPTION</span>
+                    <p>{{ course.description|default:"No description available." }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Warning Note -->
+        <div class="delete-course-warning">
+            <span class="delete-warning-note-icon">⚠</span>
+
+            <div>
+                <h4>Important Warning</h4>
+                <p>
+                    Deleting this course may affect related records,
+                    depending on your database relationships.
+                    This action cannot always be undone.
+                </p>
+            </div>
+        </div>
+
+        <!-- Confirmation Form -->
+        <form method="POST"
+              action=""
+              class="delete-course-form">
+
+            {% csrf_token %}
+
+            <a href="{% url 'view_courses' %}"
+               class="delete-cancel-btn">
+                <span>←</span> Cancel
+            </a>
+
+            <button type="submit" class="delete-confirm-btn">
+                <span>🗑</span> Delete Course
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="delete-course-footer">
+        <span>NOU LMS · Academic Management</span>
+        <span>Verify course details before deletion.</span>
+    </div>
+
+</div>
+{% endblock %}
