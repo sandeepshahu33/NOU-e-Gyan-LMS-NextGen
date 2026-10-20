@@ -143,6 +143,35 @@ def user_logout(req):
     messages.success(req,"You logged out successfully !! ")
     return redirect('index')
 
+def add_teacher(req):
+    users=User.objects.all()
+    if req.method == 'POST':
+        employee_id=req.POST['employee_id']
+        name=req.POST['name']
+        email=req.POST['email']
+        mobile=req.POST['mobile']
+        department=req.POST['department']
+        designation=req.POST['designation']
+        username_id=req.POST['username_id']
+        # Actual user find krna  
+        user_account=User.objects.get(id=username_id)
+        password=req.POST['password']
+        status=req.POST['status']
+        Teacher.objects.create(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,username=user_account,password=password,status=status)
+        messages.success(req,"Teacher added successfully !!")
+        return redirect('add_teacher')
+    return render(req,"admin/add_teacher.html",{"users":users})
+
+def view_teacher(req):
+    teachers=Teacher.objects.all()
+    active_count=Teacher.objects.filter(status="Active").count()
+    department_count=Teacher.objects.values_list('department',flat=True).distinct().count()
+    context={
+        'teachers':teachers,
+        'active_count':active_count,
+        'department_count':department_count
+    }
+    return render(req,'admin/view_teacher.html',context)
 
 # Teacher view
 def teacherdash(req):

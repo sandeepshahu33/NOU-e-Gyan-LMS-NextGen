@@ -30,6 +30,10 @@ urlpatterns = [
     path('edit_course/<id>/',edit_course,name='edit_course'),
     path('delete_course/<id>/',delete_course,name='delete_course'),
     path('view_courses/',view_courses,name='view_courses'),
+
+    path('add_teacher/',add_teacher,name='add_teacher'),
+    path('view_teacher/',view_teacher,name='view_teacher'),
+
     # Teacher ulrls
     path('teacherdash/',teacherdash,name='teacherdash'),
     path('logout/',user_logout,name='logout'),

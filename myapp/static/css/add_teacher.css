@@ -1,0 +1,484 @@
+
+/* ==========================================
+   ADD TEACHER
+   NOU e-Gyan LMS — Unified Admin Theme
+   Maroon + White + Subtle Gold
+========================================== */
+
+.add-teacher-page {
+    --maroon: #800020;
+    --maroon-dark: #5e0018;
+    --maroon-light: #f8e9ee;
+    --text-dark: #30232b;
+    --text-muted: #827781;
+    --border: #eee3e8;
+    --white: #ffffff;
+    --gold: #b99a55;
+    --gold-light: #fffaf0;
+
+    width: 100%;
+    min-height: 100vh;
+    padding: 28px;
+    box-sizing: border-box;
+    background: #fcfafb;
+    color: var(--text-dark);
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.add-teacher-page *,
+.add-teacher-page *::before,
+.add-teacher-page *::after {
+    box-sizing: border-box;
+}
+
+/* PAGE HEADER */
+
+.teacher-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    margin-bottom: 27px;
+}
+
+.teacher-heading {
+    min-width: 0;
+}
+
+.teacher-breadcrumb {
+    display: inline-block;
+    color: var(--maroon);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+}
+
+.teacher-heading h2 {
+    margin: 9px 0 7px;
+    color: var(--maroon-dark);
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.teacher-heading p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* BACK BUTTON */
+
+.teacher-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    flex-shrink: 0;
+    padding: 12px 17px;
+    border: 1px solid #e5cbd5;
+    border-radius: 9px;
+    background: var(--white);
+    color: var(--maroon);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.teacher-back-btn span {
+    font-size: 17px;
+}
+
+.teacher-back-btn:hover {
+    border-color: var(--maroon);
+    background: var(--maroon);
+    color: var(--white);
+}
+
+/* MAIN FORM CARD */
+
+.teacher-form-card {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--maroon);
+    border-radius: 14px;
+    background: var(--white);
+    box-shadow: 0 7px 26px rgba(75, 0, 25, 0.045);
+}
+
+/* CARD HEADER */
+
+.teacher-card-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 24px 28px;
+}
+
+.teacher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: var(--maroon-light);
+    color: var(--maroon);
+    font-size: 24px;
+}
+
+.teacher-card-header h3 {
+    margin: 0 0 6px;
+    color: var(--maroon-dark);
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.teacher-card-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.teacher-card-divider {
+    height: 1px;
+    background: var(--border);
+}
+
+/* FORM BODY */
+
+.teacher-form {
+    padding: 28px;
+}
+
+/* SECTION HEADINGS */
+
+.teacher-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 23px;
+}
+
+.section-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border: 1px solid #ead3dc;
+    border-radius: 9px;
+    background: var(--maroon-light);
+    color: var(--maroon);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.teacher-section-heading h4 {
+    margin: 0 0 5px;
+    color: var(--maroon-dark);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.teacher-section-heading p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.section-spacing {
+    margin-top: 34px;
+}
+
+/* INPUT GRID */
+
+.teacher-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 23px;
+    padding-left: 52px;
+}
+
+.teacher-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.teacher-field label {
+    color: #44343e;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.teacher-field label span {
+    color: var(--maroon);
+}
+
+.teacher-field input,
+.teacher-field select {
+    width: 100%;
+    min-width: 0;
+    min-height: 47px;
+    padding: 11px 13px;
+    border: 1px solid #e5dce1;
+    border-radius: 9px;
+    outline: none;
+    background: var(--white);
+    color: #352832;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.teacher-field input::placeholder {
+    color: #aaa0a6;
+    opacity: 1;
+}
+
+.teacher-field input:focus,
+.teacher-field select:focus {
+    border-color: var(--maroon);
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.075);
+}
+
+.teacher-field select {
+    cursor: pointer;
+}
+
+.teacher-field small {
+    color: var(--text-muted);
+    font-size: 10px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.teacher-field small code {
+    color: var(--maroon);
+    font-size: 10px;
+}
+
+/* ACCOUNT SECURITY NOTE */
+
+.teacher-security-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 29px 0 0 52px;
+    padding: 15px 17px;
+    border: 1px solid #f1e2c6;
+    border-radius: 9px;
+    background: var(--gold-light);
+}
+
+.security-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    border: 1px solid #d7b76c;
+    border-radius: 50%;
+    color: #9a701d;
+    font-size: 13px;
+}
+
+.teacher-security-note strong {
+    display: block;
+    margin: 2px 0 5px;
+    color: #795717;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.teacher-security-note p {
+    margin: 0;
+    color: #8c754b;
+    font-size: 11px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* FORM ACTIONS */
+
+.teacher-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin-top: 27px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+}
+
+.teacher-cancel-btn,
+.teacher-reset-btn,
+.teacher-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.teacher-cancel-btn {
+    border: 1px solid #e5dce1;
+    background: var(--white);
+    color: #62545d;
+}
+
+.teacher-cancel-btn:hover {
+    border-color: #d8b8c5;
+    background: #fbf5f7;
+    color: var(--maroon);
+}
+
+.teacher-reset-btn {
+    border: 1px solid #e5cbd5;
+    background: var(--maroon-light);
+    color: var(--maroon);
+}
+
+.teacher-reset-btn:hover {
+    background: #f0d8e1;
+}
+
+.teacher-submit-btn {
+    border: 1px solid var(--maroon);
+    background: var(--maroon);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(128, 0, 32, 0.12);
+}
+
+.teacher-submit-btn span {
+    font-size: 17px;
+}
+
+.teacher-submit-btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--maroon-dark);
+    background: var(--maroon-dark);
+    box-shadow: 0 6px 15px rgba(128, 0, 32, 0.17);
+}
+
+/* PAGE FOOTER */
+
+.teacher-page-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 12px 0;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.teacher-page-footer > span:first-child {
+    color: var(--gold);
+    font-size: 14px;
+}
+
+.teacher-page-footer .footer-separator {
+    color: var(--gold);
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .add-teacher-page {
+        padding: 21px;
+    }
+
+    .teacher-form {
+        padding: 23px;
+    }
+
+    .teacher-form-grid {
+        padding-left: 0;
+    }
+
+    .teacher-security-note {
+        margin-left: 0;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+    .add-teacher-page {
+        padding: 15px;
+    }
+
+    .teacher-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .teacher-heading h2 {
+        font-size: 23px;
+    }
+
+    .teacher-back-btn {
+        width: 100%;
+    }
+
+    .teacher-card-header {
+        padding: 19px;
+    }
+
+    .teacher-form {
+        padding: 19px;
+    }
+
+    .teacher-section-heading {
+        gap: 10px;
+    }
+
+    .teacher-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 21px;
+    }
+
+    .section-spacing {
+        margin-top: 29px;
+    }
+
+    .teacher-form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .teacher-cancel-btn,
+    .teacher-reset-btn,
+    .teacher-submit-btn {
+        width: 100%;
+    }
+}

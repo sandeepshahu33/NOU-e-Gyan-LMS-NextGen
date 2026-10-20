@@ -1,0 +1,191 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Add Teacher | NOU e-Gyan LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/add_teacher.css' %}">
+
+<div class="add-teacher-page">
+
+    <!-- Page Header -->
+    <div class="teacher-page-header">
+        <div class="teacher-heading">
+            <span class="teacher-breadcrumb">ADMIN PANEL / TEACHERS</span>
+            <h2>Add New Teacher</h2>
+            <p>Register a faculty member and manage their academic profile.</p>
+        </div>
+
+        <a href="{% url 'view_teacher' %}" class="teacher-back-btn">
+            <span>←</span> Back to Teachers
+        </a>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="teacher-form-card">
+
+        <div class="teacher-card-header">
+            <div class="teacher-icon">♙</div>
+            <div>
+                <h3>Teacher Information</h3>
+                <p>Enter the required details to create a teacher profile.</p>
+            </div>
+        </div>
+
+        <div class="teacher-card-divider"></div>
+
+        <form method="POST" action="" class="teacher-form">
+            {% csrf_token %}
+
+            <!-- Personal Information -->
+            <div class="teacher-section-heading">
+                <span class="section-number">01</span>
+                <div>
+                    <h4>Personal Information</h4>
+                    <p>Basic contact and identification details</p>
+                </div>
+            </div>
+
+            <div class="teacher-form-grid">
+
+                <div class="teacher-field">
+                    <label for="employee_id">Employee ID <span>*</span></label>
+                    <input type="text" id="employee_id" name="employee_id"
+                           placeholder="e.g. EMP001" maxlength="30" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="name">Full Name <span>*</span></label>
+                    <input type="text" id="name" name="name"
+                           placeholder="Enter teacher's full name"
+                           maxlength="150" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="email">Email Address <span>*</span></label>
+                    <input type="email" id="email" name="email"
+                           placeholder="teacher@example.com"
+                           maxlength="254" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="mobile">Mobile Number <span>*</span></label>
+                    <input type="tel" id="mobile" name="mobile"
+                           placeholder="Enter mobile number"
+                           maxlength="15" required>
+                </div>
+
+            </div>
+
+            <!-- Professional Information -->
+            <div class="teacher-section-heading section-spacing">
+                <span class="section-number">02</span>
+                <div>
+                    <h4>Professional Information</h4>
+                    <p>Department and faculty designation</p>
+                </div>
+            </div>
+
+            <div class="teacher-form-grid">
+
+                <div class="teacher-field">
+                    <label for="department">Department <span>*</span></label>
+                    <input type="text" id="department" name="department"
+                           placeholder="e.g. Computer Science"
+                           maxlength="120" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="designation">Designation <span>*</span></label>
+                    <input type="text" id="designation" name="designation"
+                           placeholder="e.g. Assistant Professor"
+                           maxlength="120" required>
+                </div>
+
+            </div>
+
+            <!-- Account Information -->
+            <div class="teacher-section-heading section-spacing">
+                <span class="section-number">03</span>
+                <div>
+                    <h4>Account Information</h4>
+                    <p>Connect the teacher profile to a login account</p>
+                </div>
+            </div>
+
+            <div class="teacher-form-grid">
+
+                <div class="teacher-field">
+                    <label for="username">User Account <span>*</span></label>
+                    <select id="username" name="username_id" required>
+                        <option value="">Select a Django user account</option>
+                        {% for account in users %}
+                            <option value="{{ account.id }}">
+                                {{ account.username }} — {{ account.email }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <small>Select an existing User account.</small>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="password">Initial Password</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="Set password in the Django User account"
+                           autocomplete="new-password">
+                    <small>
+                        Store passwords securely using Django's
+                        <code>set_password()</code>, never as plain text.
+                    </small>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="status">Account Status <span>*</span></label>
+                    <select id="status" name="status" required>
+                        <option value="">Select status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Notice -->
+            <div class="teacher-security-note">
+                <span class="security-icon">✦</span>
+                <div>
+                    <strong>Account security</strong>
+                    <p>
+                        Link the teacher to a valid Django User account.
+                        Passwords must be hashed through Django authentication.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="teacher-form-actions">
+                <a href="{% url 'view_teacher' %}" class="teacher-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="teacher-reset-btn">
+                    Reset Form
+                </button>
+
+                <button type="submit" class="teacher-submit-btn">
+                    <span>＋</span> Add Teacher
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="teacher-page-footer">
+        <span>✦</span> NOU e-Gyan LMS
+        <span class="footer-separator">•</span>
+        Faculty Management
+    </div>
+
+</div>
+{% endblock %}

@@ -32,3 +32,6 @@ class Teacher(models.Model):
     username=models.OneToOneField(User,on_delete=models.CASCADE,related_name='Teacher')
     password=models.CharField(max_length=100)
     status=models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name

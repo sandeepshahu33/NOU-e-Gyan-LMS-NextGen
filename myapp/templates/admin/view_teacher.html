@@ -1,0 +1,203 @@
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/view_teacher.css' %}">
+
+<div class="teacher-page">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <span class="page-label">FACULTY MANAGEMENT</span>
+            <h2>View Teachers</h2>
+            <p>Manage and view all registered faculty members.</p>
+        </div>
+
+        <a href="{% url 'add_teacher' %}" class="add-teacher-btn">
+            <span>+</span> Add Teacher
+        </a>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="teacher-stats">
+
+        <div class="stat-card">
+            <div class="stat-icon total-icon">T</div>
+            <div>
+                <p>Total Teachers</p>
+                <h3>{{ teachers|length }}</h3>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon active-icon">A</div>
+            <div>
+                <p>Active Teachers</p>
+                <h3>{{ active_count }}</h3>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon department-icon">D</div>
+            <div>
+                <p>Departments</p>
+                <h3>{{ department_count }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Teacher Table Card -->
+    <div class="teacher-card">
+
+        <div class="table-heading">
+            <div>
+                <h3>Faculty Directory</h3>
+                <p>Teacher information and account status</p>
+            </div>
+
+            <div class="search-box">
+                <span>⌕</span>
+                <input type="text" id="teacherSearch" placeholder="Search teachers..." onkeyup="searchTeachers()">
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="teacher-table" id="teacherTable">
+
+                <thead>
+                    <tr>
+                        <th>TEACHER</th>
+                        <th>EMPLOYEE ID</th>
+                        <th>DEPARTMENT</th>
+                        <th>DESIGNATION</th>
+                        <th>CONTACT</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>
+                            <div class="teacher-info">
+                                <div class="teacher-avatar">
+                                    {{ teacher.name|first|upper }}
+                                </div>
+
+                                <div class="teacher-details">
+                                    <strong>{{ teacher.name }}</strong>
+                                    <span>{{ teacher.email }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="employee-id">
+                                {{ teacher.employee_id }}
+                            </span>
+                        </td>
+
+                        <td>{{ teacher.department }}</td>
+
+                        <td>{{ teacher.designation }}</td>
+
+                        <td>
+                            <span class="mobile-number">
+                                {{ teacher.mobile }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if teacher.status|lower == 'active' %}
+                            <span class="status-badge active">
+                                <span class="status-dot"></span>
+                                Active
+                            </span>
+                            {% else %}
+                            <span class="status-badge inactive">
+                                <span class="status-dot"></span>
+                                {{ teacher.status }}
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+
+                                <a href="#" class="action-btn edit-btn" title="Edit Teacher">
+                                    <span>✎</span>
+                                </a>
+
+                                <form method="POST" action="#"
+                                    onsubmit="return confirm('Are you sure you want to delete this teacher?');">
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="action-btn delete-btn" title="Delete Teacher">
+                                        <span>⌫</span>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <div class="empty-icon">T</div>
+                            <h4>No Teachers Found</h4>
+                            <p>Start by adding your first teacher to the system.</p>
+
+                            <a href="{% url 'add_teacher' %}" class="empty-add-btn">
+                                Add First Teacher
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <p>Showing <strong id="visibleCount">{{ teachers|length }}</strong>
+                teacher record(s)</p>
+            <span class="footer-note">NOU e-Gyan LMS</span>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function searchTeachers() {
+        const input = document.getElementById("teacherSearch");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("teacherTable");
+        const rows = table.querySelectorAll("tbody tr");
+
+        let visible = 0;
+
+        rows.forEach(function (row) {
+            if (row.querySelector(".empty-state")) {
+                return;
+            }
+
+            const text = row.innerText.toLowerCase();
+            const matches = text.includes(filter);
+
+            row.style.display = matches ? "" : "none";
+
+            if (matches) {
+                visible++;
+            }
+        });
+
+        document.getElementById("visibleCount").textContent = visible;
+    }
+</script>
+
+{% endblock %}

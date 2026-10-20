@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
@@ -164,11 +164,11 @@
 
     <div class="menu-label">MANAGE Teachers</div>
 
-    <a href="#" class="menu-link" data-title="Add Teachers">
+    <a href="{% url 'add_teacher' %}" class="menu-link" data-title="Add Teachers">
       <i class="bi bi-person-video3"></i>Add Teachers
     </a>
 
-    <a href="#" class="menu-link" data-title="View Teachers">
+    <a href="{% url 'view_teacher' %}" class="menu-link" data-title="View Teachers">
       <i class="bi bi-people"></i>View Teachers
     </a>
 
