@@ -33,8 +33,18 @@ urlpatterns = [
 
     path('add_teacher/',add_teacher,name='add_teacher'),
     path('view_teacher/',view_teacher,name='view_teacher'),
+    path('add_subject/',add_subject,name='add_subject'),
+    path('view_subjects/',view_subjects,name='view_subjects'),
+
+    path('add_student/',add_student,name='add_student'),
+    path('view_students/',view_students,name='view_students'),
+    path('view_students/',view_students,name='view_students'),
+    path('add_studymaterial/',add_studymaterial,name='add_studymaterial'),
+    path('view_studymaterial/',view_studymaterial,name='view_studymaterial'),
 
     # Teacher ulrls
     path('teacherdash/',teacherdash,name='teacherdash'),
+    # Student urls
+    path('studentdash/',studentdash,name='studentdash'),
     path('logout/',user_logout,name='logout'),
 ]

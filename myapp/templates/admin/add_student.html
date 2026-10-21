@@ -1,0 +1,285 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Add Student | NOU LMS{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/add_student.css' %}">
+
+<div class="add-student-page">
+
+    <!-- Page Header -->
+    <div class="as-page-header">
+        <div class="as-heading-content">
+            <span class="as-breadcrumb">ADMINISTRATION / STUDENTS</span>
+            <h2>Add New Student</h2>
+            <p>Register a student and assign their academic details.</p>
+        </div>
+
+        <a href="{% url 'view_students' %}" class="as-back-btn">
+            <span>←</span> View Students
+        </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="as-form-card">
+
+        <div class="as-card-header">
+            <div class="as-card-icon">♙</div>
+            <div>
+                <h3>Student Registration</h3>
+                <p>Enter the student's personal, academic and account details.</p>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div class="as-messages">
+                {% for message in messages %}
+                    <div class="as-message as-message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="as-message as-message-error">
+                Please correct the errors and submit the form again.
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="" class="as-form">
+            {% csrf_token %}
+
+            <!-- Personal Information -->
+            <div class="as-section-heading">
+                <span class="as-section-number">01</span>
+                <div>
+                    <h4>Personal Information</h4>
+                    <p>Basic details of the student</p>
+                </div>
+            </div>
+
+            <div class="as-form-grid">
+
+                <div class="as-field">
+                    <label for="enrollment_no">Enrollment Number <span>*</span></label>
+                    <input
+                        type="text"
+                        id="enrollment_no"
+                        name="enrollment_no"
+                        placeholder="e.g. NOU2026001"
+                        value="{{ request.POST.enrollment_no|default:'' }}"
+                        maxlength="50"
+                        required>
+                </div>
+
+                <div class="as-field">
+                    <label for="name">Full Name <span>*</span></label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter student's full name"
+                        value="{{ request.POST.name|default:'' }}"
+                        maxlength="150"
+                        required>
+                </div>
+
+                <div class="as-field">
+                    <label for="email">Email Address <span>*</span></label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="student@example.com"
+                        value="{{ request.POST.email|default:'' }}"
+                        maxlength="254"
+                        required>
+                </div>
+
+                <div class="as-field">
+                    <label for="mobile">Mobile Number <span>*</span></label>
+                    <input
+                        type="tel"
+                        id="mobile"
+                        name="mobile"
+                        placeholder="Enter mobile number"
+                        value="{{ request.POST.mobile|default:'' }}"
+                        maxlength="15"
+                        required>
+                </div>
+
+            </div>
+
+            <!-- Academic Information -->
+            <div class="as-section-heading">
+                <span class="as-section-number">02</span>
+                <div>
+                    <h4>Academic Information</h4>
+                    <p>Course, session and current semester</p>
+                </div>
+            </div>
+
+            <div class="as-form-grid">
+
+                <div class="as-field">
+                    <label for="course">Course <span>*</span></label>
+                    <input
+                        type="text"
+                        id="course"
+                        name="course"
+                        placeholder="e.g. BCA, MCA, B.Tech"
+                        value="{{ request.POST.course|default:'' }}"
+                        maxlength="150"
+                        required>
+                </div>
+
+                <div class="as-field">
+                    <label for="session">Academic Session <span>*</span></label>
+                    <input
+                        type="text"
+                        id="session"
+                        name="session"
+                        placeholder="e.g. 2026-2029"
+                        value="{{ request.POST.session|default:'' }}"
+                        maxlength="150"
+                        required>
+                </div>
+
+                <div class="as-field">
+                    <label for="semester">Semester <span>*</span></label>
+                    <select id="semester" name="semester" required>
+                        <option value="">Select Semester</option>
+                        {% for sem in semesters %}
+                            <option
+                                value="{{ sem }}"
+                                {% if request.POST.semester == sem %}selected{% endif %}>
+                                {{ sem }}
+                            </option>
+                        {% empty %}
+                            {% for i in "12345678" %}
+                                <option
+                                    value="Semester {{ forloop.counter }}"
+                                    {% if request.POST.semester == forloop.counter|stringformat:"s" %}selected{% endif %}>
+                                    Semester {{ forloop.counter }}
+                                </option>
+                            {% endfor %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Account Information -->
+            <div class="as-section-heading">
+                <span class="as-section-number">03</span>
+                <div>
+                    <h4>Login Account</h4>
+                    <p>Credentials for the student portal</p>
+                </div>
+            </div>
+
+            <div class="as-form-grid">
+
+                <div class="as-field">
+                    <label for="username">Login Username <span>*</span></label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Create a username"
+                        value="{{ request.POST.username|default:'' }}"
+                        maxlength="150"
+                        autocomplete="off"
+                        required>
+                    <small>Used by the student to sign in.</small>
+                </div>
+
+                <div class="as-field">
+                    <label for="password">Login Password <span>*</span></label>
+                    <div class="as-password-wrap">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a strong password"
+                            minlength="3"
+                            autocomplete="new-password"
+                            required>
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="as-password-toggle"
+                            aria-label="Show password">
+                            Show
+                        </button>
+                    </div>
+                    <small>Use at least 3 characters.</small>
+                </div>
+
+                <div class="as-field">
+                    <label for="status">Account Status <span>*</span></label>
+                    <select id="status" name="status" required>
+                        <option value="Active"
+                            {% if request.POST.status == "Active" or not request.POST.status %}selected{% endif %}>
+                            Active
+                        </option>
+                        <option value="Inactive"
+                            {% if request.POST.status == "Inactive" %}selected{% endif %}>
+                            Inactive
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Actions -->
+            <div class="as-form-footer">
+                <p><span>*</span> Required fields</p>
+
+                <div class="as-form-actions">
+                    <a href="#" class="as-cancel-btn">
+                        Cancel
+                    </a>
+                    <button type="reset" class="as-reset-btn">
+                        Reset
+                    </button>
+                    <button type="submit" class="as-submit-btn">
+                        <span>＋</span> Register Student
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="as-security-note">
+        <span>🔒</span>
+        Student login credentials should be handled securely.
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+
+    togglePassword.addEventListener("click", function () {
+        const isPassword = passwordInput.type === "password";
+
+        passwordInput.type = isPassword ? "text" : "password";
+        togglePassword.textContent = isPassword ? "Hide" : "Show";
+        togglePassword.setAttribute(
+            "aria-label",
+            isPassword ? "Hide password" : "Show password"
+        );
+    });
+});
+</script>
+
+{% endblock %}

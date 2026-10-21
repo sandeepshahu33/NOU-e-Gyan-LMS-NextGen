@@ -1,0 +1,321 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}View Students | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/view_students.css' %}">
+
+<div class="view-students-page">
+
+    <!-- Page Header -->
+    <div class="vs-page-header">
+        <div class="vs-heading-content">
+            <span class="vs-breadcrumb">ADMINISTRATION / STUDENTS</span>
+            <h2>Student Management</h2>
+            <p>View and manage all registered students in your institution.</p>
+        </div>
+
+        <a href="{% url 'add_student' %}" class="vs-add-btn">
+            <span>＋</span> Add New Student
+        </a>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="vs-summary-grid">
+
+        <div class="vs-summary-card">
+            <div class="vs-summary-icon">♙</div>
+            <div>
+                <span>Total Students</span>
+                <h3>{{ students|length }}</h3>
+            </div>
+        </div>
+
+        <div class="vs-summary-card">
+            <div class="vs-summary-icon vs-icon-gold">✓</div>
+            <div>
+                <span>Active Students</span>
+                <h3>{{ active_count|default:"0" }}</h3>
+            </div>
+        </div>
+
+        <div class="vs-summary-card">
+            <div class="vs-summary-icon vs-icon-muted">◷</div>
+            <div>
+                <span>Inactive Students</span>
+                <h3>{{ inactive_count|default:"0" }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Students Table Card -->
+    <div class="vs-table-card">
+
+        <div class="vs-card-header">
+            <div>
+                <h3>Registered Students</h3>
+                <p>Browse student profiles and academic information.</p>
+            </div>
+
+            <span class="vs-record-count">
+                {{ students|length }} Records
+            </span>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="vs-toolbar">
+
+            <div class="vs-search-box">
+                <span>⌕</span>
+                <input
+                    type="search"
+                    id="studentSearch"
+                    placeholder="Search name, enrollment, email or mobile..."
+                    aria-label="Search students">
+            </div>
+
+            <select id="courseFilter" aria-label="Filter by course">
+                <option value="">All Courses</option>
+                {% for course in courses %}
+                    <option value="{{ course|lower }}">{{ course }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="semesterFilter" aria-label="Filter by semester">
+                <option value="">All Semesters</option>
+                {% for sem in semesters %}
+                    <option value="{{ sem|lower }}">{{ sem }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="statusFilter" aria-label="Filter by status">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+
+        </div>
+
+        <!-- Students Table -->
+        <div class="vs-table-wrapper">
+            <table class="vs-table" id="studentsTable">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student Details</th>
+                        <th>Enrollment No.</th>
+                        <th>Course</th>
+                        <th>Session</th>
+                        <th>Semester</th>
+                        <th>Mobile</th>
+                        <th>Status</th>
+                        <th class="vs-action-heading">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in students %}
+                    <tr
+                        data-search="{{ student.name|lower }} {{ student.enrollment_no|lower }} {{ student.email|lower }} {{ student.mobile|lower }}"
+                        data-course="{{ student.course|lower }}"
+                        data-semester="{{ student.semester|lower }}"
+                        data-status="{{ student.status|lower }}">
+
+                        <td class="vs-row-number">
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+                            <div class="vs-student-details">
+                                <span class="vs-student-avatar">
+                                    {{ student.name|slice:":1"|upper }}
+                                </span>
+
+                                <div class="vs-student-info">
+                                    <strong>{{ student.name }}</strong>
+                                    <small>{{ student.email }}</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="vs-enrollment">
+                                {{ student.enrollment_no }}
+                            </span>
+                        </td>
+
+                        <td>{{ student.course }}</td>
+
+                        <td>{{ student.session }}</td>
+
+                        <td>
+                            <span class="vs-semester-badge">
+                                {{ student.semester }}
+                            </span>
+                        </td>
+
+                        <td>{{ student.mobile }}</td>
+
+                        <td>
+                            {% if student.status|lower == "active" %}
+                                <span class="vs-status vs-status-active">
+                                    <span></span> Active
+                                </span>
+                            {% else %}
+                                <span class="vs-status vs-status-inactive">
+                                    <span></span> Inactive
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Action Buttons -->
+                        <td>
+                            <div class="vs-action-buttons">
+
+                                <a
+                                    href="#"
+                                    class="vs-action-btn vs-edit-btn"
+                                    title="Edit student">
+                                    <span>✎</span> Edit
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="#"
+                                    class="vs-delete-form"
+                                    onsubmit="return confirm('Are you sure you want to delete this student? This action cannot be undone.');">
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="vs-action-btn vs-delete-btn"
+                                        title="Delete student">
+                                        <span>✕</span> Delete
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="9">
+                            <div class="vs-empty-state">
+                                <div class="vs-empty-icon">♙</div>
+                                <h3>No Students Found</h3>
+                                <p>You haven't registered any students yet.</p>
+
+                                <a href="{% url 'add_student' %}" class="vs-add-btn">
+                                    ＋ Register First Student
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+            <!-- Search/filter empty state -->
+            <div class="vs-no-results" id="noResults" hidden>
+                <strong>No matching students</strong>
+                <p>Try changing your search or filters.</p>
+            </div>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="vs-table-footer">
+            <span>
+                Showing <strong id="visibleCount">{{ students|length }}</strong>
+                of {{ students|length }} students
+            </span>
+
+            <span class="vs-footer-brand">
+                NOU LMS <span>·</span> Student Management
+            </span>
+        </div>
+
+    </div>
+</div>
+
+<!-- Search and Filter Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("studentSearch");
+    const courseFilter = document.getElementById("courseFilter");
+    const semesterFilter = document.getElementById("semesterFilter");
+    const statusFilter = document.getElementById("statusFilter");
+
+    const rows = Array.from(
+        document.querySelectorAll("#studentsTable tbody tr[data-search]")
+    );
+
+    const noResults = document.getElementById("noResults");
+    const visibleCount = document.getElementById("visibleCount");
+
+    function normalize(value) {
+        return (value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, " ");
+    }
+
+    function filterStudents() {
+        const query = normalize(searchInput.value);
+        const selectedCourse = normalize(courseFilter.value);
+        const selectedSemester = normalize(semesterFilter.value);
+        const selectedStatus = normalize(statusFilter.value);
+
+        let visible = 0;
+
+        rows.forEach(function (row) {
+            const matchesSearch =
+                normalize(row.dataset.search).includes(query);
+
+            const matchesCourse =
+                !selectedCourse ||
+                normalize(row.dataset.course) === selectedCourse;
+
+            const matchesSemester =
+                !selectedSemester ||
+                normalize(row.dataset.semester) === selectedSemester;
+
+            const matchesStatus =
+                !selectedStatus ||
+                normalize(row.dataset.status) === selectedStatus;
+
+            const show =
+                matchesSearch &&
+                matchesCourse &&
+                matchesSemester &&
+                matchesStatus;
+
+            row.hidden = !show;
+
+            if (show) {
+                visible++;
+            }
+        });
+
+        visibleCount.textContent = visible;
+        noResults.hidden = visible !== 0 || rows.length === 0;
+    }
+
+    searchInput.addEventListener("input", filterStudents);
+    courseFilter.addEventListener("change", filterStudents);
+    semesterFilter.addEventListener("change", filterStudents);
+    statusFilter.addEventListener("change", filterStudents);
+
+    filterStudents();
+});
+</script>
+
+{% endblock %}

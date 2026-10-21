@@ -16,10 +16,19 @@ def index(req):
                 login(req,user)
                 messages.success(req,"User Loggedin successfully!!")
                 return redirect('admindash')
-            elif user.groups.filter(name='Teacher').exists():
+            elif hasattr(user,'Teacher'):
                 login(req, user)
                 messages.success(req, "Teacher logged in successfully!")
                 return redirect('teacherdash')
+            elif hasattr(user,'Student'):
+                active_student=Student.objects.filter( user=user,status="Active").exists()
+                if active_student:
+                    login(req, user)
+                    messages.success(req, "Student logged in successfully!")
+                    return redirect('studentdash')
+                else:
+                    messages.error(req,"Your account is blocked. Contact to our team !!")
+                    return redirect('index')
         else:
             messages.error(req,"you have entered wrong email or password !!")
             return redirect('index')
@@ -84,15 +93,14 @@ def add_course(req):
     if req.method == "POST":
         course_name=req.POST['course_name']
         course_code=req.POST['course_code']
-        session_id=req.POST['session_id']
+        session=req.POST['session']
         level=req.POST['level']
         duration=req.POST['duration']
         description=req.POST['description']
         status=req.POST['status']
-        selected_session=AcademicSession.objects.get(id=session_id)
-        Course.objects.create(course_name=course_name,course_code=course_code,session_id=selected_session,level=level,duration=duration,description=description,status=status)
+        Course.objects.create(course_name=course_name,course_code=course_code,session=session,level=level,duration=duration,description=description,status=status)
         messages.success(req,"Course is added successfully!!")
-        return redirect('admindash')
+        return redirect('view-courses')
     return render(req,'admin/add_course.html',{"sessions":session})
 
 def view_courses(req):
@@ -152,12 +160,11 @@ def add_teacher(req):
         mobile=req.POST['mobile']
         department=req.POST['department']
         designation=req.POST['designation']
-        username_id=req.POST['username_id']
-        # Actual user find krna  
-        user_account=User.objects.get(id=username_id)
+        user=req.POST['username']
         password=req.POST['password']
         status=req.POST['status']
-        Teacher.objects.create(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,username=user_account,password=password,status=status)
+        user_obj=User.objects.create_user(username=user,password=password,email=email)
+        Teacher.objects.create(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,user=user_obj,password=password,status=status)
         messages.success(req,"Teacher added successfully !!")
         return redirect('add_teacher')
     return render(req,"admin/add_teacher.html",{"users":users})
@@ -173,7 +180,78 @@ def view_teacher(req):
     }
     return render(req,'admin/view_teacher.html',context)
 
+def add_subject(req):
+    teachers=Teacher.objects.all()
+    if req.method == "POST":
+        course=req.POST['course']
+        subject_name=req.POST['subject_name']
+        subject_code=req.POST['subject_code']
+        semester=req.POST['semester']
+        credits=req.POST['credits']
+        teacher=req.POST['teacher']
+        description=req.POST['description']
+        status=req.POST['status']
+        Subject.objects.create(course=course,subject_name=subject_name,subject_code=subject_code,semester=semester,credits=credits,teacher=teacher,description=description,status=status)
+        messages.success(req,"Subject added successfullly !! ")
+        return redirect('view_subjects')
+    return render(req,"admin/add_subject.html",{"teachers":teachers})
+
+def view_subjects(req):
+    subjects=Subject.objects.all()
+    active_count=Subject.objects.filter(status="Active").count()
+    inactive_count=Subject.objects.filter(status="Inactive").count()
+    semesters=Subject.objects.values_list("semester",flat=True)
+    context={
+        "subjects":subjects,
+        "active_count":active_count,
+        "inactive_count":inactive_count,
+        "semesters":semesters
+    }
+    return render(req,"admin/view_subjects.html",context)
+
+def add_student(req):
+    if req.method == "POST":
+        enrollment_no=req.POST['enrollment_no']
+        name=req.POST['name']
+        email=req.POST['email']
+        mobile=req.POST['mobile']
+        course=req.POST['course']
+        session=req.POST['session']
+        semester=req.POST['semester']
+        user=req.POST['username']
+        password=req.POST['password']
+        status=req.POST['status']
+        user_obj=User.objects.create_user(username=user,password=password,email=email)
+        Student.objects.create(enrollment_no=enrollment_no,name=name,email=email,mobile=mobile,course=course,session=session,semester=semester,user=user_obj,password=password,status=status)
+        messages.success(req,"Student added successfully !! ")
+        return redirect('view_students')
+    return render(req,"admin/add_student.html")
+
+def view_students(req):
+    students=Student.objects.all()
+    active_count=Student.objects.filter(status="Active").count()
+    inactive_count=Student.objects.filter(status="Inactive").count()
+    semesters=Student.objects.values_list("semester",flat=True)
+    courses=Student.objects.values_list("course",flat=True)
+    context={
+        "students":students,
+        "active_count":active_count,
+        "inactive_count":inactive_count,
+        "semesters":semesters,
+        "courses":courses
+    }
+    return render(req,"admin/view_students.html",context)
+
+def add_studymaterial(req):
+    teachers=Teacher.objects.filter(status="Active").all()
+    return render(req,"admin/add_studymaterial.html",{"teachers":teachers})
+
+def view_studymaterial(req):
+    return render(req,"admin/view_studymaterial.html")
 # Teacher view
 def teacherdash(req):
     return render(req,"teacher/teacherdash.html")
+# Student view
+def studentdash(req):
+    return render(req,"student/studentdash.html")
 

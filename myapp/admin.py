@@ -5,3 +5,6 @@ from .models import *
 admin.site.register(AcademicSession)
 admin.site.register(Course)
 admin.site.register(Teacher)
+admin.site.register(Subject)
+admin.site.register(Student)
+admin.site.register(StudyMaterial)

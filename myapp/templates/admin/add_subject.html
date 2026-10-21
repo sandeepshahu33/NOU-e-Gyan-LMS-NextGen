@@ -1,0 +1,248 @@
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Add Subject | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/add_subject.css' %}">
+
+<div class="subject-page">
+
+    <!-- Page Header -->
+    <div class="subject-page-header">
+        <div class="subject-heading-content">
+            <span class="subject-breadcrumb">ADMINISTRATION / ACADEMICS</span>
+            <h2>Add New Subject</h2>
+            <p>Create and manage academic subjects for your institution.</p>
+        </div>
+
+        <a href="{% url 'view_subjects' %}" class="subject-back-btn">
+            <span>←</span> View Subjects
+        </a>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="subject-form-card">
+
+        <!-- Card Header -->
+        <div class="subject-card-header">
+            <div class="subject-header-icon">✦</div>
+
+            <div>
+                <h3>Subject Information</h3>
+                <p>Enter the details below to register a new subject.</p>
+            </div>
+
+            <span class="subject-required-label">
+                <span>*</span> Required fields
+            </span>
+        </div>
+
+        <form method="POST" action="" class="subject-form">
+            {% csrf_token %}
+
+            <!-- Section 1 -->
+            <div class="subject-form-section">
+
+                <div class="subject-section-title">
+                    <span class="section-number">01</span>
+                    <div>
+                        <h4>Basic Information</h4>
+                        <p>Course and subject identification details</p>
+                    </div>
+                </div>
+
+                <div class="subject-form-grid">
+
+                    <!-- Course -->
+                    <div class="subject-field">
+                        <label for="course">
+                            Course Name <span>*</span>
+                        </label>
+
+                        <input type="text" id="course" name="course" maxlength="150"
+                            placeholder="e.g. Bachelor of Computer Applications"
+                            value="{{ request.POST.course|default:'' }}" required>
+                    </div>
+
+                    <!-- Subject Name -->
+                    <div class="subject-field">
+                        <label for="subject_name">
+                            Subject Name <span>*</span>
+                        </label>
+
+                        <input type="text" id="subject_name" name="subject_name" maxlength="150"
+                            placeholder="e.g. Database Management System"
+                            value="{{ request.POST.subject_name|default:'' }}" required>
+                    </div>
+
+                    <!-- Subject Code -->
+                    <div class="subject-field">
+                        <label for="subject_code">
+                            Subject Code <span>*</span>
+                        </label>
+
+                        <input type="text" id="subject_code" name="subject_code" maxlength="30"
+                            placeholder="e.g. DBMS-301" value="{{ request.POST.subject_code|default:'' }}" required>
+
+                        <small>Each subject must have a unique code.</small>
+                    </div>
+
+                    <!-- Semester -->
+                    <div class="subject-field">
+                        <label for="semester">
+                            Semester <span>*</span>
+                        </label>
+
+                        <select id="semester" name="semester" required>
+                            <option value="">Select Semester</option>
+
+                            {% for sem in semesters %}
+                            <option value="{{ sem }}" {% if request.POST.semester == sem %}selected{% endif %}>
+                                {{ sem }}
+                            </option>
+                            {% empty %}
+                            <option value="Semester 1" {% if request.POST.semester == "Semester 1" %}selected{% endif %}>
+                                Semester 1
+                            </option>
+                            <option value="Semester 2" {% if request.POST.semester == "Semester 2" %}selected{% endif %}>
+                                Semester 2
+                            </option>
+                            <option value="Semester 3" {% if request.POST.semester == "Semester 3" %}selected{% endif %}>
+                                Semester 3
+                            </option>
+                            <option value="Semester 4" {% if request.POST.semester == "Semester 4" %}selected{% endif %}>
+                                Semester 4
+                            </option>
+                            <option value="Semester 5" {% if request.POST.semester == "Semester 5" %}selected{% endif %}>
+                                Semester 5
+                            </option>
+                            <option value="Semester 6" {% if request.POST.semester == "Semester 6" %}selected{% endif %}>
+                                Semester 6
+                            </option>
+                            <option value="Semester 7" {% if request.POST.semester == "Semester 7" %}selected{% endif %}>
+                                Semester 7
+                            </option>
+                            <option value="Semester 8" {% if request.POST.semester == "Semester 8" %}selected{% endif %}>
+                                Semester 8
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="subject-form-section">
+
+                <div class="subject-section-title">
+                    <span class="section-number">02</span>
+                    <div>
+                        <h4>Academic Details</h4>
+                        <p>Credits, assigned teacher and subject status</p>
+                    </div>
+                </div>
+
+                <div class="subject-form-grid">
+
+                    <!-- Credits -->
+                    <div class="subject-field">
+                        <label for="credits">
+                            Subject Credits <span>*</span>
+                        </label>
+
+                        <input type="number" id="credits" name="credits" min="1" max="10" placeholder="e.g. 4"
+                            value="{{ request.POST.credits|default:'' }}" required>
+                    </div>
+
+                    <!-- Teacher -->
+                    <div class="subject-field">
+                        <label for="teacher">
+                            Teacher Name <span>*</span>
+                        </label>
+
+                        <select id="teacher" name="teacher" required>
+                            <option value="">Select Teacher</option>
+
+                            {% for teacher in teachers %}
+                            <option value="{{ teacher.name }}" {% if request.POST.teacher == teacher.name|stringformat:"s" %}
+                                selected {% endif %}>
+                                {{ teacher }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="subject-field subject-field">
+                        <label for="status">
+                            Subject Status <span>*</span>
+                        </label>
+
+                        <select id="status" name="status" required>
+                            <option value="">Select Status</option>
+
+                            <option value="Active" {% if request.POST.status == 'Active' %}selected{% endif %}>
+                                Active
+                            </option>
+
+                            <option value="Inactive" {% if request.POST.status == 'Inactive' %}selected{% endif %}>
+                                Inactive
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="subject-field subject-field-full">
+                        <label for="description">
+                            Subject Description <span>*</span>
+                        </label>
+
+                        <textarea id="description" name="description" rows="5"
+                            placeholder="Describe the subject, syllabus and learning objectives..."
+                            required>{{ request.POST.description|default:'' }}</textarea>
+
+                        <small>Provide a clear overview of this subject.</small>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Information Note -->
+            <div class="subject-info-note">
+                <span class="subject-info-icon">ⓘ</span>
+                <p>
+                    Verify the subject code, semester and assigned teacher
+                    before saving. The subject code must be unique.
+                </p>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="subject-form-actions">
+
+                <a href="{% url 'view_subjects' %}" class="subject-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="subject-reset-btn">
+                    Reset Form
+                </button>
+
+                <button type="submit" class="subject-submit-btn">
+                    <span>＋</span> Create Subject
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="subject-page-footer">
+        <span>NOU LMS · Academic Management</span>
+        <span>All fields marked <strong>*</strong> are required.</span>
+    </div>
+
+</div>
+{% endblock %}

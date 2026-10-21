@@ -1,0 +1,487 @@
+
+/* ==============================
+   NOU LMS - Add Study Material
+   Theme: Maroon, Gold & White
+================================ */
+
+.material-page {
+    --maroon: #762640;
+    --dark-maroon: #54182d;
+    --maroon-hover: #8d3452;
+    --gold: #c49a43;
+    --gold-light: #f8efd9;
+    --rose: #fbf4f6;
+    --border: #eadde2;
+    --text: #382630;
+    --muted: #8a7881;
+
+    padding: 28px;
+    color: var(--text);
+    font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+/* Header */
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-icon {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 27px;
+    border-radius: 17px;
+    background: linear-gradient(145deg, var(--maroon), var(--dark-maroon));
+    box-shadow: 0 8px 20px rgba(84, 24, 45, 0.18);
+}
+
+.eyebrow {
+    margin: 0 0 5px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.header-content h2 {
+    margin: 0;
+    color: var(--dark-maroon);
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.header-description {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 17px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--maroon);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.back-btn:hover {
+    color: white;
+    background: var(--maroon);
+    border-color: var(--maroon);
+    transform: translateY(-2px);
+}
+
+/* Main Card */
+
+.material-card {
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 30px rgba(84, 24, 45, 0.055);
+}
+
+.card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding-bottom: 23px;
+    border-bottom: 1px solid #f0e7eb;
+}
+
+.card-heading h4 {
+    margin: 0 0 7px;
+    color: var(--dark-maroon);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.card-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.required-note {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.required-note span,
+.form-group label span {
+    color: #c33d52;
+}
+
+/* Section Headings */
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 27px 0 20px;
+}
+
+.section-number {
+    display: grid;
+    place-items: center;
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--gold-light);
+    color: var(--maroon);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.section-heading h5 {
+    margin: 0 0 4px;
+    color: var(--dark-maroon);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.section-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.section-gap {
+    margin-top: 34px;
+}
+
+/* Form Grid */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 24px;
+}
+
+.form-group {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group > label {
+    margin-bottom: 9px;
+    color: #49303c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.form-group input:not([type="file"]),
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #e6d9df;
+    border-radius: 10px;
+    outline: none;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:not([type="file"]),
+.form-group select {
+    min-height: 46px;
+}
+
+.form-group textarea {
+    min-height: 115px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #b2a3aa;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--maroon);
+    box-shadow: 0 0 0 3px rgba(118, 38, 64, 0.09);
+}
+
+.form-group small {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* File Upload */
+
+.upload-box {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding: 22px;
+    border: 1.5px dashed #d9c0ca;
+    border-radius: 13px;
+    background: var(--rose);
+    transition: 0.25s ease;
+}
+
+.upload-box:hover {
+    border-color: var(--gold);
+    background: #fdf9f1;
+}
+
+.upload-icon {
+    width: 51px;
+    height: 51px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--gold-light);
+    color: var(--maroon);
+    font-size: 24px;
+}
+
+.upload-text {
+    min-width: 0;
+}
+
+.upload-label {
+    display: inline-block;
+    margin: 0 0 5px !important;
+    color: var(--maroon) !important;
+    cursor: pointer;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+.upload-text p {
+    margin: 0 0 5px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+#file-name {
+    display: block;
+    overflow-wrap: anywhere;
+    color: #a18e97;
+    font-size: 11px;
+}
+
+#file-name.selected-file {
+    color: var(--maroon);
+    font-weight: 600;
+}
+
+.file-input {
+    display: none;
+}
+
+/* Action Buttons */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #f0e7eb;
+}
+
+.cancel-btn,
+.reset-btn,
+.submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 11px 19px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.cancel-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--muted);
+}
+
+.reset-btn {
+    border: 1px solid #e7d5a9;
+    background: var(--gold-light);
+    color: var(--dark-maroon);
+}
+
+.submit-btn {
+    border: 1px solid var(--maroon);
+    background: var(--maroon);
+    color: white;
+    box-shadow: 0 5px 13px rgba(118, 38, 64, 0.15);
+}
+
+.cancel-btn:hover {
+    background: #f8f3f5;
+    color: var(--maroon);
+}
+
+.reset-btn:hover {
+    background: #f0dfb8;
+}
+
+.submit-btn:hover {
+    background: var(--dark-maroon);
+    border-color: var(--dark-maroon);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+
+.page-footer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 18px;
+    padding: 13px 16px;
+    border: 1px solid #eee3c9;
+    border-radius: 10px;
+    background: #fffdf8;
+    color: #806c45;
+    font-size: 11px;
+}
+
+.page-footer i {
+    color: var(--gold);
+    font-size: 16px;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .material-page {
+        padding: 18px;
+    }
+
+    .material-card {
+        padding: 22px 18px;
+    }
+
+    .page-header {
+        align-items: flex-start;
+    }
+
+    .header-content h2 {
+        font-size: 22px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        justify-content: stretch;
+    }
+
+    .form-actions > * {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .material-page {
+        padding: 12px;
+    }
+
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        border-radius: 13px;
+    }
+
+    .header-content {
+        gap: 11px;
+    }
+
+    .header-content h2 {
+        font-size: 19px;
+    }
+
+    .header-description {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .back-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .upload-box {
+        align-items: flex-start;
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .upload-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions > * {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

@@ -52,7 +52,7 @@
                 <div class="teacher-field">
                     <label for="employee_id">Employee ID <span>*</span></label>
                     <input type="text" id="employee_id" name="employee_id"
-                           placeholder="e.g. EMP001" maxlength="30" required>
+                           placeholder="e.g. TCH001" maxlength="30" required>
                 </div>
 
                 <div class="teacher-field">
@@ -118,15 +118,8 @@
 
                 <div class="teacher-field">
                     <label for="username">User Account <span>*</span></label>
-                    <select id="username" name="username_id" required>
-                        <option value="">Select a Django user account</option>
-                        {% for account in users %}
-                            <option value="{{ account.id }}">
-                                {{ account.username }} — {{ account.email }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <small>Select an existing User account.</small>
+                    <input type="text" name='username' for='username'>
+                    <small>Wirte the teachers profile username i.e TCH001</small>
                 </div>
 
                 <div class="teacher-field">

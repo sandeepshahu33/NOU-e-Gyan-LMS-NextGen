@@ -1,0 +1,239 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/add_studymaterial.css' %}">
+
+<div class="material-page">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="bi bi-journal-plus"></i>
+            </div>
+
+            <div>
+                <p class="eyebrow">ACADEMIC RESOURCES</p>
+                <h2>Upload Study Material</h2>
+                <p class="header-description">
+                    Add notes, assignments and learning resources for students.
+                </p>
+            </div>
+        </div>
+
+        <a href="#" class="back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Back to Materials
+        </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="material-card">
+
+        <div class="card-heading">
+            <div>
+                <h4>Material Information</h4>
+                <p>Fill in the details below to publish a learning resource.</p>
+            </div>
+            <span class="required-note">
+                <span>*</span> Required fields
+            </span>
+        </div>
+
+        <form method="POST"
+              action="{% url 'add_studymaterial' %}"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Basic Information -->
+            <div class="section-heading">
+                <span class="section-number">01</span>
+                <div>
+                    <h5>Basic Details</h5>
+                    <p>Enter the title and academic information.</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+                    <label for="title">Material Title <span>*</span></label>
+                    <input type="text"
+                           id="title"
+                           name="title"
+                           placeholder="e.g. Introduction to Python Programming"
+                           maxlength="180"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="course">Course <span>*</span></label>
+                    <input type="text"
+                           id="course"
+                           name="course"
+                           placeholder="e.g. B.Tech Computer Science"
+                           maxlength="200"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject <span>*</span></label>
+                    <input type="text"
+                           id="subject"
+                           name="subject"
+                           placeholder="e.g. Database Management System"
+                           maxlength="200"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="material_type">Material Type <span>*</span></label>
+                    <select id="material_type" name="material_type" required>
+                        <option value="" disabled selected>
+                            Select material type
+                        </option>
+                        <option value="Lecture Notes">Lecture Notes / Handouts</option>
+                        <option value="E-Book">E-Book / Reference Text</option>
+                        <option value="Question Bank & Solution">Question Bank & Solution</option>
+                        <option value="Syllabus">Official Syllabus Copy</option>
+                        <option value="Slides / PPT Presentation">Slides / PPT Presentation</option>
+                        <option value="Reacher Paper">Reacher Paper / Case Study</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Publication Status <span>*</span></label>
+                    <select id="status" name="status" required>
+                        <option value="Active" selected>Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    <small>Active materials can be made available to students.</small>
+                </div>
+
+            </div>
+
+            <!-- Resource Upload -->
+            <div class="section-heading section-gap">
+                <span class="section-number">02</span>
+                <div>
+                    <h5>Learning Resource</h5>
+                    <p>Upload a file or provide an external resource link.</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+                    <label for="file">Upload File</label>
+
+                    <div class="upload-box">
+                        <div class="upload-icon">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+
+                        <div class="upload-text">
+                            <label for="file" class="upload-label">
+                                Choose a file to upload
+                            </label>
+                            <p>PDF, DOC, PPT or other supported learning files</p>
+                            <span id="file-name">No file selected</span>
+                        </div>
+
+                        <input type="file"
+                               id="file"
+                               name="file"
+                               class="file-input">
+                    </div>
+                    <small>File upload is optional if you provide an external URL.</small>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="external_url">External Resource URL</label>
+                    <input type="url"
+                           id="external_url"
+                           name="external_url"
+                           placeholder="https://example.com/learning-resource">
+                    <small>Optional: add a Google Drive, video, or other resource link.</small>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="description">Description <span>*</span></label>
+                    <textarea id="description"
+                              name="description"
+                              rows="4"
+                              placeholder="Describe the learning material and what students will learn..."
+                              required></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="uploaded_by">Uploaded By <span>*</span></label>
+                    {% comment %} <input type="text"
+                           id="uploaded_by"
+                           name="uploaded_by"
+                           placeholder="Enter teacher or administrator name"
+                           maxlength="150"
+                           required> {% endcomment %}
+                    <select name="uploaded_by" id="uploaded_by">
+                        <option value="{{request.user.username}}" selected>{{request.user.username}} (current User)</option>
+                        
+                        {% if teachers %}
+                        
+                        {% for t in teachers %}
+                            <option value="{{t.name}} {{t.department}}">{{t.name}} ({{t.department}})</option>
+                        {% endfor %}
+                            
+                        
+                            
+                        {% endif %}
+                            
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="#" class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="reset-btn">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    Reset
+                </button>
+
+                <button type="submit" class="submit-btn">
+                    <i class="bi bi-cloud-check"></i>
+                    Upload Material
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="page-footer">
+        <i class="bi bi-shield-check"></i>
+        Please verify the course and subject before publishing the material.
+    </div>
+
+</div>
+
+<script>
+    const fileInput = document.getElementById("file");
+    const fileName = document.getElementById("file-name");
+
+    fileInput.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            fileName.textContent = this.files[0].name;
+            fileName.classList.add("selected-file");
+        } else {
+            fileName.textContent = "No file selected";
+            fileName.classList.remove("selected-file");
+        }
+    });
+</script>
+{% endblock %}

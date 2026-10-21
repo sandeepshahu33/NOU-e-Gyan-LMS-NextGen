@@ -91,18 +91,17 @@
 
                     <!-- Academic Session -->
                     <div class="course-field">
-                        <label for="session_id">
+                        <label for="session">
                             Academic Session <span>*</span>
                         </label>
 
-                        <select id="session_id" name="session_id" required>
-                            <option value="">Select Academic Session</option>
+                        <select id="session_id" name="session" required>
+                            <option value="" disabled selected>Select Academic Session</option>
 
                             {% for session in sessions %}
                             <option
-                                value="{{ session.id }}"
-                                {% if request.POST.session_id == session.id|stringformat:"s" %}selected{% endif %}>
-                                {{ session.session_name }}
+                                value="{{ session.session_name }}">
+                                {{ session.session_name}}
                             </option>
                             {% endfor %}
                         </select>

@@ -13,7 +13,7 @@ class AcademicSession(models.Model):
 
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
-    session_id=models.ForeignKey(AcademicSession,on_delete=models.SET_NULL,null=True,related_name='course')
+    session=models.CharField(max_length=150)
     course_name=models.CharField(max_length=150)
     course_code=models.CharField(max_length=30,unique=True)
     level=models.CharField(max_length=50)
@@ -29,9 +29,55 @@ class Teacher(models.Model):
     mobile=models.CharField(max_length=15)
     department=models.CharField(max_length=120)
     designation=models.CharField(max_length=120)
-    username=models.OneToOneField(User,on_delete=models.CASCADE,related_name='Teacher')
+    user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='Teacher')
     password=models.CharField(max_length=100)
     status=models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
+
+class Subject(models.Model):
+    id = models.AutoField(primary_key=True)
+    course=models.CharField(max_length=150)
+    subject_name=models.CharField(max_length=150)
+    subject_code=models.CharField(max_length=30,unique=True)
+    semester=models.CharField(max_length=50)
+    credits=models.IntegerField()
+    teacher=models.CharField(max_length=150)
+    description=models.TextField()
+    status=models.CharField(max_length=20)
+    def __str__(self):
+        return f"{self.subject_name} -- {self.subject_code}"
+
+class Student(models.Model):
+    id = models.AutoField(primary_key=True)
+    enrollment_no=models.CharField(max_length=50,unique=True)
+    name=models.CharField(max_length=150)
+    email=models.CharField(max_length=254,unique=True)
+    mobile=models.CharField(max_length=15)
+    course=models.CharField(max_length=150)
+    session=models.CharField(max_length=150)
+    semester=models.CharField(max_length=50)
+    user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='Student')
+    password=models.CharField(max_length=100)
+    status=models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+class StudyMaterial(models.Model):
+    id = models.AutoField(primary_key=True)
+    title=models.CharField(max_length=180)
+    course=models.CharField(max_length=200)
+    subject=models.CharField(max_length=200)
+    material_type=models.CharField(max_length=30)
+    file=models.FileField(upload_to='study_material',null=True,blank=True)
+    external_url=models.CharField(max_length=200,null=True)
+    description=models.TextField()
+    uploaded_by=models.CharField(max_length=150)
+    status=models.CharField(max_length=20)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
