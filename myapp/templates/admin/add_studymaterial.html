@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <a href="#" class="back-btn">
+        <a href="{% url 'view_studymaterial' %}" class="back-btn">
             <i class="bi bi-arrow-left"></i>
             Back to Materials
         </a>
@@ -171,12 +171,7 @@
 
                 <div class="form-group full-width">
                     <label for="uploaded_by">Uploaded By <span>*</span></label>
-                    {% comment %} <input type="text"
-                           id="uploaded_by"
-                           name="uploaded_by"
-                           placeholder="Enter teacher or administrator name"
-                           maxlength="150"
-                           required> {% endcomment %}
+                    
                     <select name="uploaded_by" id="uploaded_by">
                         <option value="{{request.user.username}}" selected>{{request.user.username}} (current User)</option>
                         
@@ -197,7 +192,7 @@
 
             <!-- Form Actions -->
             <div class="form-actions">
-                <a href="#" class="cancel-btn">
+                <a href="{% url 'view_studymaterial' %}" class="cancel-btn">
                     Cancel
                 </a>
 

@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from myapp.views import *
@@ -33,14 +35,23 @@ urlpatterns = [
 
     path('add_teacher/',add_teacher,name='add_teacher'),
     path('view_teacher/',view_teacher,name='view_teacher'),
+    path('edit_teacher/<id>/',edit_teacher,name='edit_teacher'),
+    path('delete_teacher/<id>/',delete_teacher,name='delete_teacher'),
+
+
     path('add_subject/',add_subject,name='add_subject'),
     path('view_subjects/',view_subjects,name='view_subjects'),
 
     path('add_student/',add_student,name='add_student'),
     path('view_students/',view_students,name='view_students'),
     path('view_students/',view_students,name='view_students'),
+    path('edit_student/<id>/',edit_student,name='edit_student'),
+    path('delete_student/<id>/',delete_student,name='delete_student'),
+
     path('add_studymaterial/',add_studymaterial,name='add_studymaterial'),
     path('view_studymaterial/',view_studymaterial,name='view_studymaterial'),
+    path('edit_studymaterial/<id>/',edit_studymaterial,name='edit_studymaterial'),
+    path('delete_studymaterial/<id>/',delete_studymaterial,name='delete_studymaterial'),
 
     # Teacher ulrls
     path('teacherdash/',teacherdash,name='teacherdash'),
@@ -48,3 +59,5 @@ urlpatterns = [
     path('studentdash/',studentdash,name='studentdash'),
     path('logout/',user_logout,name='logout'),
 ]
+
+if settings.DEBUG:urlpatterns += static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

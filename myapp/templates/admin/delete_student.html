@@ -1,0 +1,112 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Delete Student | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/delete_student.css' %}">
+
+<div class="delete-student-page">
+    <div class="ds-page-header">
+        <div class="ds-heading-content">
+            <span class="ds-breadcrumb">ADMINISTRATION / STUDENTS / DELETE</span>
+            <h2>Delete Student</h2>
+            <p>Review the student information before permanently deleting the record.</p>
+        </div>
+        <a href="{% url 'view_students' %}" class="ds-back-btn">
+            <span>←</span> View Students
+        </a>
+    </div>
+
+    <div class="ds-card">
+        <div class="ds-card-header">
+            <div class="ds-card-icon">!</div>
+            <div>
+                <h3>Delete Student Record</h3>
+                <p>This action will permanently remove the selected student record.</p>
+            </div>
+        </div>
+
+        <div class="ds-warning-box">
+            <div class="ds-warning-icon">⚠</div>
+            <div>
+                <h4>Are you sure you want to delete this student?</h4>
+                <p>Please verify the student details below. Once deleted, this record cannot be recovered.</p>
+            </div>
+        </div>
+
+        <div class="ds-section-heading">
+            <span class="ds-section-number">01</span>
+            <div>
+                <h4>Student Information</h4>
+                <p>Details of the student selected for deletion</p>
+            </div>
+        </div>
+
+        <div class="ds-details-grid">
+            <div class="ds-detail">
+                <span class="ds-label">Enrollment Number</span>
+                <strong>{{ student.enrollment_no }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Full Name</span>
+                <strong class="ds-name">{{ student.name }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Email Address</span>
+                <strong>{{ student.email }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Mobile Number</span>
+                <strong>{{ student.mobile }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Course</span>
+                <strong>{{ student.course }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Academic Session</span>
+                <strong>{{ student.session }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Semester</span>
+                <strong>{{ student.semester }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Username</span>
+                <strong>{{ student.user }}</strong>
+            </div>
+            <div class="ds-detail">
+                <span class="ds-label">Account Status</span>
+                {% if student.status == "Active" %}
+                    <span class="ds-status active">● Active</span>
+                {% else %}
+                    <span class="ds-status inactive">● Inactive</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ds-confirmation">
+            <div class="ds-confirm-text">
+                <span>🔒</span>
+                <p>Deleting this record is permanent. Please confirm before continuing.</p>
+            </div>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="ds-actions">
+                    <a href="{% url 'view_students' %}" class="ds-cancel-btn">Cancel</a>
+                    <button type="submit" class="ds-delete-btn">
+                        <span>🗑</span> Delete Student
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="ds-security-note">
+        <span>⚠</span>
+        Please make sure you have selected the correct student before deleting the record.
+    </div>
+</div>
+{% endblock %}

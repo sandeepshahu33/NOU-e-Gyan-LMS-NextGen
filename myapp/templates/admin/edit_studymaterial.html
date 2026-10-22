@@ -1,0 +1,520 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet"
+      href="{% static 'css/edit_studymaterial.css' %}">
+
+<div class="material-page">
+    <!-- ================= PAGE HEADER ================= -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+            <div>
+                <p class="eyebrow">
+                    ACADEMIC RESOURCES
+                </p>
+                <h2>
+                    Edit Study Material
+                </h2>
+                <p class="header-description">
+                    Update notes, assignments and learning resources.
+                </p>
+
+            </div>
+        </div>
+        <a href="{% url 'view_studymaterial' %}"
+           class="back-btn">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Materials
+        </a>
+
+    </div>
+    <!-- ================= FORM CARD ================= -->
+    <div class="material-card">
+        <!-- Card Heading -->
+        <div class="card-heading">
+            <div>
+                <h4>
+                    Edit Material Information
+                </h4>
+                <p>
+                    Update the details below and save your changes.
+                </p>
+
+            </div>
+            <span class="required-note">
+
+                <span>*</span>
+                Required fields
+
+            </span>
+
+        </div>
+        <!-- ================= FORM ================= -->
+        <form method="POST"
+              action=""
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <!-- ================= BASIC DETAILS ================= -->
+            <div class="section-heading">
+                <span class="section-number">
+                    01
+                </span>
+                <div>
+                    <h5>
+                        Basic Details
+                    </h5>
+                    <p>
+                        Update the title and academic information.
+                    </p>
+                </div>
+            </div>
+            <div class="form-grid">
+                <!-- Material Title -->
+                <div class="form-group full-width">
+                    <label for="title">
+                        Material Title
+                        <span>*</span>
+                    </label>
+                    <input type="text"
+                           id="title"
+                           name="title"
+                           value="{{ material.title }}"
+                           placeholder="e.g. Introduction to Python Programming"
+                           maxlength="180"
+                           required>
+                </div>
+                <!-- Course -->
+                <div class="form-group">
+
+                    <label for="course">
+
+                        Course
+                        <span>*</span>
+
+                    </label>
+                    <input type="text"
+                           id="course"
+                           name="course"
+                           value="{{ material.course }}"
+                           placeholder="e.g. B.Tech Computer Science"
+                           maxlength="200"
+                           required>
+                </div>
+                <!-- Subject -->
+                <div class="form-group">
+                    <label for="subject">
+                        Subject
+                        <span>*</span>
+                    </label>
+                    <input type="text"
+                           id="subject"
+                           name="subject"
+                           value="{{ material.subject }}"
+                           placeholder="e.g. Database Management System"
+                           maxlength="200"
+                           required>
+                </div>
+                <!-- Material Type -->
+
+                <div class="form-group">
+
+                    <label for="material_type">
+
+                        Material Type
+                        <span>*</span>
+
+                    </label>
+                    <select id="material_type"
+                            name="material_type"
+                            required>
+
+                        <option value=""
+                                disabled>
+
+                            Select material type
+
+                        </option>
+                        <option value="Lecture Notes"
+                            {% if material.material_type == "Lecture Notes" %}
+                                selected
+                            {% endif %}>
+
+                            Lecture Notes / Handouts
+
+                        </option>
+                        <option value="E-Book"
+                            {% if material.material_type == "E-Book" %}
+                                selected
+                            {% endif %}>
+
+                            E-Book / Reference Text
+
+                        </option>
+                        <option value="Question Bank & Solution"
+                            {% if material.material_type == "Question Bank & Solution" %}
+                                selected
+                            {% endif %}>
+
+                            Question Bank & Solution
+
+                        </option>
+                        <option value="Syllabus"
+                            {% if material.material_type == "Syllabus" %}
+                                selected
+                            {% endif %}>
+
+                            Official Syllabus Copy
+                        </option>
+                        <option value="Slides / PPT Presentation"
+                            {% if material.material_type == "Slides / PPT Presentation" %}
+                                selected
+                            {% endif %}>
+
+                            Slides / PPT Presentation
+                        </option>
+                        <option value="Reacher Paper"
+                            {% if material.material_type == "Reacher Paper" %}
+                                selected
+                            {% endif %}>
+                            Reacher Paper / Case Study
+                        </option>
+                        <option value="Other"
+                            {% if material.material_type == "Other" %}
+                                selected
+                            {% endif %}>
+                            Other
+                        </option>
+                    </select>
+                </div>
+                <!-- Publication Status -->
+                <div class="form-group">
+                    <label for="status">
+                        Publication Status
+                        <span>*</span>
+                    </label>
+                    <select id="status"
+                            name="status"
+                            required>
+                        <option value="Active"
+                            {% if material.status == "Active" %}
+                                selected
+                            {% endif %}>
+
+                            Active
+                        </option>
+                        <option value="Inactive"
+                            {% if material.status == "Inactive" %}
+                                selected
+                            {% endif %}>
+
+                            Inactive
+                        </option>
+                    </select>
+                    <small>
+                        Active materials can be made available to students.
+                    </small>
+                </div>
+            </div>
+            <!-- ================= LEARNING RESOURCE ================= -->
+            <div class="section-heading section-gap">
+                <span class="section-number">
+                    02
+                </span>
+                <div>
+                 <h5>
+                        Learning Resource
+                    </h5>
+
+                    <p>
+                        Update the file or external resource link.
+                    </p>
+
+                </div>
+            </div>
+            <div class="form-grid">
+                <!-- File Upload -->
+                <div class="form-group full-width">
+                    <label for="file">
+                        Replace File
+                    </label>
+                    <div class="upload-box">
+                        <div class="upload-icon">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+                        <div class="upload-text">
+                            <label for="file"
+                                   class="upload-label">
+                                Choose a new file
+                            </label>
+                            <p>
+                                PDF, DOC, PPT or other supported learning files
+                            </p>
+                            <span id="file-name">
+                                No new file selected
+                            </span>
+                        </div>
+                        <input type="file"
+                               id="file"
+                               name="file"
+                               class="file-input">
+                    </div>
+                    <small>
+                        Leave empty if you want to keep the existing file.
+                    </small>
+                    {% if material.file %}
+
+                    <div class="existing-file">
+
+                        <div class="existing-file-icon">
+
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <div class="existing-file-info">
+
+                            <span>
+                                Current File
+                            </span>
+
+                            <strong>
+                                {{ material.file.name }}
+                            </strong>
+                        </div>
+                        <a href="{{ material.file.url }}"
+                           target="_blank"
+                           class="view-file-btn">
+
+                            <i class="bi bi-eye"></i>
+                            View
+
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- External URL -->
+
+                <div class="form-group full-width">
+
+                    <label for="external_url">
+                        External Resource URL
+                    </label>
+
+
+                    <input type="url"
+                           id="external_url"
+                           name="external_url"
+                           value="{{ material.external_url|default:'' }}"
+                           placeholder="https://example.com/learning-resource">
+
+
+                    <small>
+                        Update the Google Drive, video, or other resource link.
+                    </small>
+
+
+                    {% if material.external_url %}
+
+                    <div class="existing-link">
+
+                        <i class="bi bi-link-45deg"></i>
+
+                        <div>
+
+                            <span>
+                                Current Resource Link
+                            </span>
+
+                            <a href="{{ material.external_url }}"
+                               target="_blank">
+
+                                {{ material.external_url }}
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="form-group full-width">
+
+                    <label for="description">
+
+                        Description
+                        <span>*</span>
+
+                    </label>
+
+
+                    <textarea id="description"
+                              name="description"
+                              rows="4"
+                              placeholder="Describe the learning material and what students will learn..."
+                              required>{{ material.description }}</textarea>
+
+                </div>
+
+
+                <!-- Uploaded By -->
+
+                <div class="form-group full-width">
+
+                    <label for="uploaded_by">
+
+                        Uploaded By
+                        <span>*</span>
+
+                    </label>
+
+
+                    <select name="uploaded_by"
+                            id="uploaded_by"
+                            required>
+
+
+                        <option value="{{ request.user.username }}"
+                            {% if material.uploaded_by == request.user.username %}
+                                selected
+                            {% endif %}>
+
+                            {{ request.user.username }}
+                            (current User)
+
+                        </option>
+
+
+                        {% if teachers %}
+
+                            {% for t in teachers %}
+
+                                <option value="{{ t.name }} {{ t.department }}"
+                                    {% if material.uploaded_by == t.name|add:" "|add:t.department %}
+                                        selected
+                                    {% endif %}>
+
+                                    {{ t.name }}
+                                    ({{ t.department }})
+
+                                </option>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= FORM ACTIONS ================= -->
+
+            <div class="form-actions">
+
+
+                <a href="{% url 'view_studymaterial' %}"
+                   class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="reset"
+                        class="reset-btn">
+
+                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button type="submit"
+                        class="submit-btn">
+
+                    <i class="bi bi-check2-circle"></i>
+
+                    Update Material
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <div class="page-footer">
+
+        <i class="bi bi-shield-check"></i>
+
+        Please verify the course and subject before saving the changes.
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= FILE NAME SCRIPT ================= -->
+
+<script>
+
+    const fileInput = document.getElementById("file");
+
+    const fileName = document.getElementById("file-name");
+
+
+    fileInput.addEventListener("change", function () {
+
+        if (this.files.length > 0) {
+
+            fileName.textContent =
+                this.files[0].name;
+
+            fileName.classList.add("selected-file");
+
+        }
+
+        else {
+
+            fileName.textContent =
+                "No new file selected";
+
+            fileName.classList.remove("selected-file");
+
+        }
+
+    });
+
+</script>
+
+
+{% endblock %}

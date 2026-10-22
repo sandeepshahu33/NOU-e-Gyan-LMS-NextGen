@@ -1,0 +1,960 @@
+
+/* =========================================
+   DELETE STUDY MATERIAL
+   MODERN MAROON - GOLD - WHITE
+========================================= */
+
+.material-page {
+
+    --primary: #7b1e3a;
+    --primary-dark: #5c142b;
+    --primary-light: #f8eef2;
+
+    --gold: #b58a3c;
+    --gold-light: #fbf6ea;
+
+    --heading: #32151f;
+    --text: #4a3940;
+    --muted: #75666c;
+
+    --border: #eadfe3;
+    --border-light: #f2eaed;
+
+    padding: 26px;
+
+    color: var(--text);
+
+    font-family:
+        "Poppins",
+        "Segoe UI",
+        sans-serif;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.material-page .page-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 25px;
+}
+
+
+.material-page .header-content {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+}
+
+
+.material-page .header-icon {
+
+    width: 58px;
+
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    font-size: 23px;
+
+    box-shadow:
+        0 7px 18px
+        rgba(123, 30, 58, 0.18);
+}
+
+
+/* =========================================
+   HEADER TEXT
+========================================= */
+
+.material-page .eyebrow {
+
+    margin: 0 0 4px;
+
+    color: var(--gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+
+.material-page .header-content h2 {
+
+    margin: 0;
+
+    color: var(--heading);
+
+    font-size: 28px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.3px;
+}
+
+
+.material-page .header-description {
+
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.material-page .back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 3px 10px
+        rgba(50, 21, 31, 0.04);
+
+    transition:
+        background 0.2s ease,
+        border 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.material-page .back-btn:hover {
+
+    background: var(--primary-light);
+
+    border-color: #d9bdc7;
+
+    color: var(--primary-dark);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.material-page .material-card {
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 30px
+        rgba(50, 21, 31, 0.055);
+}
+
+
+/* =========================================
+   CARD HEADING
+========================================= */
+
+.material-page .card-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 21px 24px;
+
+    border-bottom: 1px solid var(--border-light);
+
+    background: #ffffff;
+}
+
+
+.material-page .card-heading h4 {
+
+    margin: 0 0 4px;
+
+    color: var(--heading);
+
+    font-size: 17px;
+
+    font-weight: 750;
+}
+
+
+.material-page .card-heading p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   PERMANENT ACTION
+========================================= */
+
+.material-page .delete-warning {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 11px;
+
+    border: 1px solid #e8d8b7;
+
+    border-radius: 7px;
+
+    background: var(--gold-light);
+
+    color: #806126;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   WARNING BOX
+========================================= */
+
+.material-page .warning-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin: 22px 24px 5px;
+
+    padding: 16px 17px;
+
+    border: 1px solid #eadcc2;
+
+    border-left: 4px solid var(--gold);
+
+    border-radius: 10px;
+
+    background: #fffdf8;
+}
+
+
+.material-page .warning-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: var(--gold-light);
+
+    color: var(--gold);
+
+    font-size: 18px;
+}
+
+
+.material-page .warning-content h5 {
+
+    margin: 0 0 4px;
+
+    color: var(--heading);
+
+    font-size: 14px;
+
+    font-weight: 750;
+}
+
+
+.material-page .warning-content p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.material-page .section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 24px 24px 17px;
+}
+
+
+.material-page .section-number {
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.material-page .section-heading h5 {
+
+    margin: 0 0 3px;
+
+    color: var(--heading);
+
+    font-size: 14px;
+
+    font-weight: 750;
+}
+
+
+.material-page .section-heading p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   DETAILS GRID
+========================================= */
+
+.material-page .details-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 13px;
+
+    padding: 0 24px 25px;
+}
+
+
+/* =========================================
+   DETAIL ITEM
+========================================= */
+
+.material-page .detail-item {
+
+    min-width: 0;
+
+    padding: 14px 15px;
+
+    border: 1px solid var(--border-light);
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.material-page .detail-item:hover {
+
+    border-color: #dfcbd2;
+
+    box-shadow:
+        0 4px 14px
+        rgba(50, 21, 31, 0.04);
+}
+
+
+.material-page .detail-item.full-width {
+
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================
+   DETAIL LABEL
+========================================= */
+
+.material-page .detail-label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+/* =========================================
+   DETAIL VALUE
+========================================= */
+
+.material-page .detail-value {
+
+    display: block;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+}
+
+
+.material-page .title-value {
+
+    color: var(--primary);
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   STATUS BADGES
+========================================= */
+
+.material-page .status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* ACTIVE */
+
+.material-page .status-badge.active {
+
+    background: #edf7f1;
+
+    color: #287447;
+
+    border: 1px solid #cce6d6;
+}
+
+
+/* INACTIVE */
+
+.material-page .status-badge.inactive {
+
+    background: #f7f1f3;
+
+    color: #795f69;
+
+    border: 1px solid #e4d7dc;
+}
+
+
+/* =========================================
+   RESOURCE LINKS
+========================================= */
+
+.material-page .resource-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--primary);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+
+.material-page .resource-link:hover {
+
+    color: var(--gold);
+
+    text-decoration: none;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.material-page .description-value {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   DELETE CONFIRMATION
+========================================= */
+
+.material-page .delete-confirmation {
+
+    padding: 18px 24px 22px;
+
+    border-top: 1px solid var(--border-light);
+
+    background: #fcfafb;
+}
+
+
+.material-page .confirmation-text {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+.material-page .confirmation-text i {
+
+    color: var(--gold);
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   FORM ACTIONS
+========================================= */
+
+.material-page .form-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+
+/* =========================================
+   CANCEL BUTTON
+========================================= */
+
+.material-page .cancel-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 40px;
+
+    padding: 9px 17px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+
+.material-page .cancel-btn:hover {
+
+    border-color: #d4bdc6;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+}
+
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.material-page .delete-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 40px;
+
+    padding: 9px 18px;
+
+    border: 1px solid var(--primary);
+
+    border-radius: 8px;
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px
+        rgba(123, 30, 58, 0.16);
+
+    transition: 0.2s ease;
+}
+
+
+.material-page .delete-btn:hover {
+
+    border-color: var(--primary-dark);
+
+    background: var(--primary-dark);
+
+    box-shadow:
+        0 7px 18px
+        rgba(92, 20, 43, 0.20);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.material-page .page-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 16px;
+
+    padding: 11px 14px;
+
+    border: 1px solid #eadfc8;
+
+    border-radius: 8px;
+
+    background: #fffdf8;
+
+    color: #75613b;
+
+    font-size: 11px;
+}
+
+
+.material-page .page-footer i {
+
+    color: var(--gold);
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .material-page .details-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .material-page .detail-item.full-width {
+
+        grid-column: auto;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .material-page {
+
+        padding: 16px;
+    }
+
+
+    .material-page .page-header {
+
+        align-items: stretch;
+    }
+
+
+    .material-page .back-btn {
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+
+    .material-page .card-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 19px;
+    }
+
+
+    .material-page .warning-box {
+
+        margin-left: 19px;
+
+        margin-right: 19px;
+    }
+
+
+    .material-page .section-heading {
+
+        padding-left: 19px;
+
+        padding-right: 19px;
+    }
+
+
+    .material-page .details-grid {
+
+        padding-left: 19px;
+
+        padding-right: 19px;
+    }
+
+
+    .material-page .delete-confirmation {
+
+        padding-left: 19px;
+
+        padding-right: 19px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .material-page {
+
+        padding: 12px;
+    }
+
+
+    .material-page .header-content {
+
+        gap: 11px;
+    }
+
+
+    .material-page .header-icon {
+
+        width: 48px;
+
+        height: 48px;
+
+        border-radius: 12px;
+
+        font-size: 20px;
+    }
+
+
+    .material-page .header-content h2 {
+
+        font-size: 23px;
+    }
+
+
+    .material-page .header-description {
+
+        font-size: 11px;
+    }
+
+
+    .material-page .warning-box {
+
+        align-items: flex-start;
+
+        margin-left: 12px;
+
+        margin-right: 12px;
+    }
+
+
+    .material-page .form-actions {
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+
+    .material-page .cancel-btn,
+    .material-page .delete-btn {
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+}

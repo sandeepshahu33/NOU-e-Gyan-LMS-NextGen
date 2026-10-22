@@ -1,0 +1,187 @@
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Edit Teacher | NOU e-Gyan LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/edit_teacher.css' %}">
+
+<div class="edit-teacher-page">
+
+    <!-- Page Header -->
+    <div class="teacher-page-header">
+        <div class="teacher-heading">
+            <span class="teacher-breadcrumb">ADMIN PANEL / TEACHERS / EDIT</span>
+            <h2>Edit Teacher</h2>
+            <p>Update the faculty member's personal, professional and account details.</p>
+        </div>
+
+        <a href="{% url 'view_teacher' %}" class="teacher-back-btn">
+            <span>←</span> Back to Teachers
+        </a>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="teacher-form-card">
+
+        <div class="teacher-card-header">
+            <div class="teacher-icon">✎</div>
+            <div>
+                <h3>Edit Teacher Information</h3>
+                <p>Modify the required details and save the updated teacher profile.</p>
+            </div>
+        </div>
+
+        <div class="teacher-card-divider"></div>
+
+        <form method="POST" action="" class="teacher-form">
+            {% csrf_token %}
+
+            <!-- Personal Information -->
+            <div class="teacher-section-heading">
+                <span class="section-number">01</span>
+                <div>
+                    <h4>Personal Information</h4>
+                    <p>Update contact and identification details</p>
+                </div>
+            </div>
+
+            <div class="teacher-form-grid">
+
+                <div class="teacher-field">
+                    <label for="employee_id">Employee ID <span>*</span></label>
+                    <input type="text" id="employee_id" name="employee_id"
+                           value="{{ teacher.employee_id }}"
+                           maxlength="30" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="name">Full Name <span>*</span></label>
+                    <input type="text" id="name" name="name"
+                           value="{{ teacher.name }}"
+                           maxlength="150" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="email">Email Address <span>*</span></label>
+                    <input type="email" id="email" name="email"
+                           value="{{ teacher.email }}"
+                           maxlength="254" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="mobile">Mobile Number <span>*</span></label>
+                    <input type="tel" id="mobile" name="mobile"
+                           value="{{ teacher.mobile }}"
+                           maxlength="15" required>
+                </div>
+
+            </div>
+
+            <!-- Professional Information -->
+            <div class="teacher-section-heading section-spacing">
+                <span class="section-number">02</span>
+                <div>
+                    <h4>Professional Information</h4>
+                    <p>Update department and faculty designation</p>
+                </div>
+            </div>
+
+            <div class="teacher-form-grid">
+
+                <div class="teacher-field">
+                    <label for="department">Department <span>*</span></label>
+                    <input type="text" id="department" name="department"
+                           value="{{ teacher.department }}"
+                           maxlength="120" required>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="designation">Designation <span>*</span></label>
+                    <input type="text" id="designation" name="designation"
+                           value="{{ teacher.designation }}"
+                           maxlength="120" required>
+                </div>
+
+            </div>
+
+            <!-- Account Information -->
+            <div class="teacher-section-heading section-spacing">
+                <span class="section-number">03</span>
+                <div>
+                    <h4>Account Information</h4>
+                    <p>Update the teacher's login account details</p>
+                </div>
+            </div>
+
+            <div class="teacher-form-grid">
+
+                <div class="teacher-field">
+                    <label for="username">User Account <span>*</span></label>
+                    <input type="text" id="username" name="username"
+                           value="{{ teacher.user }}"
+                           maxlength="150"
+                           required>
+                    <small>Username linked with the teacher profile.</small>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="Leave blank to keep current password"
+                           autocomplete="new-password">
+                    <small>Leave blank if you do not want to change the password.</small>
+                </div>
+
+                <div class="teacher-field">
+                    <label for="status">Account Status <span>*</span></label>
+                    <select id="status" name="status" required>
+                        <option value="Active" {% if teacher.status == "Active" %}selected{% endif %}>
+                            Active
+                        </option>
+                        <option value="Inactive" {% if teacher.status == "Inactive" %}selected{% endif %}>
+                            Inactive
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Update Notice -->
+            <div class="teacher-security-note">
+                <span class="security-icon">✦</span>
+                <div>
+                    <strong>Profile update</strong>
+                    <p>
+                        Review the teacher information carefully before saving.
+                        If a new password is provided, it should be securely hashed through Django authentication.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="teacher-form-actions">
+                <a href="{% url 'view_teacher' %}" class="teacher-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="teacher-reset-btn">
+                    Reset Changes
+                </button>
+
+                <button type="submit" class="teacher-submit-btn">
+                    <span>✓</span> Update Teacher
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="teacher-page-footer">
+        <span>✦</span> NOU e-Gyan LMS
+        <span class="footer-separator">•</span>
+        Faculty Management
+    </div>
+
+</div>
+{% endblock %}

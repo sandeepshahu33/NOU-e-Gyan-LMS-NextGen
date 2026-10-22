@@ -180,6 +180,32 @@ def view_teacher(req):
     }
     return render(req,'admin/view_teacher.html',context)
 
+def edit_teacher(req,id):
+    teacher=Teacher.objects.get(id=id)
+    if req.method == 'POST':
+        employee_id=req.POST['employee_id']
+        name=req.POST['name']
+        email=req.POST['email']
+        mobile=req.POST['mobile']
+        department=req.POST['department']
+        designation=req.POST['designation']
+        user=req.POST['username']
+        password=req.POST['password']
+        status=req.POST['status']
+        user_obj=User.objects.create_user(username=user,password=password,email=email)
+        Teacher.objects.filter(id=id).update(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,user=user_obj,password=password,status=status)
+        messages.success(req,"Teacher updated successfully !!")
+        return redirect('view_teacher')
+    return render(req,"admin/edit_teacher.html",{"teacher":teacher})
+
+def delete_teacher(req,id):
+    teacher=Teacher.objects.get(id=id)
+    if req.method == "POST":
+        teacher.delete()
+        messages.success(req,"Teacher deleted successfully!!")
+        return redirect('view_teacher')
+    return render(req,"admin/delete_teacher.html",{"teacher":teacher})
+
 def add_subject(req):
     teachers=Teacher.objects.all()
     if req.method == "POST":
@@ -242,12 +268,92 @@ def view_students(req):
     }
     return render(req,"admin/view_students.html",context)
 
+def edit_student(req,id):
+    student=Student.objects.get(id=id)
+    if req.method == "POST":
+        enrollment_no=req.POST['enrollment_no']
+        name=req.POST['name']
+        email=req.POST['email']
+        mobile=req.POST['mobile']
+        course=req.POST['course']
+        session=req.POST['session']
+        semester=req.POST['semester']
+        password=req.POST['password']
+        status=req.POST['status']
+        Student.objects.filter(id=id).update(enrollment_no=enrollment_no,name=name,email=email,mobile=mobile,course=course,session=session,semester=semester,password=password,status=status)
+        messages.success(req,"Student data updated successfully !! ")
+        return redirect('view_students')
+    return render(req,"admin/edit_student.html",{"student":student})
+
+def delete_student(req,id):
+    student=Student.objects.get(id=id)
+    if req.method == "POST":
+        student.delete()
+        messages.success(req,"Student deleted successfully!!")
+        return redirect("view_students")
+    return render(req,"admin/delete_student.html",{"student":student})
+
 def add_studymaterial(req):
     teachers=Teacher.objects.filter(status="Active").all()
+    if req.method == 'POST':
+        title=req.POST['title']
+        course=req.POST['course']
+        subject=req.POST['subject']
+        material_type=req.POST['material_type']
+        file=req.FILES.get('file')
+        external_url=req.POST['external_url']
+        description=req.POST['description']
+        uploaded_by=req.POST['uploaded_by']
+        status=req.POST['status']
+        StudyMaterial.objects.create(title=title,course=course,subject=subject,material_type=material_type,file=file,external_url=external_url,description=description,uploaded_by=uploaded_by,status=status)
+        messages.success(req,"Study Material uploaded successfully!!")
+        return redirect('view_studymaterial')
     return render(req,"admin/add_studymaterial.html",{"teachers":teachers})
 
 def view_studymaterial(req):
-    return render(req,"admin/view_studymaterial.html")
+    materials=StudyMaterial.objects.all()
+    active_count=StudyMaterial.objects.filter(status="Active").count()
+    inactive_count=StudyMaterial.objects.filter(status="Inactive").count()
+    courses=Course.objects.values_list('course_name',flat=True).distinct()
+    material_types=StudyMaterial.objects.values_list('material_type',flat=True).distinct()
+    context={
+        "materials":materials,
+        "active_count":active_count,
+        "inactive_count":inactive_count,
+        'courses':courses,
+        'material_types':material_types,
+        }
+    return render(req,"admin/view_studymaterial.html",context)
+def edit_studymaterial(req,id):
+    material=StudyMaterial.objects.get(id=id)
+    teachers=Teacher.objects.filter(status="Active").all()
+    context={
+        "material":material,
+        "teachers":teachers,
+    }
+    if req.method=="POST":
+        title=req.POST['title']
+        course=req.POST['course']
+        subject=req.POST['subject']
+        material_type=req.POST['material_type']
+        file=req.FILES.get('file')
+        external_url=req.POST['external_url']
+        description=req.POST['description']
+        uploaded_by=req.POST['uploaded_by']
+        status=req.POST['status']
+        StudyMaterial.objects.filter(id=id).update(title=title,course=course,subject=subject,material_type=material_type,file=file,external_url=external_url,description=description,uploaded_by=uploaded_by,status=status)
+        messages.success(req,"Study material updated successfully !!")
+        return redirect("view_studymaterial")
+    return render(req,"admin/edit_studymaterial.html",context)
+
+def delete_studymaterial(req,id):
+    material=StudyMaterial.objects.get(id=id)
+    if req.method == "POST":
+        material.delete()
+        messages.success(req,"Study material deleted successfully!!")
+        return redirect("view_studymaterial")
+    return render(req,"admin/delete_studymaterial.html",{"material":material})
+
 # Teacher view
 def teacherdash(req):
     return render(req,"teacher/teacherdash.html")

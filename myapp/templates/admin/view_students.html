@@ -177,28 +177,17 @@
                             <div class="vs-action-buttons">
 
                                 <a
-                                    href="#"
+                                    href="{% url 'edit_student' id=student.id %}"
                                     class="vs-action-btn vs-edit-btn"
                                     title="Edit student">
                                     <span>✎</span> Edit
                                 </a>
-
-                                <form
-                                    method="POST"
-                                    action="#"
-                                    class="vs-delete-form"
-                                    onsubmit="return confirm('Are you sure you want to delete this student? This action cannot be undone.');">
-
-                                    {% csrf_token %}
-
-                                    <button
-                                        type="submit"
-                                        class="vs-action-btn vs-delete-btn"
-                                        title="Delete student">
-                                        <span>✕</span> Delete
-                                    </button>
-                                </form>
-
+                                <a
+                                    href="{% url 'delete_student' id=student.id %}"
+                                    class="vs-action-btn vs-delete-btn"
+                                    title="Delete student">
+                                    <span>✕</span> Delete
+                                </a>
                             </div>
                         </td>
 

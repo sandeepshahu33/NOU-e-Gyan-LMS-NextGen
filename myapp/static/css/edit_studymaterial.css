@@ -1,0 +1,1286 @@
+
+/* =========================================
+   EDIT STUDY MATERIAL
+   Same UI as Add Study Material
+========================================= */
+
+
+.material-page {
+
+    --maroon: #762640;
+    --dark-maroon: #54182d;
+    --gold: #c49a43;
+
+    --light-maroon: #fbf4f6;
+    --border: #eadde2;
+
+    --text: #382630;
+    --muted: #8a7881;
+
+    padding: 26px;
+
+    color: var(--text);
+
+    font-family:
+        "Poppins",
+        "Segoe UI",
+        sans-serif;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+
+.material-page .page-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 25px;
+}
+
+
+.material-page .header-content {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.material-page .header-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--maroon),
+            var(--dark-maroon)
+        );
+
+    color: #fff;
+
+    font-size: 25px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(84, 24, 45, 0.18);
+}
+
+
+.material-page .eyebrow {
+
+    margin: 0 0 5px;
+
+    color: var(--gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.material-page .header-content h2 {
+
+    margin: 0;
+
+    color: var(--dark-maroon);
+
+    font-size: 27px;
+
+    font-weight: 750;
+}
+
+
+.material-page .header-description {
+
+    margin: 6px 0 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+
+.material-page .back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 11px 17px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #fff;
+
+    color: var(--maroon);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+
+.material-page .back-btn:hover {
+
+    background: var(--light-maroon);
+
+    border-color: var(--maroon);
+
+    color: var(--maroon);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+
+.material-page .material-card {
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    background: #fff;
+
+    box-shadow:
+        0 7px 25px
+        rgba(84, 24, 45, 0.045);
+}
+
+
+/* =========================================
+   CARD HEADING
+========================================= */
+
+
+.material-page .card-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 22px 24px;
+
+    border-bottom: 1px solid #f0e7eb;
+}
+
+
+.material-page .card-heading h4 {
+
+    margin: 0 0 5px;
+
+    color: var(--dark-maroon);
+
+    font-size: 17px;
+
+    font-weight: 750;
+}
+
+
+.material-page .card-heading p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+.material-page .required-note {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.material-page .required-note span {
+
+    color: var(--maroon);
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+
+.material-page .section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 24px 24px 17px;
+}
+
+
+.material-page .section-gap {
+
+    padding-top: 27px;
+
+    border-top: 1px solid #f1e8ec;
+}
+
+
+.material-page .section-number {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: var(--light-maroon);
+
+    color: var(--maroon);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.material-page .section-heading h5 {
+
+    margin: 0 0 4px;
+
+    color: var(--dark-maroon);
+
+    font-size: 14px;
+
+    font-weight: 750;
+}
+
+
+.material-page .section-heading p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+
+.material-page .form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+    padding: 0 24px 24px;
+}
+
+
+.material-page .form-group {
+
+    min-width: 0;
+}
+
+
+.material-page .full-width {
+
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+
+.material-page .form-group > label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #634b57;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.material-page .form-group > label span {
+
+    color: var(--maroon);
+}
+
+
+/* =========================================
+   INPUT + SELECT + TEXTAREA
+========================================= */
+
+
+.material-page
+.form-group
+input[type="text"],
+.material-page
+.form-group
+input[type="url"],
+.material-page
+.form-group
+select,
+.material-page
+.form-group
+textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e3d7dd;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #fff;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    transition: 0.2s ease;
+}
+
+
+.material-page
+.form-group
+input[type="text"],
+.material-page
+.form-group
+input[type="url"],
+.material-page
+.form-group
+select {
+
+    height: 43px;
+
+    padding: 0 12px;
+}
+
+
+.material-page
+.form-group
+textarea {
+
+    min-height: 110px;
+
+    padding: 12px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+.material-page
+.form-group
+input::placeholder,
+.material-page
+.form-group
+textarea::placeholder {
+
+    color: #b3a4ab;
+}
+
+
+.material-page
+.form-group
+input:focus,
+.material-page
+.form-group
+select:focus,
+.material-page
+.form-group
+textarea:focus {
+
+    border-color: var(--maroon);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(118, 38, 64, 0.07);
+}
+
+
+.material-page
+.form-group
+select {
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   SMALL HELP TEXT
+========================================= */
+
+
+.material-page .form-group small {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #9a8991;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   UPLOAD BOX
+========================================= */
+
+
+.material-page .upload-box {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 95px;
+
+    padding: 15px;
+
+    overflow: hidden;
+
+    border: 1.5px dashed #d8c4cd;
+
+    border-radius: 11px;
+
+    background: #fffdfd;
+
+    transition: 0.25s ease;
+}
+
+
+.material-page .upload-box:hover {
+
+    border-color: var(--maroon);
+
+    background: var(--light-maroon);
+}
+
+
+/* =========================================
+   UPLOAD ICON
+========================================= */
+
+
+.material-page .upload-icon {
+
+    width: 47px;
+
+    height: 47px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: var(--light-maroon);
+
+    color: var(--maroon);
+
+    font-size: 21px;
+}
+
+
+/* =========================================
+   UPLOAD TEXT
+========================================= */
+
+
+.material-page .upload-text {
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.material-page .upload-label {
+
+    display: inline-block;
+
+    margin-bottom: 4px;
+
+    color: var(--maroon);
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+
+.material-page .upload-text p {
+
+    margin: 0 0 5px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+.material-page #file-name {
+
+    display: block;
+
+    overflow: hidden;
+
+    color: #aa9aa2;
+
+    font-size: 9px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.material-page #file-name.selected-file {
+
+    color: var(--maroon);
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   FILE INPUT
+========================================= */
+
+
+.material-page .file-input {
+
+    position: absolute;
+
+    width: 1px;
+
+    height: 1px;
+
+    opacity: 0;
+}
+
+
+/* =========================================
+   EXISTING FILE
+========================================= */
+
+
+.material-page .existing-file {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 10px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #eee3c9;
+
+    border-radius: 9px;
+
+    background: #fffdf8;
+}
+
+
+.material-page .existing-file-icon {
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #f8efd9;
+
+    color: var(--gold);
+
+    font-size: 16px;
+}
+
+
+.material-page .existing-file-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.material-page .existing-file-info span {
+
+    color: #9b8561;
+
+    font-size: 8px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.material-page .existing-file-info strong {
+
+    overflow: hidden;
+
+    color: #6f572c;
+
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.material-page .view-file-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #dbcba8;
+
+    border-radius: 7px;
+
+    background: #fff;
+
+    color: #80652d;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+
+.material-page .view-file-btn:hover {
+
+    background: var(--gold);
+
+    border-color: var(--gold);
+
+    color: #fff;
+}
+
+
+/* =========================================
+   EXISTING LINK
+========================================= */
+
+
+.material-page .existing-link {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    margin-top: 10px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #e5d8dd;
+
+    border-radius: 9px;
+
+    background: #fffdfd;
+}
+
+
+.material-page .existing-link > i {
+
+    color: var(--maroon);
+
+    font-size: 17px;
+}
+
+
+.material-page .existing-link > div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    min-width: 0;
+}
+
+
+.material-page .existing-link span {
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.material-page .existing-link a {
+
+    overflow: hidden;
+
+    color: var(--maroon);
+
+    font-size: 9px;
+
+    text-decoration: none;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.material-page .existing-link a:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   FORM ACTIONS
+========================================= */
+
+
+.material-page .form-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    padding: 18px 24px;
+
+    border-top: 1px solid #f0e7eb;
+
+    background: #fffdfd;
+}
+
+
+/* Common button */
+
+.material-page .cancel-btn,
+.material-page .reset-btn,
+.material-page .submit-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 39px;
+
+    padding: 9px 15px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+/* Cancel */
+
+
+.material-page .cancel-btn {
+
+    border: 1px solid var(--border);
+
+    background: #fff;
+
+    color: var(--muted);
+
+    text-decoration: none;
+}
+
+
+.material-page .cancel-btn:hover {
+
+    border-color: var(--maroon);
+
+    background: var(--light-maroon);
+
+    color: var(--maroon);
+}
+
+
+/* Reset */
+
+
+.material-page .reset-btn {
+
+    border: 1px solid #e4dce0;
+
+    background: #fff;
+
+    color: #806f77;
+}
+
+
+.material-page .reset-btn:hover {
+
+    border-color: #bca9b1;
+
+    background: #faf7f8;
+}
+
+
+/* Submit / Update */
+
+
+.material-page .submit-btn {
+
+    border: 1px solid var(--maroon);
+
+    background: var(--maroon);
+
+    color: #fff;
+
+    box-shadow:
+        0 5px 14px
+        rgba(118, 38, 64, 0.15);
+}
+
+
+.material-page .submit-btn:hover {
+
+    border-color: var(--dark-maroon);
+
+    background: var(--dark-maroon);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+
+.material-page .page-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 17px;
+
+    padding: 12px 15px;
+
+    border: 1px solid #eee3c9;
+
+    border-radius: 9px;
+
+    background: #fffdf8;
+
+    color: #806c45;
+
+    font-size: 10px;
+}
+
+
+.material-page .page-footer i {
+
+    color: var(--gold);
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+
+@media (max-width: 850px) {
+
+    .material-page .form-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .material-page .full-width {
+
+        grid-column: auto;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .material-page {
+
+        padding: 16px;
+    }
+
+
+    .material-page .page-header {
+
+        align-items: stretch;
+    }
+
+
+    .material-page .header-content h2 {
+
+        font-size: 22px;
+    }
+
+
+    .material-page .back-btn {
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+
+    .material-page .card-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 19px;
+    }
+
+
+    .material-page .section-heading {
+
+        padding-left: 19px;
+
+        padding-right: 19px;
+    }
+
+
+    .material-page .form-grid {
+
+        padding-left: 19px;
+
+        padding-right: 19px;
+    }
+
+
+    .material-page .form-actions {
+
+        padding: 17px 19px;
+
+        flex-wrap: wrap;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .material-page {
+
+        padding: 12px;
+    }
+
+
+    .material-page .header-icon {
+
+        width: 50px;
+
+        height: 50px;
+
+        font-size: 21px;
+
+        border-radius: 13px;
+    }
+
+
+    .material-page .header-content {
+
+        gap: 11px;
+    }
+
+
+    .material-page .header-content h2 {
+
+        font-size: 19px;
+    }
+
+
+    .material-page .header-description {
+
+        font-size: 10px;
+    }
+
+
+    .material-page .upload-box {
+
+        align-items: flex-start;
+    }
+
+
+    .material-page .existing-file {
+
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+
+    .material-page .view-file-btn {
+
+        margin-left: 45px;
+    }
+
+
+    .material-page .form-actions {
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+
+    .material-page .cancel-btn,
+    .material-page .reset-btn,
+    .material-page .submit-btn {
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+}
+/* =========================================
+   FONT SIZE FIX
+========================================= */
+
+.material-page .header-content h2 {
+    font-size: 30px;
+}
+
+.material-page .header-description {
+    font-size: 13px;
+}
+
+.material-page .eyebrow {
+    font-size: 11px;
+}
+
+.material-page .back-btn {
+    font-size: 13px;
+}
+
+.material-page .card-heading h4 {
+    font-size: 18px;
+}
+
+.material-page .card-heading p {
+    font-size: 12px;
+}
+
+.material-page .required-note {
+    font-size: 11px;
+}
+
+.material-page .section-heading h5 {
+    font-size: 15px;
+}
+
+.material-page .section-heading p {
+    font-size: 11px;
+}
+
+.material-page .form-group > label {
+    font-size: 13px;
+}
+
+.material-page .form-group input[type="text"],
+.material-page .form-group input[type="url"],
+.material-page .form-group select,
+.material-page .form-group textarea {
+    font-size: 13px;
+}
+
+.material-page .form-group small {
+    font-size: 10px;
+}
+
+.material-page .upload-label {
+    font-size: 13px;
+}
+
+.material-page .upload-text p {
+    font-size: 10px;
+}
+
+.material-page #file-name {
+    font-size: 10px;
+}
+
+.material-page .existing-file-info span {
+    font-size: 9px;
+}
+
+.material-page .existing-file-info strong {
+    font-size: 11px;
+}
+
+.material-page .view-file-btn {
+    font-size: 10px;
+}
+
+.material-page .existing-link span {
+    font-size: 9px;
+}
+
+.material-page .existing-link a {
+    font-size: 10px;
+}
+
+.material-page .cancel-btn,
+.material-page .reset-btn,
+.material-page .submit-btn {
+    font-size: 12px;
+}
+
+.material-page .page-footer {
+    font-size: 11px;
+}

@@ -1,0 +1,377 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{% static 'css/delete_studymaterial.css' %}">
+
+
+<div class="material-page">
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <div class="page-header">
+
+        <div class="header-content">
+
+            <div class="header-icon">
+                <i class="bi bi-trash3"></i>
+            </div>
+
+            <div>
+
+                <p class="eyebrow">
+                    ACADEMIC RESOURCES
+                </p>
+
+                <h2>
+                    Delete Study Material
+                </h2>
+
+                <p class="header-description">
+                    Review the material before permanently deleting it.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a href="{% url 'view_studymaterial' %}"
+           class="back-btn">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Materials
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= DELETE CARD ================= -->
+
+    <div class="material-card delete-card">
+
+
+        <!-- Card Heading -->
+
+        <div class="card-heading">
+
+            <div>
+
+                <h4>
+                    Delete Material
+                </h4>
+
+                <p>
+                    Please verify the record before continuing.
+                </p>
+
+            </div>
+
+
+            <span class="delete-warning">
+                <i class="bi bi-exclamation-triangle"></i>
+                Permanent Action
+            </span>
+
+        </div>
+
+
+        <!-- ================= WARNING ================= -->
+
+        <div class="warning-box">
+
+            <div class="warning-icon">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+            </div>
+
+
+            <div class="warning-content">
+
+                <h5>
+                    Are you sure you want to delete this material?
+                </h5>
+
+                <p>
+                    This action cannot be undone. The selected study
+                    material will be permanently removed from the system.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RECORD DETAILS ================= -->
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                01
+            </span>
+
+            <div>
+
+                <h5>
+                    Material Information
+                </h5>
+
+                <p>
+                    Details of the study material you are about to delete.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-grid">
+
+
+            <!-- Material Title -->
+
+            <div class="detail-item full-width">
+
+                <span class="detail-label">
+                    Material Title
+                </span>
+
+                <strong class="detail-value title-value">
+                    {{ material.title }}
+                </strong>
+
+            </div>
+
+
+            <!-- Course -->
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Course
+                </span>
+
+                <strong class="detail-value">
+                    {{ material.course }}
+                </strong>
+
+            </div>
+
+
+            <!-- Subject -->
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Subject
+                </span>
+
+                <strong class="detail-value">
+                    {{ material.subject }}
+                </strong>
+
+            </div>
+
+
+            <!-- Material Type -->
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Material Type
+                </span>
+
+                <strong class="detail-value">
+                    {{ material.material_type }}
+                </strong>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div class="detail-item">
+
+    <span class="detail-label">
+        Publication Status
+    </span>
+
+    {% if material.status|lower == "active" %}
+
+        <span class="status-badge active">
+            <i class="bi bi-check-circle-fill"></i>
+            Active
+        </span>
+
+    {% else %}
+
+        <span class="status-badge inactive">
+            <i class="bi bi-dash-circle-fill"></i>
+            Inactive
+        </span>
+
+    {% endif %}
+
+</div>
+
+
+            <!-- Uploaded By -->
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Uploaded By
+                </span>
+
+                <strong class="detail-value">
+                    {{ material.uploaded_by }}
+                </strong>
+
+            </div>
+
+
+            <!-- External URL -->
+
+            {% if material.external_url %}
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    External Resource
+                </span>
+
+                <a href="{{ material.external_url }}"
+                   target="_blank"
+                   class="resource-link">
+
+                    <i class="bi bi-box-arrow-up-right"></i>
+
+                    View Resource
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- File -->
+
+            {% if material.file %}
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Uploaded File
+                </span>
+
+                <a href="{{ material.file.url }}"
+                   target="_blank"
+                   class="resource-link">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    View File
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- Description -->
+
+            <div class="detail-item full-width">
+
+                <span class="detail-label">
+                    Description
+                </span>
+
+                <p class="description-value">
+                    {{ material.description }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= DELETE ACTION ================= -->
+
+        <div class="delete-confirmation">
+
+
+            <div class="confirmation-text">
+
+                <i class="bi bi-info-circle"></i>
+
+                <span>
+                    Deleting this material will remove it from
+                    the study material records.
+                </span>
+
+            </div>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-actions">
+
+
+                    <a href="{% url 'view_studymaterial' %}"
+                       class="cancel-btn">
+
+                        <i class="bi bi-arrow-left"></i>
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="delete-btn">
+
+                        <i class="bi bi-trash3"></i>
+
+                        Delete Material
+
+                    </button>
+
+
+                </div>
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <div class="page-footer">
+
+        <i class="bi bi-shield-check"></i>
+
+        Please make sure this is the correct material before deleting it.
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

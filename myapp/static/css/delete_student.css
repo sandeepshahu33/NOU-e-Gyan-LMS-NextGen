@@ -1,0 +1,481 @@
+
+/* =====================================
+   NOU LMS - DELETE STUDENT PAGE
+   Theme: Maroon, Gold and White
+===================================== */
+
+.delete-student-page {
+    --ds-maroon: #762640;
+    --ds-maroon-dark: #54182d;
+    --ds-maroon-hover: #8d3452;
+    --ds-gold: #c49a43;
+    --ds-gold-light: #f8efd9;
+    --ds-rose: #fbf4f6;
+    --ds-border: #eadde2;
+    --ds-text: #382630;
+    --ds-muted: #8a7881;
+    width: 100%;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 28px;
+    color: var(--ds-text);
+    box-sizing: border-box;
+}
+
+.delete-student-page *,
+.delete-student-page *::before,
+.delete-student-page *::after {
+    box-sizing: border-box;
+}
+
+/* Page Header */
+
+.ds-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 26px;
+}
+
+.ds-breadcrumb {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: var(--ds-gold);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.ds-heading-content h2 {
+    margin: 0 0 8px;
+    color: var(--ds-maroon-dark);
+    font-size: clamp(25px, 3vw, 32px);
+    font-weight: 750;
+}
+
+.ds-heading-content p {
+    margin: 0;
+    color: var(--ds-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Back Button */
+
+.ds-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 17px;
+    border: 1px solid var(--ds-border);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--ds-maroon);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.ds-back-btn:hover {
+    color: #fff;
+    background: var(--ds-maroon);
+    border-color: var(--ds-maroon);
+}
+
+/* Main Card */
+
+.ds-card {
+    overflow: hidden;
+    border: 1px solid var(--ds-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(84, 24, 45, 0.055);
+}
+
+/* Card Header */
+
+.ds-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 24px 30px;
+    border-bottom: 1px solid var(--ds-border);
+    background: linear-gradient(110deg, #fff 55%, var(--ds-rose));
+}
+
+.ds-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 49px;
+    height: 49px;
+    border-radius: 12px;
+    background: var(--ds-maroon);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.ds-card-header h3 {
+    margin: 0 0 6px;
+    color: var(--ds-maroon-dark);
+    font-size: 19px;
+    font-weight: 750;
+}
+
+.ds-card-header p {
+    margin: 0;
+    color: var(--ds-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Warning */
+
+.ds-warning-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: 24px 30px 0;
+    padding: 17px;
+    border: 1px solid #ead7aa;
+    border-radius: 11px;
+    background: #fffaf0;
+}
+
+.ds-warning-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--ds-gold-light);
+    color: var(--ds-gold);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.ds-warning-box h4 {
+    margin: 1px 0 5px;
+    color: var(--ds-maroon-dark);
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.ds-warning-box p {
+    margin: 0;
+    color: #806b52;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* Section Heading */
+
+.ds-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 30px 30px 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0e6e9;
+}
+
+.ds-section-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ead7aa;
+    border-radius: 10px;
+    background: var(--ds-gold-light);
+    color: var(--ds-maroon);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.ds-section-heading h4 {
+    margin: 0 0 5px;
+    color: var(--ds-maroon-dark);
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.ds-section-heading p {
+    margin: 0;
+    color: var(--ds-muted);
+    font-size: 12px;
+}
+
+/* Details */
+
+.ds-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px 20px;
+    padding: 0 30px 30px;
+}
+
+.ds-detail {
+    min-width: 0;
+    padding: 16px 17px;
+    border: 1px solid #eee2e7;
+    border-radius: 9px;
+    background: #fff;
+    transition: 0.2s ease;
+}
+
+.ds-detail:hover {
+    border-color: #d8c0ca;
+    box-shadow: 0 3px 12px rgba(84, 24, 45, 0.04);
+}
+
+.ds-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #9a858e;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.ds-detail strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: var(--ds-text);
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.5;
+}
+
+.ds-detail .ds-name {
+    color: var(--ds-maroon);
+    font-size: 14px;
+}
+
+.ds-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.ds-status.active {
+    border: 1px solid #cfe7d7;
+    background: #f0f8f3;
+    color: #34734d;
+}
+
+.ds-status.inactive {
+    border: 1px solid #e4d9de;
+    background: #f7f1f3;
+    color: #806b74;
+}
+
+/* Confirmation */
+
+.ds-confirmation {
+    padding: 20px 30px 24px;
+    border-top: 1px solid var(--ds-border);
+    background: #fffdfd;
+}
+
+.ds-confirm-text {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 17px;
+}
+
+.ds-confirm-text span {
+    font-size: 15px;
+}
+
+.ds-confirm-text p {
+    margin: 0;
+    color: var(--ds-muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Actions */
+
+.ds-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.ds-cancel-btn,
+.ds-delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 43px;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.ds-cancel-btn {
+    border: 1px solid var(--ds-border);
+    background: #fff;
+    color: var(--ds-muted);
+}
+
+.ds-cancel-btn:hover {
+    border-color: #cdb7c0;
+    color: var(--ds-maroon);
+    background: var(--ds-rose);
+}
+
+.ds-delete-btn {
+    border: 1px solid var(--ds-maroon);
+    background: var(--ds-maroon);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(118, 38, 64, 0.12);
+}
+
+.ds-delete-btn:hover {
+    border-color: var(--ds-maroon-dark);
+    background: var(--ds-maroon-dark);
+    box-shadow: 0 5px 13px rgba(84, 24, 45, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Security Note */
+
+.ds-security-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 17px;
+    padding: 14px 17px;
+    border: 1px solid #eadfbe;
+    border-radius: 9px;
+    background: #fffaf0;
+    color: #80672f;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* Focus */
+
+.ds-back-btn:focus-visible,
+.ds-cancel-btn:focus-visible,
+.ds-delete-btn:focus-visible {
+    outline: 2px solid var(--ds-gold);
+    outline-offset: 3px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .delete-student-page {
+        padding: 22px;
+    }
+    .ds-card-header {
+        padding: 22px 24px;
+    }
+    .ds-warning-box {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+    .ds-section-heading {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+    .ds-details-grid {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+    .ds-confirmation {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+@media (max-width: 700px) {
+    .delete-student-page {
+        padding: 15px;
+    }
+    .ds-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .ds-back-btn {
+        width: 100%;
+    }
+    .ds-card-header {
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .ds-warning-box {
+        margin: 20px 20px 0;
+    }
+    .ds-section-heading {
+        margin: 27px 20px 20px;
+    }
+    .ds-details-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px 25px;
+    }
+    .ds-confirmation {
+        padding: 18px 20px 20px;
+    }
+    .ds-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+    .ds-cancel-btn,
+    .ds-delete-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .delete-student-page {
+        padding: 12px;
+    }
+    .ds-heading-content h2 {
+        font-size: 24px;
+    }
+    .ds-card-header {
+        padding: 18px;
+    }
+    .ds-warning-box {
+        flex-direction: column;
+        margin: 18px;
+    }
+    .ds-section-heading {
+        margin-left: 18px;
+        margin-right: 18px;
+    }
+    .ds-details-grid {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+    .ds-confirmation {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
