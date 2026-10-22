@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
   <!-- Bootstrap CSS -->
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
@@ -21,6 +23,7 @@
   <!-- Maroon & White Admin ERP Theme -->
   <link href="{% static 'css/admincss.css' %}?v=6.0" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/academic_session.css' %}">
+  <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
 
   {% block extra_css %}{% endblock extra_css %}
 
@@ -188,11 +191,11 @@
 
     <div class="menu-label">COURSEWORK &amp; LMS</div>
 
-    <a href="/assignments/" class="menu-link" data-title="Create Assignment">
+    <a href="{% url 'upload_assignment' %}" class="menu-link" data-title="Create Assignment">
       <i class="bi bi-journal-plus"></i>Create Assignment
     </a>
 
-    <a href="/view_assignments/" class="menu-link" data-title="Assignments Directory">
+    <a href="{% url 'view_assignment' %}" class="menu-link" data-title="Assignments Directory">
       <i class="bi bi-journal-check"></i>Assignments
     </a>
 

@@ -108,6 +108,7 @@
                         <th>#</th>
                         <th>Student Details</th>
                         <th>Enrollment No.</th>
+                        <th>User Name</th>
                         <th>Course</th>
                         <th>Session</th>
                         <th>Semester</th>
@@ -147,8 +148,14 @@
                                 {{ student.enrollment_no }}
                             </span>
                         </td>
+                        <td>
+                            <strong>{{ student.user }}</strong> <br>
+                            <small>({{ student.password }})</small>
+
+                        </td>
 
                         <td>{{ student.course }}</td>
+                        
 
                         <td>{{ student.session }}</td>
 

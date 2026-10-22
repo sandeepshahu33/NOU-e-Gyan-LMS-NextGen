@@ -4,6 +4,8 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from datetime import date
 # Create your views here.
 
 def index(req):
@@ -14,12 +16,17 @@ def index(req):
         if user is not None:
             if user.is_superuser:
                 login(req,user)
-                messages.success(req,"User Loggedin successfully!!")
+                messages.success(req,"Super Admin Loggedin successfully!!")
                 return redirect('admindash')
             elif hasattr(user,'Teacher'):
-                login(req, user)
-                messages.success(req, "Teacher logged in successfully!")
-                return redirect('teacherdash')
+                active_teacher=Teacher.objects.filter( user=user,status="Active").exists()
+                if active_teacher:
+                    login(req, user)
+                    messages.success(req, "Teacher logged in successfully!")
+                    return redirect('teacherdash')
+                else:
+                    messages.error(req,"Your account is blocked. Contact to our team !!")
+                    return redirect('index')
             elif hasattr(user,'Student'):
                 active_student=Student.objects.filter( user=user,status="Active").exists()
                 if active_student:
@@ -37,7 +44,187 @@ def index(req):
 
 @login_required
 def admindash(req):
-    return render(req,'admin/admindash.html')
+
+    # =====================================================
+    # TOTAL COUNTS
+    # =====================================================
+
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
+    total_courses = Course.objects.count()
+    total_subjects = Subject.objects.count()
+    total_materials = StudyMaterial.objects.count()
+    total_assignments = Assignment.objects.count()
+    total_sessions = AcademicSession.objects.count()
+
+
+    # =====================================================
+    # ACTIVE COUNTS
+    # =====================================================
+
+    active_students = Student.objects.filter(
+        status__iexact='Active'
+    ).count()
+
+    active_teachers = Teacher.objects.filter(
+        status__iexact='Active'
+    ).count()
+
+    active_courses = Course.objects.filter(
+        status__iexact='Active'
+    ).count()
+
+    active_materials = StudyMaterial.objects.filter(
+        status__iexact='Active'
+    ).count()
+
+
+    # =====================================================
+    # STUDENT ANALYSIS
+    # =====================================================
+
+    students_by_course = (
+        Student.objects
+        .values('course')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+    students_by_session = (
+        Student.objects
+        .values('session')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+
+    # =====================================================
+    # COURSE ANALYSIS
+    # =====================================================
+
+    courses_by_level = (
+        Course.objects
+        .values('level')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+
+    # =====================================================
+    # MATERIAL ANALYSIS
+    # =====================================================
+
+    materials_by_type = (
+        StudyMaterial.objects
+        .values('material_type')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+
+    # =====================================================
+    # ASSIGNMENT ANALYSIS
+    # =====================================================
+
+    assignments_by_course = (
+        Assignment.objects
+        .values('course')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+
+    # =====================================================
+    # RECENT STUDENTS
+    # =====================================================
+
+    recent_students = Student.objects.order_by('-id')[:5]
+
+
+    # =====================================================
+    # RECENT MATERIALS
+    # =====================================================
+
+    recent_materials = StudyMaterial.objects.order_by(
+        '-created_at'
+    )[:5]
+
+
+    # =====================================================
+    # RECENT ASSIGNMENTS
+    # =====================================================
+
+    recent_assignments = Assignment.objects.order_by(
+        '-created_at'
+    )[:5]
+
+
+    # =====================================================
+    # RECENT SESSIONS
+    # =====================================================
+
+    recent_sessions = AcademicSession.objects.order_by(
+        '-create_at'
+    )[:5]
+
+
+    # =====================================================
+    # CURRENT ACADEMIC SESSION
+    # =====================================================
+
+    current_session = AcademicSession.objects.filter(
+        start_date__lte=date.today(),
+        end_date__gte=date.today()
+    ).first()
+
+
+    # =====================================================
+    # UPCOMING ASSIGNMENTS
+    # =====================================================
+
+    upcoming_assignments = Assignment.objects.filter(
+        due_date__gte=date.today()
+    ).order_by('due_date')[:5]
+
+
+    # =====================================================
+    # CONTEXT
+    # =====================================================
+
+    context = {
+        # Main KPI
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+        'total_courses': total_courses,
+        'total_subjects': total_subjects,
+        'total_materials': total_materials,
+        'total_assignments': total_assignments,
+        'total_sessions': total_sessions,
+
+        # Active
+        'active_students': active_students,
+        'active_teachers': active_teachers,
+        'active_courses': active_courses,
+        'active_materials': active_materials,
+
+        # Analysis
+        'students_by_course': students_by_course,
+        'students_by_session': students_by_session,
+        'courses_by_level': courses_by_level,
+        'materials_by_type': materials_by_type,
+        'assignments_by_course': assignments_by_course,
+
+        # Recent
+        'recent_students': recent_students,
+        'recent_materials': recent_materials,
+        'recent_assignments': recent_assignments,
+        'recent_sessions': recent_sessions,
+
+        # Other
+        'current_session': current_session,
+        'upcoming_assignments': upcoming_assignments,
+    }
+    return render(req,'admin/admindash.html',context)
 
 @login_required
 def add_session(req):
@@ -189,11 +376,9 @@ def edit_teacher(req,id):
         mobile=req.POST['mobile']
         department=req.POST['department']
         designation=req.POST['designation']
-        user=req.POST['username']
         password=req.POST['password']
         status=req.POST['status']
-        user_obj=User.objects.create_user(username=user,password=password,email=email)
-        Teacher.objects.filter(id=id).update(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,user=user_obj,password=password,status=status)
+        Teacher.objects.filter(id=id).update(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,password=password,status=status)
         messages.success(req,"Teacher updated successfully !!")
         return redirect('view_teacher')
     return render(req,"admin/edit_teacher.html",{"teacher":teacher})
@@ -201,7 +386,7 @@ def edit_teacher(req,id):
 def delete_teacher(req,id):
     teacher=Teacher.objects.get(id=id)
     if req.method == "POST":
-        teacher.delete()
+        teacher.user.delete()
         messages.success(req,"Teacher deleted successfully!!")
         return redirect('view_teacher')
     return render(req,"admin/delete_teacher.html",{"teacher":teacher})
@@ -288,7 +473,7 @@ def edit_student(req,id):
 def delete_student(req,id):
     student=Student.objects.get(id=id)
     if req.method == "POST":
-        student.delete()
+        student.user.delete()
         messages.success(req,"Student deleted successfully!!")
         return redirect("view_students")
     return render(req,"admin/delete_student.html",{"student":student})
@@ -353,6 +538,38 @@ def delete_studymaterial(req,id):
         messages.success(req,"Study material deleted successfully!!")
         return redirect("view_studymaterial")
     return render(req,"admin/delete_studymaterial.html",{"material":material})
+
+def upload_assignment(req):
+    teachers=Teacher.objects.filter(status="Active").all()
+    if req.method == 'POST':
+        title=req.POST['title']
+        course=req.POST['course']
+        subject=req.POST['subject']
+        due_date=req.POST['due_date']
+        total_marks=req.POST['total_marks']
+        attachment=req.FILES.get('attachment')
+        instructions=req.POST['instructions']
+        created_by=req.POST['created_by']
+        status=req.POST['status']
+        Assignment.objects.create(title=title,course=course,subject=subject,due_date=due_date,total_marks=total_marks,attachment=attachment,instructions=instructions,created_by=created_by,status=status)
+        messages.success(req,"Assignment uploaded successfully!!")
+        return redirect('view_assignment')
+    return render(req,"admin/upload_assignment.html",{"teachers":teachers})
+
+def view_assignment(req):
+    assignments=Assignment.objects.all()
+    active_count=Assignment.objects.filter(status="Active").count()
+    inactive_count=Assignment.objects.filter(status="Inactive").count()
+    courses=Course.objects.values_list('course_name',flat=True).distinct()
+    subjects=Subject.objects.values_list('subject_name',flat=True).distinct()
+    context={
+        "assignments":assignments,
+        "active_count":active_count,
+        "inactive_count":inactive_count,
+        "courses":courses,
+        "subjects":subjects,
+    }
+    return render(req,"admin/view_assignment.html",context)
 
 # Teacher view
 def teacherdash(req):

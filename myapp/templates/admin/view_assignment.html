@@ -1,0 +1,295 @@
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/view_assignment.css' %}">
+
+<div class="assignment-page">
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="bi bi-journal-text"></i>
+            </div>
+            <div>
+                <p class="eyebrow">ACADEMIC MANAGEMENT</p>
+                <h2>Assignments</h2>
+                <p class="header-description">Manage assignments, deadlines, marks and student academic tasks.</p>
+            </div>
+        </div>
+        <a href="{% url 'upload_assignment' %}" class="add-assignment-btn">
+            <i class="bi bi-plus-lg"></i>
+            Upload Assignment
+        </a>
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="summary-icon total-icon">
+                <i class="bi bi-collection"></i>
+            </div>
+            <div>
+                <p>Total Assignments</p>
+                <h3>{{ assignments|length }}</h3>
+            </div>
+        </div>
+        <div class="summary-card">
+            <div class="summary-icon active-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div>
+                <p>Active Assignments</p>
+                <h3>{{ active_count }}</h3>
+            </div>
+        </div>
+        <div class="summary-card">
+            <div class="summary-icon inactive-icon">
+                <i class="bi bi-pause-circle"></i>
+            </div>
+            <div>
+                <p>Inactive Assignments</p>
+                <h3>{{ inactive_count }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="assignments-card">
+        <div class="card-heading">
+            <div>
+                <h4>All Assignments</h4>
+                <p>Search, filter and manage your academic assignments.</p>
+            </div>
+            <span class="record-count">
+                <i class="bi bi-database"></i>
+                <span id="visible-count">{{ assignments|length }}</span> records
+            </span>
+        </div>
+
+        <div class="filter-panel">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="search" id="assignmentSearch" placeholder="Search title, course, subject or creator...">
+                <button type="button" id="clearSearch" title="Clear search" aria-label="Clear search">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="filter-group">
+                <select id="courseFilter" aria-label="Filter by course">
+                    <option value="">All Courses</option>
+                    {% for course in courses %}
+                    <option value="{{ course }}">{{ course }}</option>
+                    {% endfor %}
+                </select>
+                <select id="subjectFilter" aria-label="Filter by subject">
+                    <option value="">All Subjects</option>
+                    {% for subject in subjects %}
+                    <option value="{{ subject }}">{{ subject }}</option>
+                    {% endfor %}
+                </select>
+                <select id="statusFilter" aria-label="Filter by status">
+                    <option value="">All Statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="assignments-table" id="assignmentsTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Assignment Details</th>
+                        <th>Course & Subject</th>
+                        <th>Due Date</th>
+                        <th>Total Marks</th>
+                        <th>Created By</th>
+                        <th>Status</th>
+                        <th>Attachment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr class="assignment-row"
+                        data-search="{{ assignment.title|default_if_none:'' }} {{ assignment.course|default_if_none:'' }} {{ assignment.subject|default_if_none:'' }} {{ assignment.instructions|default_if_none:'' }} {{ assignment.created_by|default_if_none:'' }}"
+                        data-course="{{ assignment.course|default_if_none:'' }}"
+                        data-subject="{{ assignment.subject|default_if_none:'' }}"
+                        data-status="{{ assignment.status|default_if_none:'' }}">
+                        <td class="row-number">{{ forloop.counter }}</td>
+                        <td>
+                            <div class="assignment-info">
+                                <div class="assignment-avatar">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
+                                <div class="assignment-text">
+                                    <strong>{{ assignment.title }}</strong>
+                                    <span>{{ assignment.instructions|default:"No instructions provided"|truncatechars:65 }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-info">
+                                <strong>{{ assignment.course }}</strong>
+                                <span>{{ assignment.subject }}</span>
+                            </div>
+                        </td>
+                        <td class="due-date">
+                            <strong>{{ assignment.due_date|date:"d M Y" }}</strong>
+                        </td>
+                        <td>
+                            <span class="marks-badge">
+                                {{ assignment.total_marks }} Marks
+                            </span>
+                        </td>
+                        <td>
+                            <div class="creator-info">
+                                <span class="creator-avatar">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <span>{{ assignment.created_by }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            {% if assignment.status|lower == "active" %}
+                            <span class="status-badge status-active">
+                                <span class="status-dot"></span> Active
+                            </span>
+                            {% else %}
+                            <span class="status-badge status-inactive">
+                                <span class="status-dot"></span> Inactive
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+    {% if assignment.attachment %}
+    <a href="/media/{{ assignment.attachment }}" target="_blank" rel="noopener noreferrer" class="attachment-btn" title="Open attachment" aria-label="Open attachment">
+        <i class="bi bi-paperclip"></i>
+    </a>
+    {% else %}
+    <span class="no-attachment">No file</span>
+    {% endif %}
+</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="#" class="action-btn edit-btn" title="Edit assignment" aria-label="Edit assignment">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="#" class="action-btn delete-btn" title="Delete assignment" aria-label="Delete assignment">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="bi bi-journal-x"></i>
+                                </div>
+                                <h5>No Assignments Yet</h5>
+                                <p>Start by uploading your first assignment.</p>
+                                <a href="{% url 'upload_assignment' %}" class="add-assignment-btn">
+                                    <i class="bi bi-plus-lg"></i>
+                                    Upload First Assignment
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr id="noResultsRow" style="display:none;">
+                        <td colspan="9">
+                            <div class="no-results">
+                                <i class="bi bi-search"></i>
+                                <strong>No matching assignments found</strong>
+                                <span>Try changing your search or filters.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <span>Showing <strong id="footer-count">{{ assignments|length }}</strong> of <strong>{{ assignments|length }}</strong> assignments</span>
+            <button type="button" id="resetFilters" class="reset-filters-btn">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Reset Filters
+            </button>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <i class="bi bi-shield-check"></i>
+        Keep assignment details and deadlines updated so students can submit their work on time.
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+    const searchInput=document.getElementById("assignmentSearch");
+    const courseFilter=document.getElementById("courseFilter");
+    const subjectFilter=document.getElementById("subjectFilter");
+    const statusFilter=document.getElementById("statusFilter");
+    const clearSearch=document.getElementById("clearSearch");
+    const resetFilters=document.getElementById("resetFilters");
+    const rows=Array.from(document.querySelectorAll(".assignment-row"));
+    const noResultsRow=document.getElementById("noResultsRow");
+    const visibleCount=document.getElementById("visible-count");
+    const footerCount=document.getElementById("footer-count");
+
+    function normalize(value){
+        return(value||"").trim().toLowerCase().replace(/\s+/g," ");
+    }
+
+    function filterAssignments(){
+        const query=normalize(searchInput.value);
+        const course=normalize(courseFilter.value);
+        const subject=normalize(subjectFilter.value);
+        const status=normalize(statusFilter.value);
+        let visible=0;
+
+        rows.forEach(function(row){
+            const searchText=normalize(row.dataset.search);
+            const rowCourse=normalize(row.dataset.course);
+            const rowSubject=normalize(row.dataset.subject);
+            const rowStatus=normalize(row.dataset.status);
+
+            const matchesSearch=searchText.includes(query);
+            const matchesCourse=!course||rowCourse===course;
+            const matchesSubject=!subject||rowSubject===subject;
+            const matchesStatus=!status||rowStatus===status;
+            const show=matchesSearch&&matchesCourse&&matchesSubject&&matchesStatus;
+
+            row.style.display=show?"":"none";
+            if(show) visible++;
+        });
+
+        visibleCount.textContent=visible;
+        footerCount.textContent=visible;
+        noResultsRow.style.display=rows.length>0&&visible===0?"":"none";
+    }
+
+    searchInput.addEventListener("input",filterAssignments);
+    courseFilter.addEventListener("change",filterAssignments);
+    subjectFilter.addEventListener("change",filterAssignments);
+    statusFilter.addEventListener("change",filterAssignments);
+
+    clearSearch.addEventListener("click",function(){
+        searchInput.value="";
+        filterAssignments();
+        searchInput.focus();
+    });
+
+    resetFilters.addEventListener("click",function(){
+        searchInput.value="";
+        courseFilter.value="";
+        subjectFilter.value="";
+        statusFilter.value="";
+        filterAssignments();
+    });
+
+    filterAssignments();
+});
+</script>
+{% endblock %}

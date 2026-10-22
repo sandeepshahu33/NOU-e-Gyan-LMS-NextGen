@@ -71,7 +71,7 @@ class StudyMaterial(models.Model):
     course=models.CharField(max_length=200)
     subject=models.CharField(max_length=200)
     material_type=models.CharField(max_length=30)
-    file=models.FileField(upload_to='study_material',null=True,blank=True)
+    file=models.FileField(upload_to='study_material/',null=True,blank=True)
     external_url=models.CharField(max_length=200,null=True)
     description=models.TextField()
     uploaded_by=models.CharField(max_length=150)
@@ -81,3 +81,18 @@ class StudyMaterial(models.Model):
     def __str__(self):
         return self.title
 
+class Assignment(models.Model):
+    id = models.AutoField(primary_key=True)
+    title=models.CharField(max_length=180)
+    course=models.CharField(max_length=150)
+    subject=models.CharField(max_length=150)
+    due_date=models.DateField()
+    total_marks=models.IntegerField()
+    attachment=models.FileField(upload_to='assignments/',null=True,blank=True)
+    instructions=models.TextField()
+    created_by=models.CharField(max_length=150)
+    status=models.CharField(max_length=20)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} {self.course}"
