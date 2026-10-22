@@ -1,13 +1,379 @@
+
 {% extends 'teacher/teacherbase.html' %}
 {% load static %}
 
 {% block title %}
-NOU e-Gyan | Admin Dashboard
-{% endblock %}
+NOU e-Gyan | Teacher Dashboard
+{% endblock title %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/teacher/teacherdash.css' %}?v=1.0">
+{% endblock extra_css %}
 
 {% block content %}
-    hbsbb
-    
+
+<div class="td-dashboard">
+
+    <!-- Welcome Hero -->
+    <section class="td-hero">
+        <div class="td-hero-content">
+            <div class="td-eyebrow">
+                <i class="bi bi-mortarboard-fill"></i>
+                NOU E-GYAN · TEACHER PORTAL
+            </div>
+
+            <h1>
+                Welcome back,
+                <span>{{ username.name|default:request.user.username }}</span>
+            </h1>
+
+            <p>
+                Manage your courses, learning resources, assignments
+                and online classes from one place.
+            </p>
+
+            <div class="td-hero-actions">
+                <a href="#td-quick-actions" class="td-btn td-btn-gold">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                    Quick Actions
+                </a>
+
+                <a href="#td-academic-overview" class="td-btn td-btn-outline">
+                    <i class="bi bi-grid-fill"></i>
+                    Academic Overview
+                </a>
+            </div>
+        </div>
+
+        <div class="td-hero-art" aria-hidden="true">
+            <div class="td-orbit td-orbit-one"></div>
+            <div class="td-orbit td-orbit-two"></div>
+
+            <div class="td-hero-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div class="td-floating-icon td-float-book">
+                <i class="bi bi-journal-bookmark-fill"></i>
+            </div>
+
+            <div class="td-floating-icon td-float-check">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Dashboard Heading -->
+    <section class="td-section" id="td-academic-overview">
+        <div class="td-section-heading">
+            <div>
+                <span class="td-section-eyebrow">AT A GLANCE</span>
+                <h2>Academic Overview</h2>
+                <p>A quick overview of your teaching workspace.</p>
+            </div>
+
+            <div class="td-session-pill">
+                <span class="td-live-dot"></span>
+                Academic Session
+                <strong>2026–27</strong>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="td-stats-grid">
+
+            <article class="td-stat-card td-stat-burgundy">
+                <div class="td-stat-top">
+                    <span class="td-stat-icon">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </span>
+                    <span class="td-stat-label">ACADEMICS</span>
+                </div>
+
+                <div class="td-stat-number">
+                    {{ course_count|default:"0" }}
+                </div>
+
+                <h3>My Courses</h3>
+                <p>Courses assigned to you</p>
+
+                <a href="#" class="td-stat-link">
+                    Explore courses <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </article>
+
+            <article class="td-stat-card td-stat-gold">
+                <div class="td-stat-top">
+                    <span class="td-stat-icon">
+                        <i class="bi bi-journal-bookmark-fill"></i>
+                    </span>
+                    <span class="td-stat-label">SUBJECTS</span>
+                </div>
+
+                <div class="td-stat-number">
+                    {{ subject_count|default:"0" }}
+                </div>
+
+                <h3>My Subjects</h3>
+                <p>Your assigned subjects</p>
+
+                <a href="#" class="td-stat-link">
+                    View subjects <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </article>
+
+            <article class="td-stat-card td-stat-teal">
+                <div class="td-stat-top">
+                    <span class="td-stat-icon">
+                        <i class="bi bi-file-earmark-text-fill"></i>
+                    </span>
+                    <span class="td-stat-label">RESOURCES</span>
+                </div>
+
+                <div class="td-stat-number">
+                    {{ material_count|default:"0" }}
+                </div>
+
+                <h3>Study Materials</h3>
+                <p>Learning resources uploaded</p>
+
+                <a href="#" class="td-stat-link">
+                    Manage materials <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </article>
+
+            <article class="td-stat-card td-stat-plum">
+                <div class="td-stat-top">
+                    <span class="td-stat-icon">
+                        <i class="bi bi-clipboard2-check-fill"></i>
+                    </span>
+                    <span class="td-stat-label">ASSESSMENTS</span>
+                </div>
+
+                <div class="td-stat-number">
+                    {{ task_count|default:"0" }}
+                </div>
+
+                <h3>Assignments & Tests</h3>
+                <p>Assessments created</p>
+
+                <a href="#" class="td-stat-link">
+                    Manage assessments <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </article>
+
+        </div>
+    </section>
+
+
+    <!-- Quick Actions -->
+    <section class="td-section" id="td-quick-actions">
+        <div class="td-section-heading">
+            <div>
+                <span class="td-section-eyebrow">WORKSPACE</span>
+                <h2>Quick Actions</h2>
+                <p>Access your frequently used teaching tools.</p>
+            </div>
+        </div>
+
+        <div class="td-actions-grid">
+
+            <a href="#" class="td-action-card">
+                <span class="td-action-icon td-icon-rose">
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                </span>
+                <span class="td-action-text">
+                    <strong>Upload Study Material</strong>
+                    <small>Share notes, PDFs and presentations</small>
+                </span>
+                <i class="bi bi-arrow-up-right td-action-arrow"></i>
+            </a>
+
+            <a href="#" class="td-action-card">
+                <span class="td-action-icon td-icon-gold">
+                    <i class="bi bi-file-earmark-plus-fill"></i>
+                </span>
+                <span class="td-action-text">
+                    <strong>Create Assignment</strong>
+                    <small>Add tasks for your students</small>
+                </span>
+                <i class="bi bi-arrow-up-right td-action-arrow"></i>
+            </a>
+
+            <a href="#" class="td-action-card">
+                <span class="td-action-icon td-icon-blue">
+                    <i class="bi bi-ui-checks-grid"></i>
+                </span>
+                <span class="td-action-text">
+                    <strong>Create Online Test</strong>
+                    <small>Prepare online assessments</small>
+                </span>
+                <i class="bi bi-arrow-up-right td-action-arrow"></i>
+            </a>
+
+            <a href="#" class="td-action-card">
+                <span class="td-action-icon td-icon-teal">
+                    <i class="bi bi-camera-video-fill"></i>
+                </span>
+                <span class="td-action-text">
+                    <strong>Schedule Online Class</strong>
+                    <small>Plan a Google Meet session</small>
+                </span>
+                <i class="bi bi-arrow-up-right td-action-arrow"></i>
+            </a>
+
+        </div>
+    </section>
+
+
+    <!-- Teaching Workspace -->
+    <section class="td-section">
+        <div class="td-section-heading">
+            <div>
+                <span class="td-section-eyebrow">TEACHING WORKSPACE</span>
+                <h2>Manage Your Activities</h2>
+                <p>Everything you need to organize your teaching.</p>
+            </div>
+        </div>
+
+        <div class="td-workspace-grid">
+
+            <!-- Assignments -->
+            <article class="td-panel">
+                <div class="td-panel-heading">
+                    <span class="td-panel-icon td-icon-gold">
+                        <i class="bi bi-journal-check"></i>
+                    </span>
+                    <div>
+                        <h3>Assignments & Submissions</h3>
+                        <p>Manage student assessments</p>
+                    </div>
+                </div>
+
+                <div class="td-menu-list">
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-plus-circle"></i> Add Tasks</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-list-task"></i> View Tasks</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-inbox"></i> Student Submissions</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Online Tests -->
+            <article class="td-panel">
+                <div class="td-panel-heading">
+                    <span class="td-panel-icon td-icon-rose">
+                        <i class="bi bi-patch-check-fill"></i>
+                    </span>
+                    <div>
+                        <h3>Online Examination</h3>
+                        <p>Prepare and review assessments</p>
+                    </div>
+                </div>
+
+                <div class="td-menu-list">
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-plus-circle"></i> Add Test</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-clipboard2-check"></i> View Tests</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-graph-up-arrow"></i> Test Results</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Classes & Attendance -->
+            <article class="td-panel">
+                <div class="td-panel-heading">
+                    <span class="td-panel-icon td-icon-teal">
+                        <i class="bi bi-camera-video-fill"></i>
+                    </span>
+                    <div>
+                        <h3>Classes & Attendance</h3>
+                        <p>Organize teaching sessions</p>
+                    </div>
+                </div>
+
+                <div class="td-menu-list">
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-calendar2-check"></i> Attendance Report</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-camera-video"></i> Schedule Google Meet</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-camera-video-off"></i> View Classes</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Other Resources -->
+            <article class="td-panel">
+                <div class="td-panel-heading">
+                    <span class="td-panel-icon td-icon-blue">
+                        <i class="bi bi-megaphone-fill"></i>
+                    </span>
+                    <div>
+                        <h3>Communication</h3>
+                        <p>Keep students informed</p>
+                    </div>
+                </div>
+
+                <div class="td-menu-list">
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-megaphone"></i> Announcements</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-folder2-open"></i> View Study Material</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="td-menu-item">
+                        <span><i class="bi bi-journal-bookmark"></i> Current Session</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+
+    <!-- Footer Note -->
+    <section class="td-footer-note">
+        <div class="td-footer-icon">
+            <i class="bi bi-lightbulb-fill"></i>
+        </div>
+        <div>
+            <strong>Teaching tip</strong>
+            <p>Keep your study materials and assignments organized to make learning easier for your students.</p>
+        </div>
+    </section>
+
+</div>
+
 {% endblock content %}
-    

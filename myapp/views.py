@@ -45,9 +45,7 @@ def index(req):
 @login_required
 def admindash(req):
 
-    # =====================================================
     # TOTAL COUNTS
-    # =====================================================
 
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
@@ -57,10 +55,7 @@ def admindash(req):
     total_assignments = Assignment.objects.count()
     total_sessions = AcademicSession.objects.count()
 
-
-    # =====================================================
     # ACTIVE COUNTS
-    # =====================================================
 
     active_students = Student.objects.filter(
         status__iexact='Active'
@@ -78,10 +73,7 @@ def admindash(req):
         status__iexact='Active'
     ).count()
 
-
-    # =====================================================
     # STUDENT ANALYSIS
-    # =====================================================
 
     students_by_course = (
         Student.objects
@@ -97,10 +89,7 @@ def admindash(req):
         .order_by('-total')
     )
 
-
-    # =====================================================
     # COURSE ANALYSIS
-    # =====================================================
 
     courses_by_level = (
         Course.objects
@@ -109,10 +98,7 @@ def admindash(req):
         .order_by('-total')
     )
 
-
-    # =====================================================
     # MATERIAL ANALYSIS
-    # =====================================================
 
     materials_by_type = (
         StudyMaterial.objects
@@ -121,10 +107,7 @@ def admindash(req):
         .order_by('-total')
     )
 
-
-    # =====================================================
     # ASSIGNMENT ANALYSIS
-    # =====================================================
 
     assignments_by_course = (
         Assignment.objects
@@ -133,63 +116,42 @@ def admindash(req):
         .order_by('-total')
     )
 
-
-    # =====================================================
     # RECENT STUDENTS
-    # =====================================================
 
     recent_students = Student.objects.order_by('-id')[:5]
 
-
-    # =====================================================
     # RECENT MATERIALS
-    # =====================================================
 
     recent_materials = StudyMaterial.objects.order_by(
         '-created_at'
     )[:5]
 
-
-    # =====================================================
     # RECENT ASSIGNMENTS
-    # =====================================================
 
     recent_assignments = Assignment.objects.order_by(
         '-created_at'
     )[:5]
 
-
-    # =====================================================
     # RECENT SESSIONS
-    # =====================================================
 
     recent_sessions = AcademicSession.objects.order_by(
         '-create_at'
     )[:5]
 
-
-    # =====================================================
     # CURRENT ACADEMIC SESSION
-    # =====================================================
 
     current_session = AcademicSession.objects.filter(
         start_date__lte=date.today(),
         end_date__gte=date.today()
     ).first()
 
-
-    # =====================================================
     # UPCOMING ASSIGNMENTS
-    # =====================================================
 
     upcoming_assignments = Assignment.objects.filter(
         due_date__gte=date.today()
     ).order_by('due_date')[:5]
 
-
-    # =====================================================
     # CONTEXT
-    # =====================================================
 
     context = {
         # Main KPI
@@ -353,7 +315,7 @@ def add_teacher(req):
         user_obj=User.objects.create_user(username=user,password=password,email=email)
         Teacher.objects.create(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,user=user_obj,password=password,status=status)
         messages.success(req,"Teacher added successfully !!")
-        return redirect('add_teacher')
+        return redirect('view_teacher')
     return render(req,"admin/add_teacher.html",{"users":users})
 
 def view_teacher(req):
@@ -378,7 +340,21 @@ def edit_teacher(req,id):
         designation=req.POST['designation']
         password=req.POST['password']
         status=req.POST['status']
-        Teacher.objects.filter(id=id).update(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,password=password,status=status)
+
+        teacher.employee_id=employee_id
+        teacher.name=name
+        teacher.email=email
+        teacher.mobile=mobile
+        teacher.department=department
+        teacher.designation=designation
+        teacher.status=status
+        if password:
+            teacher.password = password
+            teacher.user.set_password(password)
+
+        teacher.user.email = email
+        teacher.user.save()
+        teacher.save()
         messages.success(req,"Teacher updated successfully !!")
         return redirect('view_teacher')
     return render(req,"admin/edit_teacher.html",{"teacher":teacher})
@@ -465,7 +441,22 @@ def edit_student(req,id):
         semester=req.POST['semester']
         password=req.POST['password']
         status=req.POST['status']
-        Student.objects.filter(id=id).update(enrollment_no=enrollment_no,name=name,email=email,mobile=mobile,course=course,session=session,semester=semester,password=password,status=status)
+        student.enrollment_no = enrollment_no
+        student.name = name
+        student.email = email
+        student.mobile = mobile
+        student.course = course
+        student.session = session
+        student.semester = semester
+        student.status = status
+        # Password only change when new password is entered
+        if password:
+            student.password = password
+            student.user.set_password(password)
+        # Email update in Django User
+        student.user.email = email
+        student.user.save()
+        student.save()
         messages.success(req,"Student data updated successfully !! ")
         return redirect('view_students')
     return render(req,"admin/edit_student.html",{"student":student})
@@ -573,7 +564,8 @@ def view_assignment(req):
 
 # Teacher view
 def teacherdash(req):
-    return render(req,"teacher/teacherdash.html")
+    username=Teacher.objects.get(user=req.user)
+    return render(req,"teacher/teacherdash.html",{"username":username})
 # Student view
 def studentdash(req):
     return render(req,"student/studentdash.html")

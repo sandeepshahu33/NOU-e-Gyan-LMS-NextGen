@@ -30,10 +30,10 @@ NOU e-Gyan | Admin Dashboard
                 Admin Dashboard
             </h1>
 
-            <p class="dashboard-subtitle">
+            <h1 class="dashboard-subtitle">
                 Welcome back, {{ request.user.username }}.
                 Here's an overview of your NOU e-Gyan Portal.
-            </p>
+            </h1>
 
         </div>
 
@@ -482,7 +482,7 @@ NOU e-Gyan | Admin Dashboard
 
                 </div>
 
-                <a href="#" class="view-all">
+                <a href="{% url 'view_students' %}" class="view-all">
                     View All
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -791,7 +791,7 @@ NOU e-Gyan | Admin Dashboard
         <div class="quick-actions">
 
 
-            <a href="#" class="quick-action">
+            <a href="{% url 'add_student' %}" class="quick-action">
 
                 <div class="quick-action-icon">
                     <i class="fa-solid fa-user-plus"></i>
@@ -807,7 +807,7 @@ NOU e-Gyan | Admin Dashboard
             </a>
 
 
-            <a href="#" class="quick-action">
+            <a href="{% url 'add_teacher' %}" class="quick-action">
 
                 <div class="quick-action-icon">
                     <i class="fa-solid fa-chalkboard-user"></i>
@@ -823,7 +823,7 @@ NOU e-Gyan | Admin Dashboard
             </a>
 
 
-            <a href="#" class="quick-action">
+            <a href="{% url 'add_course' %}" class="quick-action">
 
                 <div class="quick-action-icon">
                     <i class="fa-solid fa-graduation-cap"></i>
@@ -839,7 +839,7 @@ NOU e-Gyan | Admin Dashboard
             </a>
 
 
-            <a href="#" class="quick-action">
+            <a href="{% url 'add_studymaterial' %}" class="quick-action">
 
                 <div class="quick-action-icon">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
