@@ -1,0 +1,547 @@
+
+/* =================================
+   NOU LMS - Delete Assignment
+   Theme: Maroon, Gold & White
+================================= */
+
+.delete-assignment-page {
+    --maroon: #762640;
+    --dark-maroon: #54182d;
+    --maroon-hover: #8d3452;
+
+    --gold: #c49a43;
+    --gold-light: #f8efd9;
+
+    --rose: #fbf4f6;
+    --border: #eadde2;
+
+    --text: #382630;
+    --muted: #8a7881;
+
+    --danger: #b52b42;
+    --danger-light: #fff0f1;
+
+    padding: 28px;
+    color: var(--text);
+    font-family: "Poppins", "Segoe UI", sans-serif;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.delete-assignment-page *,
+.delete-assignment-page *::before,
+.delete-assignment-page *::after {
+    box-sizing: border-box;
+}
+
+
+/* PAGE HEADER */
+
+.delete-assignment-page .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.delete-assignment-page .header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.delete-assignment-page .header-icon {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    color: #fff;
+    font-size: 27px;
+    border-radius: 17px;
+
+    background: linear-gradient(
+        145deg,
+        var(--maroon),
+        var(--dark-maroon)
+    );
+
+    box-shadow: 0 8px 20px rgba(84, 24, 45, 0.18);
+}
+
+.delete-assignment-page .eyebrow {
+    margin: 0 0 5px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.delete-assignment-page .header-content h2 {
+    margin: 0;
+    color: var(--dark-maroon);
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.delete-assignment-page .header-description {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* BACK BUTTON */
+
+.delete-assignment-page .back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 11px 17px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: #fff;
+    color: var(--maroon);
+
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+.delete-assignment-page .back-btn:hover {
+    color: #fff;
+    background: var(--maroon);
+    border-color: var(--maroon);
+    transform: translateY(-2px);
+}
+
+
+/* MAIN CARD */
+
+.delete-assignment-page .delete-card {
+    padding: 30px;
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    background: #fff;
+
+    box-shadow: 0 8px 30px rgba(84, 24, 45, 0.055);
+}
+
+
+/* CARD HEADER */
+
+.delete-assignment-page .delete-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f0e7eb;
+}
+
+.delete-assignment-page .warning-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 15px;
+
+    color: var(--danger);
+    background: var(--danger-light);
+
+    font-size: 24px;
+}
+
+.delete-assignment-page .delete-card-header h4 {
+    margin: 0 0 6px;
+
+    color: var(--dark-maroon);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.delete-assignment-page .delete-card-header p {
+    margin: 0;
+
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* WARNING MESSAGE */
+
+.delete-assignment-page .warning-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    margin-top: 24px;
+    padding: 16px 18px;
+
+    border: 1px solid #f0d7a5;
+    border-radius: 12px;
+
+    background: #fffaf0;
+}
+
+.delete-assignment-page .warning-message > i {
+    margin-top: 2px;
+    flex-shrink: 0;
+
+    color: #a57920;
+    font-size: 17px;
+}
+
+.delete-assignment-page .warning-message p {
+    margin: 0;
+
+    color: #78613a;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* SECTION HEADING */
+
+.delete-assignment-page .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin: 30px 0 20px;
+}
+
+.delete-assignment-page .section-number {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: var(--gold-light);
+    color: var(--maroon);
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.delete-assignment-page .section-heading h5 {
+    margin: 0 0 4px;
+
+    color: var(--dark-maroon);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.delete-assignment-page .section-heading p {
+    margin: 0;
+
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* DETAILS GRID */
+
+.delete-assignment-page .details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.delete-assignment-page .detail-item {
+    min-width: 0;
+    padding: 17px 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: #fff;
+}
+
+.delete-assignment-page .detail-item.full-width {
+    grid-column: 1 / -1;
+    background: var(--rose);
+}
+
+.delete-assignment-page .detail-label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.delete-assignment-page .detail-item h3 {
+    margin: 0;
+
+    color: var(--dark-maroon);
+    font-size: 17px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.delete-assignment-page .detail-item p {
+    margin: 0;
+
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+
+/* STATUS BADGE */
+
+.delete-assignment-page .status-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 11px;
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.delete-assignment-page .status-active {
+    background: #e8f5ed;
+    color: #247345;
+}
+
+.delete-assignment-page .status-inactive {
+    background: #f2edf0;
+    color: #786773;
+}
+
+
+/* CONFIRMATION NOTE */
+
+.delete-assignment-page .delete-form {
+    margin-top: 27px;
+    padding-top: 23px;
+    border-top: 1px solid #f0e7eb;
+}
+
+.delete-assignment-page .confirmation-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    margin-bottom: 22px;
+
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.delete-assignment-page .confirmation-note i {
+    margin-top: 2px;
+    flex-shrink: 0;
+
+    color: var(--gold);
+    font-size: 16px;
+}
+
+
+/* FORM ACTIONS */
+
+.delete-assignment-page .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.delete-assignment-page .cancel-btn,
+.delete-assignment-page .delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 43px;
+    padding: 11px 19px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+
+/* CANCEL */
+
+.delete-assignment-page .cancel-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--muted);
+}
+
+.delete-assignment-page .cancel-btn:hover {
+    background: #f8f3f5;
+    color: var(--maroon);
+}
+
+
+/* DELETE BUTTON */
+
+.delete-assignment-page .delete-btn {
+    border: 1px solid var(--danger);
+    background: var(--danger);
+    color: #fff;
+
+    box-shadow: 0 5px 13px rgba(181, 43, 66, 0.14);
+}
+
+.delete-assignment-page .delete-btn:hover {
+    background: #941e33;
+    border-color: #941e33;
+    transform: translateY(-2px);
+}
+
+
+/* FOOTER */
+
+.delete-assignment-page .page-footer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-top: 18px;
+    padding: 13px 16px;
+
+    border: 1px solid #eee3c9;
+    border-radius: 10px;
+
+    background: #fffdf8;
+    color: #806c45;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.delete-assignment-page .page-footer i {
+    flex-shrink: 0;
+    color: var(--gold);
+    font-size: 16px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 768px) {
+    .delete-assignment-page {
+        padding: 18px;
+    }
+
+    .delete-assignment-page .delete-card {
+        padding: 22px 18px;
+    }
+
+    .delete-assignment-page .header-content h2 {
+        font-size: 22px;
+    }
+
+    .delete-assignment-page .details-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .delete-assignment-page .detail-item.full-width {
+        grid-column: auto;
+    }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+    .delete-assignment-page {
+        padding: 12px;
+    }
+
+    .delete-assignment-page .header-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        border-radius: 13px;
+    }
+
+    .delete-assignment-page .header-content {
+        gap: 11px;
+    }
+
+    .delete-assignment-page .header-content h2 {
+        font-size: 19px;
+    }
+
+    .delete-assignment-page .header-description {
+        font-size: 11px;
+    }
+
+    .delete-assignment-page .back-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .delete-assignment-page .delete-card-header {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .delete-assignment-page .warning-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 20px;
+    }
+
+    .delete-assignment-page .delete-card-header h4 {
+        font-size: 16px;
+    }
+
+    .delete-assignment-page .warning-message {
+        padding: 13px;
+    }
+
+    .delete-assignment-page .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .delete-assignment-page .form-actions > * {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

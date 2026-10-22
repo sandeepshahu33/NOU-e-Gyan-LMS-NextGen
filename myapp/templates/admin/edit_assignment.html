@@ -1,0 +1,360 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/edit_assignment.css' %}">
+
+<div class="edit-assignment-page">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+
+            <div class="header-icon">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+
+            <div>
+                <p class="eyebrow">ASSIGNMENT MANAGEMENT</p>
+                <h2>Edit Assignment</h2>
+                <p class="header-description">
+                    Update assignment details, resources and publication settings.
+                </p>
+            </div>
+
+        </div>
+
+        <a href="{% url 'view_assignment' %}" class="back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Back to Assignments
+        </a>
+    </div>
+
+
+    <!-- Main Form Card -->
+    <div class="edit-assignment-card">
+
+        <div class="card-heading">
+            <div>
+                <h4>Assignment Information</h4>
+                <p>Modify the existing assignment details below.</p>
+            </div>
+
+            <span class="required-note">
+                <span>*</span> Required fields
+            </span>
+        </div>
+
+
+        <!-- Edit Form -->
+        <form method="POST"
+              action=""
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+            <!-- Section 01 -->
+            <div class="section-heading">
+                <span class="section-number">01</span>
+
+                <div>
+                    <h5>Basic Details</h5>
+                    <p>Update the assignment and academic information.</p>
+                </div>
+            </div>
+
+
+            <div class="form-grid">
+
+                <!-- Assignment Title -->
+                <div class="form-group full-width">
+                    <label for="title">
+                        Assignment Title <span>*</span>
+                    </label>
+
+                    <input type="text"
+                           id="title"
+                           name="title"
+                           value="{{ assignment.title }}"
+                           maxlength="180"
+                           placeholder="Enter assignment title"
+                           required>
+                </div>
+
+
+                <!-- Course -->
+                <div class="form-group">
+                    <label for="course">
+                        Course <span>*</span>
+                    </label>
+
+                    <input type="text"
+                           id="course"
+                           name="course"
+                           value="{{ assignment.course }}"
+                           maxlength="150"
+                           placeholder="Enter course name"
+                           required>
+                </div>
+
+
+                <!-- Subject -->
+                <div class="form-group">
+                    <label for="subject">
+                        Subject <span>*</span>
+                    </label>
+
+                    <input type="text"
+                           id="subject"
+                           name="subject"
+                           value="{{ assignment.subject }}"
+                           maxlength="150"
+                           placeholder="Enter subject name"
+                           required>
+                </div>
+
+
+                <!-- Due Date -->
+                <div class="form-group">
+                    <label for="due_date">
+                        Due Date <span>*</span>
+                    </label>
+
+                    <input type="date"
+                           id="due_date"
+                           name="due_date"
+                           value="{{ assignment.due_date|date:'Y-m-d' }}"
+                           required>
+                </div>
+
+
+                <!-- Total Marks -->
+                <div class="form-group">
+                    <label for="total_marks">
+                        Total Marks <span>*</span>
+                    </label>
+
+                    <input type="number"
+                           id="total_marks"
+                           name="total_marks"
+                           value="{{ assignment.total_marks }}"
+                           min="1"
+                           max="100"
+                           placeholder="Enter total marks"
+                           required>
+                </div>
+
+            </div>
+
+
+            <!-- Section 02 -->
+            <div class="section-heading section-gap">
+                <span class="section-number">02</span>
+
+                <div>
+                    <h5>Assignment Resource</h5>
+                    <p>Review or replace the assignment attachment.</p>
+                </div>
+            </div>
+
+
+            <div class="form-grid">
+
+                <!-- Existing Attachment -->
+                <div class="form-group full-width">
+                    <label for="attachment">
+                        Assignment Attachment
+                    </label>
+
+                    <div class="upload-box">
+
+                        <div class="upload-icon">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+
+                        <div class="upload-text">
+
+                            {% if assignment.attachment %}
+                                <p class="existing-file-label">
+                                    Current attachment
+                                </p>
+
+                                <a href="{{ assignment.attachment.url }}"
+                                   class="existing-file"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                    {{ assignment.attachment.name }}
+                                </a>
+                            {% else %}
+                                <p class="existing-file-label">
+                                    No attachment uploaded
+                                </p>
+                            {% endif %}
+
+                            <label for="attachment" class="upload-label">
+                                Choose a replacement file
+                            </label>
+
+                            <p>Leave empty to keep the current attachment.</p>
+
+                            <span id="file-name">No new file selected</span>
+                        </div>
+
+                        <input type="file"
+                               id="attachment"
+                               name="attachment"
+                               class="file-input">
+                    </div>
+
+                    <small>
+                        Select a new file only if you want to replace the current one.
+                    </small>
+                </div>
+
+
+                <!-- Instructions -->
+                <div class="form-group full-width">
+                    <label for="instructions">
+                        Instructions <span>*</span>
+                    </label>
+
+                    <textarea id="instructions"
+                              name="instructions"
+                              rows="6"
+                              placeholder="Enter assignment instructions..."
+                              required>{{ assignment.instructions }}</textarea>
+
+                    <small>
+                        Update submission guidelines, requirements and other instructions.
+                    </small>
+                </div>
+
+            </div>
+
+
+            <!-- Section 03 -->
+            <div class="section-heading section-gap">
+                <span class="section-number">03</span>
+
+                <div>
+                    <h5>Publishing Information</h5>
+                    <p>Update the creator and publication status.</p>
+                </div>
+            </div>
+
+
+            <div class="form-grid">
+
+                <!-- Created By -->
+                <div class="form-group">
+                    <label for="created_by">
+                        Created By <span>*</span>
+                    </label>
+
+                    <select name="created_by"
+                            id="created_by"
+                            required>
+
+                        <option value="{{ assignment.created_by }}" selected>
+                            {{ assignment.created_by }}
+                        </option>
+
+                        {% if teachers %}
+                            {% for t in teachers %}
+                                {% if t.name != assignment.created_by %}
+                                    <option value="{{ t.name }} {{ t.department }}">
+                                        {{ t.name }} ({{ t.department }})
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </select>
+                </div>
+
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label for="status">
+                        Publication Status <span>*</span>
+                    </label>
+
+                    <select name="status" id="status" required>
+                        <option value="Active"
+                            {% if assignment.status == "Active" %}selected{% endif %}>
+                            Active
+                        </option>
+
+                        <option value="Inactive"
+                            {% if assignment.status == "Inactive" %}selected{% endif %}>
+                            Inactive
+                        </option>
+                    </select>
+
+                    <small>
+                        Active assignments can be made available to students.
+                    </small>
+                </div>
+
+            </div>
+
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+
+                <a href="{% url 'view_assignment' %}"
+                   class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="reset-btn">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    Reset Changes
+                </button>
+
+                <button type="submit" class="submit-btn">
+                    <i class="bi bi-check2-circle"></i>
+                    Update Assignment
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <i class="bi bi-shield-check"></i>
+        Review your changes before updating the assignment.
+    </div>
+
+</div>
+
+
+<!-- File Name Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("attachment");
+    const fileName = document.getElementById("file-name");
+
+    if (fileInput && fileName) {
+        fileInput.addEventListener("change", function () {
+            if (this.files && this.files.length > 0) {
+                fileName.textContent = this.files[0].name;
+                fileName.classList.add("selected-file");
+            } else {
+                fileName.textContent = "No new file selected";
+                fileName.classList.remove("selected-file");
+            }
+        });
+    }
+});
+</script>
+
+{% endblock %}

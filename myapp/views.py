@@ -562,6 +562,43 @@ def view_assignment(req):
     }
     return render(req,"admin/view_assignment.html",context)
 
+def edit_assignment(req,id):
+    assignment=Assignment.objects.get(id=id)
+    teachers=Teacher.objects.filter(status="Active").all()
+    context={
+        "assignment":assignment,
+        "teachers":teachers,
+    }
+    if req.method == 'POST':
+        assignment.title=req.POST['title']
+        assignment.course=req.POST['course']
+        assignment.subject=req.POST['subject']
+        assignment.due_date=req.POST['due_date']
+        assignment.total_marks=req.POST['total_marks']
+        assignment.attachment=req.FILES.get('attachment')
+        assignment.instructions=req.POST['instructions']
+        assignment.created_by=req.POST['created_by']
+        assignment.status=req.POST['status']
+        assignment.save()
+        messages.success(req,"Assignment updated successfully !! ")
+        return redirect('view_assignment')
+    return render(req,"admin/edit_assignment.html",context)
+
+def delete_assignment(req,id):
+    assignment=Assignment.objects.get(id=id)
+    context={
+        "assignment":assignment,
+    }
+    
+    if req.method == "POST":
+        assignment.delete()
+        file_field=assignment.attachment
+        if file_field:
+            file_field.delete(save=False)
+        messages.success(req,"Assignment deleted successfully !! ")
+        return redirect('view_assignment')
+    return render(req,"admin/delete_assignment.html",context)
+
 # Teacher view
 def teacherdash(req):
     username=Teacher.objects.get(user=req.user)

@@ -55,6 +55,8 @@ urlpatterns = [
 
     path('upload_assignment/',upload_assignment,name='upload_assignment'),
     path('view_assignment/',view_assignment,name='view_assignment'),
+    path('edit_assignment/<id>/',edit_assignment,name='edit_assignment'),
+    path('delete_assignment/<id>/',delete_assignment,name='delete_assignment'),
 
     # Teacher ulrls
     path('teacherdash/',teacherdash,name='teacherdash'),
