@@ -1,0 +1,180 @@
+
+{% extends 'teacher/teacherbase.html' %}
+{% load static %}
+
+{% block title %}Academic Sessions | Teacher Dashboard{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/teacher/current_session.css' %}">
+
+<section class="teacher-sessions">
+
+    <!-- Page Header -->
+    <div class="sessions-header">
+
+        <div class="sessions-heading">
+
+            <div class="sessions-heading-icon">
+                <i class="bi bi-calendar2-range"></i>
+            </div>
+
+            <div>
+                <p class="sessions-eyebrow">ACADEMIC OVERVIEW</p>
+                <h2>Academic Sessions</h2>
+
+                <p class="sessions-subtitle">
+                    Explore all academic sessions and their current status.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="sessions-total">
+            <i class="bi bi-collection"></i>
+            {{ academic_sessions|length }} Sessions
+        </div>
+
+    </div>
+
+
+    <!-- Academic Session Cards -->
+    <div class="sessions-grid">
+
+        {% for session in academic_sessions %}
+
+        <article class="session-card">
+
+            <!-- Card Header -->
+            <div class="session-card-header">
+
+                <div class="session-card-icon">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+
+                <!-- Status Badge: Existing Model Field -->
+                {% if session.status == 'Active' %}
+
+                    <span class="session-badge status-active">
+                        <span class="badge-dot"></span>
+                        Active
+                    </span>
+
+                {% elif session.status == 'Inactive' %}
+
+                    <span class="session-badge status-inactive">
+                        <span class="badge-dot"></span>
+                        Inactive
+                    </span>
+
+                {% elif session.status == 'Upcoming' %}
+
+                    <span class="session-badge status-upcoming">
+                        <span class="badge-dot"></span>
+                        Upcoming
+                    </span>
+
+                {% else %}
+
+                    <span class="session-badge status-inactive">
+                        <span class="badge-dot"></span>
+                        {{ session.status }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Session Details -->
+            <div class="session-card-body">
+
+                <p class="session-card-label">
+                    ACADEMIC SESSION
+                </p>
+
+                <h3>{{ session.session_name }}</h3>
+
+
+                <!-- Start Date -->
+                <div class="session-date-row">
+
+                    <div class="session-date-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <div>
+                        <span>Start Date</span>
+                        <p>{{ session.start_date|date:"d M Y" }}</p>
+                    </div>
+
+                </div>
+
+
+                <!-- End Date -->
+                <div class="session-date-row">
+
+                    <div class="session-date-icon">
+                        <i class="bi bi-calendar-x"></i>
+                    </div>
+
+                    <div>
+                        <span>End Date</span>
+                        <p>{{ session.end_date|date:"d M Y" }}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Card Footer -->
+            <div class="session-card-footer">
+
+                <span class="footer-indicator"></span>
+
+                {% if session.status == 'Active' %}
+
+                    Currently active session
+
+                {% elif session.status == 'Upcoming' %}
+
+                    Starts in the future
+
+                {% elif session.status == 'Inactive' %}
+
+                    Not currently active
+
+                {% else %}
+
+                    Session status: {{ session.status }}
+
+                {% endif %}
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+        <!-- Empty State -->
+        <div class="sessions-empty">
+
+            <i class="bi bi-calendar2-minus"></i>
+
+            <h3>No Academic Sessions Found</h3>
+
+            <p>
+                Academic sessions added by the administrator
+                will appear here.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

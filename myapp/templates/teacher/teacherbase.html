@@ -105,14 +105,14 @@
 
         <div class="menu-label">Teacher Dashboard</div>
 
-        <a href="#" class="menu-link" data-title="Dashboard">
+        <a href="{% url 'teacherdash' %}" class="menu-link" data-title="Dashboard">
             <i class="bi bi-grid-1x2-fill"></i>
             <span>Dashboard</span>
         </a>
 
         <div class="menu-label">Academics</div>
 
-        <a href="#" class="menu-link" data-title="Current Session">
+        <a href="{% url 'current_session' %}" class="menu-link" data-title="Current Session">
             <i class="bi bi-calendar2-week-fill"></i>
             <span>Current Session</span>
         </a>
@@ -129,24 +129,24 @@
 
         <div class="menu-label">Study Material</div>
 
-        <a href="#" class="menu-link" data-title="Upload Study Material">
+        <a href="{% url 'teacher_studymaterial' %}" class="menu-link" data-title="Upload Study Material">
             <i class="bi bi-cloud-arrow-up-fill"></i>
             <span>Upload Studymaterial</span>
         </a>
 
-        <a href="#" class="menu-link" data-title="View Study Material">
+        <a href="{% url 'tchview_studymaterial' %}" class="menu-link" data-title="View Study Material">
             <i class="bi bi-folder2-open"></i>
             <span>View Studymaterial</span>
         </a>
 
         <div class="menu-label">Assignments</div>
 
-        <a href="#" class="menu-link" data-title="Add Tasks">
+        <a href="{% url 'techupload_assignment' %}" class="menu-link" data-title="Add Tasks">
             <i class="bi bi-file-earmark-plus-fill"></i>
             <span>Add Tasks</span>
         </a>
 
-        <a href="#" class="menu-link" data-title="View Tasks">
+        <a href="{% url 'tchview_assignment' %}" class="menu-link" data-title="View Tasks">
             <i class="bi bi-list-check"></i>
             <span>View Tasks</span>
         </a>
@@ -211,7 +211,7 @@
 
             <div class="sidebar-user-info">
                 <div class="sidebar-user-name">
-                    {{ request.user.username|default:'Admin' }} ({{ username.name }})
+                    {{ request.user.username|default:'Teacher' }} ({{ username.name | default:"Teacher" }})
                 </div>
                 <div class="sidebar-user-role">Teacher Administrator</div>
             </div>
@@ -270,7 +270,7 @@
                     </span>
 
                     <span class="profile-name">
-                        {{ request.user.username|default:'Admin' }}
+                        {{ request.user.username|default:'Teacher' }}
                     </span>
                 </button>
 
@@ -279,9 +279,10 @@
                     <li>
                         <div class="profile-dropdown-info">
                             <div class="fw-bold text-dark">
-                                {{ request.user.get_full_name|default:request.user.username|default:'Administrator' }}
+                                 {{ request.user|default:"Teacher" }}
                             </div>
-                            <small class="text-secondary">{{ username.name }}</small>
+                            <small class="text-secondary">{{ username.name | default:"Teacher" }}</small>
+                            
                         </div>
                     </li>
 
@@ -295,7 +296,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item py-2" href="#">
+                        <a class="dropdown-item py-2" href="{% url 'teacherdash' %}">
                             <i class="bi bi-speedometer2 me-2"></i>
                             Teacher Dashboard
                         </a>

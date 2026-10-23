@@ -50,23 +50,6 @@
         </div>
     </div>
 
-    <!-- Messages -->
-    {% if messages %}
-        <div class="session-messages">
-            {% for message in messages %}
-                <div class="session-message {{ message.tags }}">
-                    <span class="message-icon">
-                        {% if message.tags == 'success' %}
-                            ✓
-                        {% else %}
-                            !
-                        {% endif %}
-                    </span>
-                    <span>{{ message }}</span>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
 
     <!-- Session Form -->
     <div class="session-form-card">

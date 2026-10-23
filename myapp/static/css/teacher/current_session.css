@@ -1,0 +1,379 @@
+
+/* =================================
+   TEACHER ACADEMIC SESSIONS
+   Burgundy | Gold | Ivory
+================================= */
+
+.teacher-sessions {
+    margin: 24px 0;
+    color: #382630;
+}
+
+/* Section Header */
+
+.sessions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.sessions-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sessions-heading-icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #762640;
+    color: #e8cb83;
+    font-size: 25px;
+}
+
+.sessions-eyebrow {
+    margin: 0 0 5px;
+    color: #a17b32;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.sessions-heading h2 {
+    margin: 0;
+    color: #54182d;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.sessions-subtitle {
+    margin: 7px 0 0;
+    color: #817177;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.sessions-total {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 15px;
+    border: 1px solid #eadde2;
+    border-radius: 12px;
+    background: #fffdf8;
+    color: #762640;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Sessions Grid */
+
+.sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+/* Individual Card */
+
+.session-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    padding: 22px;
+    border: 1px solid #eadde2;
+    border-radius: 17px;
+    background: #fffdf8;
+    box-shadow: 0 5px 18px rgba(84, 24, 45, 0.05);
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+}
+
+/* Burgundy top accent */
+
+.session-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #c49a43;
+}
+
+.session-card:hover {
+    transform: translateY(-5px);
+    border-color: #d6b979;
+    box-shadow: 0 12px 28px rgba(84, 24, 45, 0.11);
+}
+
+/* Card Header */
+
+.session-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.session-card-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: #762640;
+    color: #f1d995;
+    font-size: 22px;
+}
+
+/* Status Badge */
+
+
+/* =================================
+   STATUS BADGES
+   Burgundy | Gold | Ivory
+================================= */
+
+/* Common Badge Style */
+.session-badge {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 5px rgba(56, 38, 48, 0.05);
+}
+
+/* Status Dot */
+.badge-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 50%;
+}
+
+/* Active Badge */
+.session-badge.status-active {
+    color: #176438 !important;
+    background: #e2f5e9 !important;
+    border-color: #8fd0a5 !important;
+}
+
+.session-badge.status-active .badge-dot {
+    background: #218849 !important;
+    box-shadow: 0 0 0 3px rgba(33, 136, 73, 0.13);
+}
+
+/* Inactive Badge */
+.session-badge.status-inactive {
+    color: #625660 !important;
+    background: #f0ebef !important;
+    border-color: #cfc2cb !important;
+}
+
+.session-badge.status-inactive .badge-dot {
+    background: #766873 !important;
+    box-shadow: 0 0 0 3px rgba(118, 104, 115, 0.12);
+}
+
+/* Upcoming Badge */
+.session-badge.status-upcoming {
+    color: #75500b !important;
+    background: #fff2cf !important;
+    border-color: #dfbd68 !important;
+}
+
+.session-badge.status-upcoming .badge-dot {
+    background: #b78622 !important;
+    box-shadow: 0 0 0 3px rgba(183, 134, 34, 0.13);
+}
+
+/* Card Body */
+
+.session-card-label {
+    margin: 0 0 8px;
+    color: #a17b32;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.session-card-body h3 {
+    margin: 0 0 23px;
+    color: #54182d;
+    font-size: 23px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+/* Date Rows */
+
+.session-date-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.session-date-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #fbf4f6;
+    color: #762640;
+    font-size: 17px;
+}
+
+.session-date-row span {
+    display: block;
+    margin-bottom: 4px;
+    color: #8d7c81;
+    font-size: 11px;
+}
+
+.session-date-row p {
+    margin: 0;
+    color: #382630;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Card Footer */
+
+.session-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #efe4e6;
+    color: #817177;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.footer-indicator {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #c49a43;
+}
+
+.status-active .footer-indicator {
+    background: #39845b;
+}
+
+.status-inactive .footer-indicator {
+    background: #91858b;
+}
+
+.status-upcoming .footer-indicator {
+    background: #c49a43;
+}
+
+/* Empty State */
+
+.sessions-empty {
+    grid-column: 1 / -1;
+    padding: 45px 20px;
+    border: 1px dashed #d9c5cc;
+    border-radius: 16px;
+    background: #fffdf8;
+    text-align: center;
+}
+
+.sessions-empty > i {
+    color: #a17b32;
+    font-size: 38px;
+}
+
+.sessions-empty h3 {
+    margin: 14px 0 8px;
+    color: #54182d;
+    font-size: 18px;
+}
+
+.sessions-empty p {
+    margin: 0;
+    color: #817177;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Tablet */
+
+@media (max-width: 1000px) {
+    .sessions-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .sessions-header {
+        align-items: flex-start;
+    }
+
+    .sessions-heading {
+        gap: 11px;
+    }
+
+    .sessions-heading-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 21px;
+    }
+
+    .sessions-heading h2 {
+        font-size: 20px;
+    }
+
+    .sessions-subtitle {
+        font-size: 12px;
+    }
+
+    .sessions-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .session-card {
+        padding: 19px;
+    }
+
+    .session-card-body h3 {
+        font-size: 21px;
+    }
+}

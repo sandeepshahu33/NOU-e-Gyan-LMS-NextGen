@@ -60,6 +60,13 @@ urlpatterns = [
 
     # Teacher ulrls
     path('teacherdash/',teacherdash,name='teacherdash'),
+    path('current_session/',current_session,name='current_session'),
+    path('teacher_studymaterial/',teacher_studymaterial,name='teacher_studymaterial'),
+    path('tchview_studymaterial/',tchview_studymaterial,name='tchview_studymaterial'),
+    path('techupload_assignment/',techupload_assignment,name='techupload_assignment'),
+    path('tchview_assignment/',tchview_assignment,name='tchview_assignment'),
+    
+
     # Student urls
     path('studentdash/',studentdash,name='studentdash'),
     path('logout/',user_logout,name='logout'),

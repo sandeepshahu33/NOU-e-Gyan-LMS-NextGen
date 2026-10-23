@@ -1,0 +1,317 @@
+
+{% extends 'teacher/teacherbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/teacher/tchupload_assignment.css' %}">
+
+<div class="assignment-page">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+
+            <div class="header-icon">
+                <i class="bi bi-journal-plus"></i>
+            </div>
+
+            <div>
+                <p class="eyebrow">ACADEMIC RESOURCES</p>
+                <h2>Upload Assignment</h2>
+                <p class="header-description">
+                    Create and share assignments with your students.
+                </p>
+            </div>
+
+        </div>
+
+        <a href="{% url 'tchview_assignment' %}"
+           class="back-btn">
+            <i class="bi bi-arrow-left"></i>
+            View Assignments
+        </a>
+    </div>
+
+    <!-- Assignment Form Card -->
+    <div class="assignment-card">
+
+        <div class="form-card-heading">
+            <div class="form-heading-icon">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+
+            <div>
+                <h4>Assignment Details</h4>
+                <p>Enter the assignment information below.</p>
+            </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <form method="POST"
+              action="#"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Basic Information -->
+            <div class="section-heading">
+                <span class="section-number">01</span>
+                <div>
+                    <h5>Basic Information</h5>
+                    <p>Provide the assignment title and academic details.</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+                    <label for="title">
+                        Assignment Title <span class="required">*</span>
+                    </label>
+
+                    <div class="input-wrapper">
+                        <i class="bi bi-card-heading"></i>
+                        <input type="text"
+                               id="title"
+                               name="title"
+                               maxlength="180"
+                               placeholder="e.g. Python Programming Assignment"
+                               required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="course">
+                        Course <span class="required">*</span>
+                    </label>
+
+                    <div class="input-wrapper">
+                        <i class="bi bi-mortarboard"></i>
+                        <input type="text"
+                               id="course"
+                               name="course"
+                               maxlength="150"
+                               placeholder="Enter course name"
+                               required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">
+                        Subject <span class="required">*</span>
+                    </label>
+
+                    <div class="input-wrapper">
+                        <i class="bi bi-book"></i>
+                        <input type="text"
+                               id="subject"
+                               name="subject"
+                               maxlength="150"
+                               placeholder="Enter subject name"
+                               required>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Schedule and Marks -->
+            <div class="section-heading section-spacing">
+                <span class="section-number">02</span>
+                <div>
+                    <h5>Schedule & Evaluation</h5>
+                    <p>Set the submission deadline and maximum marks.</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="due_date">
+                        Due Date <span class="required">*</span>
+                    </label>
+
+                    <div class="input-wrapper">
+                        <i class="bi bi-calendar-event"></i>
+                        <input type="date"
+                               id="due_date"
+                               name="due_date"
+                               required>
+                    </div>
+
+                    <small class="field-help">
+                        Last date for assignment submission.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="total_marks">
+                        Total Marks <span class="required">*</span>
+                    </label>
+
+                    <div class="input-wrapper">
+                        <i class="bi bi-award"></i>
+                        <input type="number"
+                               id="total_marks"
+                               name="total_marks"
+                               min="1"
+                               placeholder="e.g. 100"
+                               required>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Attachment -->
+            <div class="section-heading section-spacing">
+                <span class="section-number">03</span>
+                <div>
+                    <h5>Assignment Attachment</h5>
+                    <p>Upload a PDF, document or other supporting file.</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="attachment">
+                    Attachment <span class="optional">(Optional)</span>
+                </label>
+
+                <label for="attachment" class="upload-area">
+                    <div class="upload-icon">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                    </div>
+
+                    <div class="upload-text">
+                        <strong>Choose a file to upload</strong>
+                        <span>Click here to browse files on your device.</span>
+                        <small id="file-name">
+                            No file selected
+                        </small>
+                    </div>
+
+                    <input type="file"
+                           id="attachment"
+                           name="attachment"
+                           class="file-input">
+                </label>
+            </div>
+
+            <!-- Instructions -->
+            <div class="section-heading section-spacing">
+                <span class="section-number">04</span>
+                <div>
+                    <h5>Instructions</h5>
+                    <p>Explain the requirements and guidelines for students.</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="instructions">
+                    Assignment Instructions
+                    <span class="required">*</span>
+                </label>
+
+                <textarea id="instructions"
+                          name="instructions"
+                          rows="5"
+                          placeholder="Write assignment instructions, requirements and submission guidelines..."
+                          required></textarea>
+
+                <small class="field-help">
+                    Provide clear instructions so students understand the task.
+                </small>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group status-group">
+                <label for="status">
+                    Assignment Status <span class="required">*</span>
+                </label>
+
+                <div class="input-wrapper">
+                    <i class="bi bi-toggle-on"></i>
+
+                    <select id="status" name="status" required>
+                        <option value="Active" selected>Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <small class="field-help">
+                    Active assignments can be made available to students.
+                </small>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="{% url 'teacherdash' %}" class="cancel-btn">
+        <i class="bi bi-x-circle"></i>
+        Cancel
+    </a>
+
+                <button type="reset" class="reset-btn" id="resetForm">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    Reset Form
+                </button>
+
+                <button type="submit" class="submit-btn">
+                    <i class="bi bi-cloud-upload"></i>
+                    Upload Assignment
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Footer Note -->
+    <div class="page-footer">
+        <i class="bi bi-shield-check"></i>
+        Review the assignment details before making them available to students.
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const fileInput = document.getElementById("attachment");
+    const fileName = document.getElementById("file-name");
+    const resetButton = document.getElementById("resetForm");
+    const form = document.querySelector(".assignment-card form");
+
+    // Display selected filename
+    fileInput.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            fileName.textContent = this.files[0].name;
+            fileName.classList.add("file-selected");
+        } else {
+            fileName.textContent = "No file selected";
+            fileName.classList.remove("file-selected");
+        }
+    });
+
+    // Reset filename after form reset
+    resetButton.addEventListener("click", function () {
+        setTimeout(function () {
+            fileName.textContent = "No file selected";
+            fileName.classList.remove("file-selected");
+        }, 0);
+    });
+
+    // Prevent past due dates
+    const dueDate = document.getElementById("due_date");
+
+    const today = new Date();
+    const localToday = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    dueDate.min = localToday;
+
+});
+</script>
+
+{% endblock %}

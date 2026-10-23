@@ -1,0 +1,277 @@
+
+{% extends 'teacher/teacherbase.html' %}
+{% load static %}
+
+{% block title %}View Study Materials | Teacher Dashboard{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/teacher/tchview_studymaterial.css' %}">
+
+<section class="view-material-page">
+
+    <!-- Page Header -->
+    <div class="material-page-header">
+        <div class="header-left">
+            <div class="header-icon">
+                <i class="bi bi-journals"></i>
+            </div>
+
+            <div class="header-text">
+                <p class="eyebrow">TEACHING RESOURCES</p>
+                <h2>Study Materials</h2>
+                <p class="header-description">
+                    Manage your learning resources, edit details or remove materials.
+                </p>
+            </div>
+        </div>
+
+        <a href="{% url 'teacher_studymaterial' %}" class="add-material-btn">
+            <i class="bi bi-plus-lg"></i>
+            Add Material
+        </a>
+    </div>
+
+    <!-- Summary -->
+    <div class="material-summary">
+        <div class="summary-icon">
+            <i class="bi bi-collection"></i>
+        </div>
+
+        <div>
+            <p>Total Study Materials</p>
+            <h3>{{ study_materials|length }}</h3>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="material-message">
+                <i class="bi bi-check-circle-fill"></i>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Materials Table Card -->
+    <div class="materials-table-card">
+
+        <div class="table-card-header">
+            <div>
+                <h3>Uploaded Resources</h3>
+                <p>View and manage your study materials.</p>
+            </div>
+
+            <div class="table-heading-icon">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="material-search">
+            <i class="bi bi-search"></i>
+            <input type="search"
+                   id="materialSearch"
+                   placeholder="Search by title, course or subject..."
+                   aria-label="Search study materials">
+        </div>
+
+        <div class="table-responsive">
+            <table class="materials-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Study Material</th>
+                        <th>Course & Subject</th>
+                        <th>Type</th>
+                        <th>Resource</th>
+                        <th>Status</th>
+                        <th>Uploaded On</th>
+                        <th class="action-heading">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="materialTableBody">
+
+                    {% for material in study_materials %}
+                    <tr class="material-row">
+
+                        <td class="material-number">
+                            {{ forloop.counter }}
+                        </td>
+
+                        <!-- Title -->
+                        <td>
+                            <div class="material-title-cell">
+                                <div class="material-file-icon">
+                                    <i class="bi bi-file-earmark-richtext"></i>
+                                </div>
+
+                                <div class="material-title-content">
+                                    <strong>{{ material.title }}</strong>
+
+                                    <small>
+                                        By {{ material.uploaded_by }}
+                                    </small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Course and Subject -->
+                        <td>
+                            <div class="course-info">
+                                <strong>{{ material.course }}</strong>
+                                <small>{{ material.subject }}</small>
+                            </div>
+                        </td>
+
+                        <!-- Material Type -->
+                        <td>
+                            <span class="type-badge">
+                                {{ material.material_type }}
+                            </span>
+                        </td>
+
+                        <!-- Resource -->
+                        <td>
+                            {% if material.file %}
+                                <a href="{{ material.file.url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="resource-link">
+                                    <i class="bi bi-file-earmark-arrow-down"></i>
+                                    View File
+                                </a>
+                            {% elif material.external_url %}
+                                <a href="{{ material.external_url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="resource-link">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                    Open Link
+                                </a>
+                            {% else %}
+                                <span class="no-resource">No resource</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Status -->
+                        <td>
+                            {% if material.status == 'Active' %}
+                                <span class="status-badge status-active">
+                                    <span class="status-dot"></span>
+                                    Active
+                                </span>
+                            {% elif material.status == 'Inactive' %}
+                                <span class="status-badge status-inactive">
+                                    <span class="status-dot"></span>
+                                    Inactive
+                                </span>
+                            {% else %}
+                                <span class="status-badge status-other">
+                                    {{ material.status }}
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Date -->
+                        <td class="date-cell">
+                            {{ material.created_at|date:"d M Y" }}
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+                            <div class="action-buttons">
+
+                                <a href="#"
+                                   class="action-btn edit-btn"
+                                   title="Edit material"
+                                   aria-label="Edit {{ material.title }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <a href="#"
+                                   class="action-btn delete-btn"
+                                   title="Delete material"
+                                   aria-label="Delete {{ material.title }}">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-materials">
+                                <div class="empty-icon">
+                                    <i class="bi bi-journal-x"></i>
+                                </div>
+
+                                <h3>No Study Materials Found</h3>
+
+                                <p>
+                                    You haven't uploaded any study materials yet.
+                                    Add your first learning resource to get started.
+                                </p>
+
+                                <a href="{% url 'teacher_studymaterial' %}"
+                                   class="add-material-btn">
+                                    <i class="bi bi-plus-lg"></i>
+                                    Add Study Material
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    <tr id="noSearchResults" style="display: none;">
+                        <td colspan="8">
+                            <div class="no-search-results">
+                                <i class="bi bi-search"></i>
+                                No matching study materials found.
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-card-footer">
+            <i class="bi bi-shield-check"></i>
+            Manage your learning resources carefully.
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    const materialSearch = document.getElementById('materialSearch');
+    const materialRows = document.querySelectorAll('.material-row');
+    const noSearchResults = document.getElementById('noSearchResults');
+
+    materialSearch.addEventListener('input', function () {
+        const query = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        materialRows.forEach(function (row) {
+            const matches = row.textContent.toLowerCase().includes(query);
+
+            row.style.display = matches ? '' : 'none';
+
+            if (matches) {
+                visibleCount++;
+            }
+        });
+
+        noSearchResults.style.display =
+            visibleCount === 0 && materialRows.length > 0 ? '' : 'none';
+    });
+</script>
+
+{% endblock %}

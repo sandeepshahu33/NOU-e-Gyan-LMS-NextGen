@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from datetime import date
+from django.utils import timezone
 # Create your views here.
 
 def index(req):
@@ -206,6 +207,7 @@ def add_session(req):
         else:
             AcademicSession.objects.create(session_name=session_name,start_date=start_date,end_date=end_date,status=status)
             messages.success(req,"Session added successfully!!")
+            return redirect('view_sessions')
     return render(req,'admin/add_session.html',{"sessions":sessions})
 
 def view_sessions(req):
@@ -603,6 +605,65 @@ def delete_assignment(req,id):
 def teacherdash(req):
     username=Teacher.objects.get(user=req.user)
     return render(req,"teacher/teacherdash.html",{"username":username})
+
+def teacher_studymaterial(req):
+    username=Teacher.objects.get(user=req.user)
+    context={
+        "username":username,
+    }
+    if req.method == 'POST':
+        title=req.POST['title']
+        course=req.POST['course']
+        subject=req.POST['subject']
+        material_type=req.POST['material_type']
+        file=req.FILES.get('file')
+        external_url=req.POST['external_url']
+        description=req.POST['description']
+        uploaded_by=username.name
+        status=req.POST['status']
+        StudyMaterial.objects.create(title=title,course=course,subject=subject,material_type=material_type,file=file,external_url=external_url,description=description,uploaded_by=uploaded_by,status=status)
+        messages.success(req,"Study Material uploaded successfully!!")
+        return redirect('teacherdash')
+    return render(req,"teacher/teacher_studymaterial.html",context)
+
+def tchview_studymaterial(req):
+    study_materials=StudyMaterial.objects.all()
+    return render(req,"teacher/tchview_studymaterial.html",{"study_materials":study_materials})
+
+def techupload_assignment(req):
+    username=Teacher.objects.get(user=req.user)
+    if req.method == 'POST':
+        title=req.POST['title']
+        course=req.POST['course']
+        subject=req.POST['subject']
+        due_date=req.POST['due_date']
+        total_marks=req.POST['total_marks']
+        attachment=req.FILES.get('attachment')
+        instructions=req.POST['instructions']
+        created_by=username.name
+        status=req.POST['status']
+        Assignment.objects.create(title=title,course=course,subject=subject,due_date=due_date,total_marks=total_marks,attachment=attachment,instructions=instructions,created_by=created_by,status=status)
+        messages.success(req,"Assignment uploaded successfully!!")
+        return redirect('teacherdash')
+    return render(req,"teacher/tchupload_assignment.html")
+
+def tchview_assignment(req):
+    assignments=Assignment.objects.all()
+    active_count=Assignment.objects.filter(status="Active").count()
+    inactive_count=Assignment.objects.filter(status="Inactive").count()
+    courses=Course.objects.values_list('course_name',flat=True).distinct()
+    context={
+        "assignments":assignments,
+        "active_count":active_count,
+        "inactive_count":inactive_count,
+        "courses":courses,
+    }
+    return render(req,"teacher/tchview_assignment.html",context)
+
+def current_session(req):
+    academic_sessions=AcademicSession.objects.all()
+    return render(req,"teacher/current_session.html",{"academic_sessions":academic_sessions})
+
 # Student view
 def studentdash(req):
     return render(req,"student/studentdash.html")
