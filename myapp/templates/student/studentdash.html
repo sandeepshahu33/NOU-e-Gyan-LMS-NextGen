@@ -1,11 +1,422 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOU | Student</title>
-</head>
-<body>
-    <h1>This is Student Dashboard</h1>
-</body>
-</html>
+
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block title %}NOU e-Gyan | Student Dashboard{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student/studentdash.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+<div class="student-dashboard">
+
+    <!-- Welcome -->
+    <section class="student-welcome">
+        <div class="welcome-copy">
+            <span class="welcome-label">
+                <i class="bi bi-stars"></i> STUDENT LEARNING PORTAL
+            </span>
+
+            <h1>
+                Welcome back,
+                <span>{{ username|default:request.user.username }}</span>
+            </h1>
+
+            <p>Your academic journey, learning resources and assignments — all in one place.</p>
+
+            <div class="welcome-meta">
+                <span><i class="bi bi-calendar3"></i> {% now "d F Y" %}</span>
+                <span class="welcome-chip">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    {{ username.course|default:"Course not assigned" }}
+                </span>
+            </div>
+        </div>
+
+        <div class="welcome-illustration" aria-hidden="true">
+            <div class="illustration-orbit"></div>
+            <div class="illustration-cap">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <i class="bi bi-stars illustration-star"></i>
+            <i class="bi bi-book-half illustration-book"></i>
+        </div>
+    </section>
+
+
+    <!-- Statistics from database -->
+    <section class="student-stats">
+
+        <article class="stat-card stat-teal">
+            <div class="stat-icon"><i class="bi bi-mortarboard-fill"></i></div>
+            <p>Available Courses</p>
+            <h2>{{ total_courses|default:0 }}</h2>
+            <span>Matching your course</span>
+        </article>
+
+        <article class="stat-card stat-blue">
+            <div class="stat-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <p>My Subjects</p>
+            <h2>{{ total_subjects|default:0 }}</h2>
+            <span>For your semester</span>
+        </article>
+
+        <article class="stat-card stat-purple">
+            <div class="stat-icon"><i class="bi bi-journals"></i></div>
+            <p>Study Materials</p>
+            <h2>{{ total_materials|default:0 }}</h2>
+            <span>Available resources</span>
+        </article>
+
+        <article class="stat-card stat-orange">
+            <div class="stat-icon"><i class="bi bi-clipboard2-check-fill"></i></div>
+            <p>Assignments</p>
+            <h2>{{ total_assignments|default:0 }}</h2>
+            <span>For your course</span>
+        </article>
+
+    </section>
+
+
+    <!-- Main content -->
+    <div class="dashboard-layout">
+
+        <div class="dashboard-main">
+
+            <!-- Student profile -->
+            <section class="dashboard-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">YOUR INFORMATION</span>
+                        <h3>Student Profile</h3>
+                    </div>
+                    <span class="panel-heading-icon">
+                        <i class="bi bi-person-vcard-fill"></i>
+                    </span>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-field">
+                        <span>Full Name</span>
+                        <strong>{{ student.name|default:"Not available" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Enrollment Number</span>
+                        <strong>{{ student.enrollment_no|default:"Not available" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Email Address</span>
+                        <strong>{{ student.email|default:"Not available" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Mobile Number</span>
+                        <strong>{{ student.mobile|default:"Not available" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Course</span>
+                        <strong>{{ student.course|default:"Not assigned" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Semester</span>
+                        <strong>{{ student.semester|default:"Not assigned" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Academic Session</span>
+                        <strong>{{ student.session|default:"Not assigned" }}</strong>
+                    </div>
+
+                    <div class="profile-field">
+                        <span>Account Status</span>
+                        <strong>
+                            <span class="status-pill">{{ student.status|default:"Unknown" }}</span>
+                        </strong>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Subjects -->
+            <section class="dashboard-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">YOUR CURRICULUM</span>
+                        <h3>My Subjects</h3>
+                        <p>Subjects assigned to your course and semester.</p>
+                    </div>
+                    <span class="panel-heading-icon">
+                        <i class="bi bi-book-half"></i>
+                    </span>
+                </div>
+
+                {% if subjects %}
+                    <div class="subject-list">
+                        {% for subject in subjects %}
+                        <article class="subject-item">
+                            <div class="subject-symbol">
+                                <i class="bi bi-journal-bookmark-fill"></i>
+                            </div>
+
+                            <div class="subject-info">
+                                <h4>{{ subject.subject_name }}</h4>
+                                <p>
+                                    {{ subject.subject_code }}
+                                    <span class="subject-separator">•</span>
+                                    Semester {{ subject.semester }}
+                                </p>
+                                <span class="subject-teacher">
+                                    <i class="bi bi-person-workspace"></i>
+                                    {{ subject.teacher|default:"Teacher not assigned" }}
+                                </span>
+                            </div>
+
+                            <span class="credit-badge">
+                                {{ subject.credits }} credits
+                            </span>
+                        </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-journal-x"></i>
+                        <strong>No subjects available</strong>
+                        <p>Subjects for your course and semester will appear here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+
+            <!-- Study materials -->
+            <section class="dashboard-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">LEARNING RESOURCES</span>
+                        <h3>Study Materials</h3>
+                        <p>Learning resources available for your course.</p>
+                    </div>
+                    <span class="panel-heading-icon">
+                        <i class="bi bi-folder2-open"></i>
+                    </span>
+                </div>
+
+                {% if study_materials %}
+                    <div class="resource-list">
+                        {% for material in study_materials %}
+                        <article class="resource-item">
+                            <div class="resource-icon">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+
+                            <div class="resource-info">
+                                <h4>{{ material.title }}</h4>
+                                <p>{{ material.subject }} · {{ material.material_type }}</p>
+                                <span>
+                                    Added {{ material.created_at|date:"d M Y" }}
+                                </span>
+                            </div>
+
+                            {% if material.file %}
+                                <a class="resource-action"
+                                   href="{{ material.file.url }}"
+                                   target="_blank"
+                                   rel="noopener"
+                                   aria-label="Open {{ material.title }}">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            {% elif material.external_url %}
+                                <a class="resource-action"
+                                   href="{{ material.external_url }}"
+                                   target="_blank"
+                                   rel="noopener"
+                                   aria-label="Open {{ material.title }}">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            {% else %}
+                                <span class="resource-unavailable">No file</span>
+                            {% endif %}
+                        </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-folder2"></i>
+                        <strong>No study materials available</strong>
+                        <p>Published materials for your course will appear here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+
+            <!-- Assignments -->
+            <section class="dashboard-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">YOUR COURSEWORK</span>
+                        <h3>Assignments</h3>
+                        <p>Assignments and their submission deadlines.</p>
+                    </div>
+                    <span class="panel-heading-icon">
+                        <i class="bi bi-clipboard2-check-fill"></i>
+                    </span>
+                </div>
+
+                {% if assignments %}
+                    <div class="assignment-list">
+                        {% for assignment in assignments %}
+                        <article class="assignment-item">
+                            <div class="assignment-icon">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+
+                            <div class="assignment-info">
+                                <h4>{{ assignment.title }}</h4>
+                                <p>{{ assignment.subject }}</p>
+                                <span>
+                                    <i class="bi bi-calendar-event"></i>
+                                    Due: {{ assignment.due_date|date:"d M Y" }}
+                                </span>
+                            </div>
+
+                            <div class="assignment-marks">
+                                <strong>{{ assignment.total_marks }}</strong>
+                                <span>Marks</span>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-clipboard-check"></i>
+                        <strong>No assignments available</strong>
+                        <p>Assignments published for your course will appear here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+        </div>
+
+
+        <!-- Right sidebar -->
+        <aside class="dashboard-side">
+
+            <!-- Current course -->
+            <section class="side-panel course-summary">
+                <span class="side-panel-label">
+                    <i class="bi bi-mortarboard-fill"></i> MY COURSE
+                </span>
+
+                <h3>{{ student.course|default:"Course not assigned" }}</h3>
+
+                <div class="course-detail">
+                    <span>Academic Session</span>
+                    <strong>{{ student.session|default:"Not assigned" }}</strong>
+                </div>
+
+                <div class="course-detail">
+                    <span>Current Semester</span>
+                    <strong>{{ student.semester|default:"Not assigned" }}</strong>
+                </div>
+
+                {% if academic_session %}
+                <div class="course-detail">
+                    <span>Session Dates</span>
+                    <strong>
+                        {{ academic_session.start_date|date:"d M Y" }}
+                        – {{ academic_session.end_date|date:"d M Y" }}
+                    </strong>
+                </div>
+                {% endif %}
+            </section>
+
+
+            <!-- Course records -->
+            <section class="dashboard-panel side-list-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">COURSE CATALOGUE</span>
+                        <h3>Course Details</h3>
+                    </div>
+                </div>
+
+                {% if courses %}
+                    <div class="mini-list">
+                        {% for course in courses %}
+                        <div class="mini-list-item">
+                            <span class="mini-list-icon">
+                                <i class="bi bi-book"></i>
+                            </span>
+                            <div>
+                                <strong>{{ course.course_name }}</strong>
+                                <span>{{ course.course_code }} · {{ course.duration }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state compact-empty">
+                        <i class="bi bi-mortarboard"></i>
+                        <strong>No matching courses</strong>
+                    </div>
+                {% endif %}
+            </section>
+
+
+            <!-- Academic session -->
+            <section class="dashboard-panel session-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">ACADEMIC CALENDAR</span>
+                        <h3>Session Information</h3>
+                    </div>
+                    <span class="panel-heading-icon">
+                        <i class="bi bi-calendar2-week-fill"></i>
+                    </span>
+                </div>
+
+                {% if academic_session %}
+                    <h4>{{ academic_session.session_name }}</h4>
+
+                    <div class="session-date-row">
+                        <span>Start Date</span>
+                        <strong>{{ academic_session.start_date|date:"d M Y" }}</strong>
+                    </div>
+
+                    <div class="session-date-row">
+                        <span>End Date</span>
+                        <strong>{{ academic_session.end_date|date:"d M Y" }}</strong>
+                    </div>
+
+                    <div class="session-status">
+                        <span class="session-status-dot"></span>
+                        {{ academic_session.status }}
+                    </div>
+                {% else %}
+                    <div class="empty-state compact-empty">
+                        <i class="bi bi-calendar2-x"></i>
+                        <strong>Session not available</strong>
+                        <p>Academic session details will appear here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+        </aside>
+
+    </div>
+
+
+    <!-- Footer note -->
+    <footer class="dashboard-footer">
+        <i class="bi bi-shield-check"></i>
+        Your academic information is provided through the NOU E-Gyan student portal.
+    </footer>
+
+</div>
+
+{% endblock content %}

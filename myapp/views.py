@@ -666,5 +666,22 @@ def current_session(req):
 
 # Student view
 def studentdash(req):
-    return render(req,"student/studentdash.html")
+    username=Student.objects.get(user=req.user)
+    course=username.course
+    total_courses=Course.objects.count()
+    # Student ke course aur semester ke subjects
+    subjects = Subject.objects.filter(
+        course=course,
+        semester=username.semester,
+        status="Active"
+    )
+     # Total subjects
+    total_subjects = subjects.count()
+    context={
+        "total_courses":total_courses,
+        "username":username,
+        "total_subjects":total_subjects,
+    }
+
+    return render(req,"student/studentdash.html",context)
 
