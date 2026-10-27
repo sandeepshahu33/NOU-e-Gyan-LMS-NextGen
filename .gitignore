@@ -1,4 +1,3 @@
-
 # Google OAuth credentials
 client_secret.json
 
@@ -6,5 +5,7 @@ client_secret.json
 __pycache__/
 *.py[cod]
 
-# Environment variables
+# Environment variables and secrets
 .env
+.env.*
+!.env.example
