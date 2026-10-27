@@ -28,6 +28,12 @@ from .google_meet import (
 )
 from .models import GoogleMeeting
 
+from .compiler_helper import LANGUAGES, STARTER_CODE, run_code
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.views.decorators.cache import cache_control
+from .compiler_helper import LANGUAGES, STARTER_CODE, run_code
+
 
 
 def index(req):
@@ -779,6 +785,58 @@ def _refresh_meeting_statuses(queryset):
             item.save(update_fields=['status'])
     return queryset
 
-def online_class(req):
-    return render(req,"admin/onlineclass.html")
+# def online_class(req):
+#     return render(req,"admin/onlineclass.html")
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@cache_control(
+no_cache=True,
+must_revalidate=True,
+no_store=True
+)
+def student_code_lab(request):
+
+
+    context = {
+    'languages': LANGUAGES,
+    'starter_code': STARTER_CODE,
+    }
+
+    return render(
+    request,
+    'student/code_lab.html',
+    context
+)
+def run_student_code(request):
+    language = (request.POST.get('language') or '').strip()
+    source_code = request.POST.get('source_code') or ''
+    stdin = request.POST.get('stdin') or ''
+
+    if len(source_code) > 50000:
+        return JsonResponse({
+        'ok': False,
+        'error': 'Maximum code size is 50,000 characters.'
+    }, status=400)
+
+    if len(stdin) > 10000:
+        return JsonResponse({
+        'ok': False,
+        'error': 'Maximum input size is 10,000 characters.'
+    }, status=400)
+
+    result, error = run_code(
+    language,
+    source_code,
+    stdin
+)
+
+    if error:
+        return JsonResponse({
+        'ok': False,
+        'error': error
+    }, status=502)
+
+    return JsonResponse({
+    'ok': True,
+    **result
+})

@@ -135,6 +135,10 @@ urlpatterns = [
     ),
    path("superadmin/online-classes/schedule/",superadmin_schedule_class,name="superadmin_schedule_class"),
    path("teacher/online-classes/schedule/",teacher_schedule_class,name="teacher_schedule_class"),
+   
+   path('code-lab/',student_code_lab,name='student_code_lab'),
+    # Run Code
+    path('run-code/',run_student_code,name='run_student_code'),
 ]
 
 if settings.DEBUG:urlpatterns += static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

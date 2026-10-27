@@ -136,7 +136,7 @@
     <a href="{% url 'admindash' %}" class="menu-link" data-title="Dashboard">
       <i class="bi bi-grid-1x2-fill"></i>Dashboard
     </a>
-
+    <div class="menu-label">Manage sessions</div>
     <a href="{% url 'add_session' %}" class="menu-link" data-title="Create Academic Session">
       <i class="bi bi-calendar-week-fill"></i> Academic Session
     </a>
@@ -170,6 +170,9 @@
     <a href="{% url 'add_teacher' %}" class="menu-link" data-title="Add Teachers">
       <i class="bi bi-person-video3"></i>Add Teachers
     </a>
+     <a href="#" class="menu-link" data-title="Bulk Upload Students">
+      <i class="bi bi-cloud-arrow-up-fill"></i>Bulk Upload Teacher
+    </a>
 
     <a href="{% url 'view_teacher' %}" class="menu-link" data-title="View Teachers">
       <i class="bi bi-people"></i>View Teachers
@@ -188,23 +191,13 @@
     </a>
 
     <a href="#" class="menu-link" data-title="Bulk Upload Students">
-      <i class="bi bi-cloud-arrow-up-fill"></i>Bulk Upload
+      <i class="bi bi-cloud-arrow-up-fill"></i>Bulk Upload Student
     </a>
 
     <a href="{% url 'view_students' %}" class="menu-link" data-title="View Students">
       <i class="bi bi-people-fill"></i>View Students
     </a>
-
-    <div class="menu-label">COURSEWORK &amp; LMS</div>
-
-    <a href="{% url 'upload_assignment' %}" class="menu-link" data-title="Create Assignment">
-      <i class="bi bi-journal-plus"></i>Create Assignment
-    </a>
-
-    <a href="{% url 'view_assignment' %}" class="menu-link" data-title="Assignments Directory">
-      <i class="bi bi-journal-check"></i>Assignments
-    </a>
-
+    <div class="menu-label">Study material</div>
     <a href="{% url 'add_studymaterial' %}" class="menu-link" data-title="Upload Study Material">
       <i class="bi bi-cloud-arrow-up"></i>Upload Material
     </a>
@@ -212,6 +205,19 @@
     <a href="{% url 'view_studymaterial' %}" class="menu-link" data-title="Study Material Repository">
       <i class="bi bi-collection-play-fill"></i>Study Material
     </a>
+
+    <div class="menu-label">Tasks and assignments</div>
+
+    <a href="{% url 'upload_assignment' %}" class="menu-link" data-title="Create Assignment">
+      <i class="bi bi-journal-plus"></i>Create Assignment
+    </a>
+
+    <a href="{% url 'view_assignment' %}" class="menu-link" data-title="Assignments Directory">
+      <i class="bi bi-journal-check"></i>Veiw Assignments
+    </a>
+   
+
+    
 
     <div class="menu-label">ONLINE EXAMINATIONS</div>
 
@@ -222,6 +228,26 @@
     <a href="#" class="menu-link" data-title="CBT Examination Directory">
       <i class="bi bi-laptop"></i>Online Tests
     </a>
+
+    <div class="menu-label">Attendance</div>
+
+<a href="#" class="menu-link" data-title="Student Attendance">
+    <i class="bi bi-person-check"></i> Student Attendance
+</a>
+
+<a href="#" class="menu-link" data-title="Attendance Report">
+    <i class="bi bi-clipboard-data"></i> Attendance Report
+</a>
+
+    <div class="menu-label">Online classes</div>
+
+    <a href="{% url 'online_class' %}" class="menu-link" data-title="Schedule Meet Class">
+    <i class="bi bi-camera-video"></i> Schedule Meet Class
+    </a>
+
+<a href="{% url 'superadmin_classes' %}" class="menu-link" data-title="View Classes">
+    <i class="bi bi-easel"></i> View Classes
+</a>
 
     <div class="menu-label">OPERATIONS &amp; SETTINGS</div>
 

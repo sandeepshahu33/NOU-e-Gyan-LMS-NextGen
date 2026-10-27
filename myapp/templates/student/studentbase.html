@@ -107,7 +107,7 @@
     <!-- Dashboard -->
     <div class="menu-label">Overview</div>
 
-    <a href="#" class="menu-link active" data-title="Dashboard">
+    <a href="{% url 'studentdash' %}" class="menu-link active" data-title="Dashboard">
         <i class="bi bi-speedometer2"></i>
         <span>Dashboard</span>
     </a>
@@ -148,7 +148,7 @@
         <span>Submissions</span>
     </a>
 
-    <a href="#" class="menu-link" data-title="Programming Lab">
+    <a href="{% url 'student_code_lab' %}" class="menu-link" data-title="Programming Lab">
         <i class="bi bi-code-slash"></i>
         <span>Programming Lab</span>
     </a>
@@ -174,7 +174,7 @@
     <!-- Online Classes -->
     <div class="menu-label">Online Classes</div>
 
-    <a href="#" class="menu-link" data-title="Class Schedule">
+    <a href="{% url 'student_classes' %}" class="menu-link" data-title="Class Schedule">
         <i class="bi bi-camera-video-fill"></i>
         <span>Class Schedule</span>
     </a>

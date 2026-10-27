@@ -182,12 +182,12 @@
 
         <div class="menu-label">Online Classes</div>
 
-        <a href="#" class="menu-link" data-title="Schedule Google Meet">
+        <a href="{% url 'teacher_schedule_class' %}" class="menu-link" data-title="Schedule Google Meet">
             <i class="bi bi-camera-video-fill"></i>
             <span>Schedule Google Meet</span>
         </a>
 
-        <a href="#" class="menu-link" data-title="View Classes">
+        <a href="{% url 'teacher_classes' %}" class="menu-link" data-title="View Classes">
             <i class="bi bi-camera-video-off-fill"></i>
             <span>View Classes</span>
         </a>
@@ -211,7 +211,7 @@
 
             <div class="sidebar-user-info">
                 <div class="sidebar-user-name">
-                    {{ request.user|default:'Teacher' }} ({{ username | default:"Teacher" }})
+                    {{ request.user|default:'Teacher' }} ({{  request.user.Teacher.name|default:'Teacher' }})
                 </div>
                 <div class="sidebar-user-role">Teacher Administrator</div>
             </div>
@@ -281,7 +281,7 @@
                             <div class="fw-bold text-dark">
                                  {{ request.user|default:"Teacher" }}
                             </div>
-                            <small class="text-secondary">{{ username.name | default:"Teacher" }}</small>
+                            <small class="text-secondary">{{ request.user.Teacher.name|default:'Teacher' }}</small>
                             
                         </div>
                     </li>
