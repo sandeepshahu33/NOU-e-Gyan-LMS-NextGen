@@ -9,6 +9,27 @@ from datetime import date
 from django.utils import timezone
 # Create your views here.
 
+from django.contrib.auth.decorators import login_required
+import csv
+import json
+from django.http import HttpResponse
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.apps import apps
+from django.utils import timezone
+from django.db import transaction
+from django.urls import reverse
+from urllib.parse import quote
+
+# Google Meet integration lives in google_meet.py; keep URL-facing names here.
+from .google_meet import (
+    google_login, google_callback, schedule_meeting, start_meeting,
+    student_classes, join_meeting, teacher_meetings, superadmin_meetings,
+)
+from .models import GoogleMeeting
+
+
+
 def index(req):
     if req.method== "POST":
         username=req.POST['username']
@@ -20,7 +41,7 @@ def index(req):
                 messages.success(req,"Super Admin Loggedin successfully!!")
                 return redirect('admindash')
             elif hasattr(user,'Teacher'):
-                active_teacher=Teacher.objects.filter( user=user,status="Active").exists()
+                active_teacher=tbl_teacher.objects.filter( user=user,status="Active").exists()
                 if active_teacher:
                     login(req, user)
                     messages.success(req, "Teacher logged in successfully!")
@@ -29,10 +50,10 @@ def index(req):
                     messages.error(req,"Your account is blocked. Contact to our team !!")
                     return redirect('index')
             elif hasattr(user,'Student'):
-                active_student=Student.objects.filter( user=user,status="Active").exists()
+                active_student=tbl_student.objects.filter( user=user,status="Active").exists()
                 if active_student:
                     login(req, user)
-                    messages.success(req, "Student logged in successfully!")
+                    messages.success(req, "tbl_student logged in successfully!")
                     return redirect('studentdash')
                 else:
                     messages.error(req,"Your account is blocked. Contact to our team !!")
@@ -48,25 +69,25 @@ def admindash(req):
 
     # TOTAL COUNTS
 
-    total_students = Student.objects.count()
-    total_teachers = Teacher.objects.count()
-    total_courses = Course.objects.count()
-    total_subjects = Subject.objects.count()
+    total_students = tbl_student.objects.count()
+    total_teachers = tbl_teacher.objects.count()
+    total_courses = tbl_course.objects.count()
+    total_subjects = tbl_subject.objects.count()
     total_materials = StudyMaterial.objects.count()
     total_assignments = Assignment.objects.count()
     total_sessions = AcademicSession.objects.count()
 
     # ACTIVE COUNTS
 
-    active_students = Student.objects.filter(
+    active_students = tbl_student.objects.filter(
         status__iexact='Active'
     ).count()
 
-    active_teachers = Teacher.objects.filter(
+    active_teachers = tbl_teacher.objects.filter(
         status__iexact='Active'
     ).count()
 
-    active_courses = Course.objects.filter(
+    active_courses = tbl_course.objects.filter(
         status__iexact='Active'
     ).count()
 
@@ -77,14 +98,14 @@ def admindash(req):
     # STUDENT ANALYSIS
 
     students_by_course = (
-        Student.objects
+        tbl_student.objects
         .values('course')
         .annotate(total=Count('id'))
         .order_by('-total')
     )
 
     students_by_session = (
-        Student.objects
+        tbl_student.objects
         .values('session')
         .annotate(total=Count('id'))
         .order_by('-total')
@@ -93,7 +114,7 @@ def admindash(req):
     # COURSE ANALYSIS
 
     courses_by_level = (
-        Course.objects
+        tbl_course.objects
         .values('level')
         .annotate(total=Count('id'))
         .order_by('-total')
@@ -119,7 +140,7 @@ def admindash(req):
 
     # RECENT STUDENTS
 
-    recent_students = Student.objects.order_by('-id')[:5]
+    recent_students = tbl_student.objects.order_by('-id')[:5]
 
     # RECENT MATERIALS
 
@@ -249,15 +270,15 @@ def add_course(req):
         duration=req.POST['duration']
         description=req.POST['description']
         status=req.POST['status']
-        Course.objects.create(course_name=course_name,course_code=course_code,session=session,level=level,duration=duration,description=description,status=status)
+        tbl_course.objects.create(course_name=course_name,course_code=course_code,session=session,level=level,duration=duration,description=description,status=status)
         messages.success(req,"Course is added successfully!!")
         return redirect('view-courses')
     return render(req,'admin/add_course.html',{"sessions":session})
 
 def view_courses(req):
-    courses=Course.objects.all()
-    active_count=Course.objects.filter(status="Active").count()
-    inactive_count=Course.objects.filter(status="Inactive").count()
+    courses=tbl_course.objects.all()
+    active_count=tbl_course.objects.filter(status="Active").count()
+    inactive_count=tbl_course.objects.filter(status="Inactive").count()
 
     context={
         'courses':courses,
@@ -268,7 +289,7 @@ def view_courses(req):
 
 def edit_course(req,id):
     sessions=AcademicSession.objects.filter(status="Active").all()
-    course=Course.objects.get(id=id)
+    course=tbl_course.objects.get(id=id)
     context={
         "course":course,
         'sessions':sessions,
@@ -276,20 +297,18 @@ def edit_course(req,id):
     if req.method=="POST":
         course_name=req.POST['course_name']
         course_code=req.POST['course_code']
-        session_id=req.POST['session_id']
+        session=req.POST['session']
         level=req.POST['level']
         duration=req.POST['duration']
         description=req.POST['description']
         status=req.POST['status']
-        selected_session=AcademicSession.objects.get(id=session_id)
-        Course.objects.filter(id=id).update(course_name=course_name,course_code=course_code,session_id=selected_session,level=level,duration=duration,description=description,status=status)
-        print(session_id)
+        tbl_course.objects.filter(id=id).update(course_name=course_name,course_code=course_code,session=session,level=level,duration=duration,description=description,status=status)
         messages.success(req,"Course updated successfully !!")
         return redirect('view_courses')
     return render(req,"admin/edit_course.html",context)
 
 def delete_course(req,id):
-    course=Course.objects.get(id=id)
+    course=tbl_course.objects.get(id=id)
     if req.method == 'POST':
         course.delete()
         messages.success(req,"Course deleted successfully !! ")
@@ -315,15 +334,15 @@ def add_teacher(req):
         password=req.POST['password']
         status=req.POST['status']
         user_obj=User.objects.create_user(username=user,password=password,email=email)
-        Teacher.objects.create(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,user=user_obj,password=password,status=status)
+        tbl_teacher.objects.create(employee_id=employee_id,name=name,email=email,mobile=mobile,department=department,designation=designation,user=user_obj,password=password,status=status)
         messages.success(req,"Teacher added successfully !!")
         return redirect('view_teacher')
     return render(req,"admin/add_teacher.html",{"users":users})
 
 def view_teacher(req):
-    teachers=Teacher.objects.all()
-    active_count=Teacher.objects.filter(status="Active").count()
-    department_count=Teacher.objects.values_list('department',flat=True).distinct().count()
+    teachers=tbl_teacher.objects.all()
+    active_count=tbl_teacher.objects.filter(status="Active").count()
+    department_count=tbl_teacher.objects.values_list('department',flat=True).distinct().count()
     context={
         'teachers':teachers,
         'active_count':active_count,
@@ -332,7 +351,7 @@ def view_teacher(req):
     return render(req,'admin/view_teacher.html',context)
 
 def edit_teacher(req,id):
-    teacher=Teacher.objects.get(id=id)
+    teacher=tbl_teacher.objects.get(id=id)
     if req.method == 'POST':
         employee_id=req.POST['employee_id']
         name=req.POST['name']
@@ -362,7 +381,7 @@ def edit_teacher(req,id):
     return render(req,"admin/edit_teacher.html",{"teacher":teacher})
 
 def delete_teacher(req,id):
-    teacher=Teacher.objects.get(id=id)
+    teacher=tbl_teacher.objects.get(id=id)
     if req.method == "POST":
         teacher.user.delete()
         messages.success(req,"Teacher deleted successfully!!")
@@ -370,7 +389,8 @@ def delete_teacher(req,id):
     return render(req,"admin/delete_teacher.html",{"teacher":teacher})
 
 def add_subject(req):
-    teachers=Teacher.objects.all()
+    teachers=tbl_teacher.objects.all()
+    courses=tbl_course.objects.filter(status="Active")
     if req.method == "POST":
         course=req.POST['course']
         subject_name=req.POST['subject_name']
@@ -380,16 +400,20 @@ def add_subject(req):
         teacher=req.POST['teacher']
         description=req.POST['description']
         status=req.POST['status']
-        Subject.objects.create(course=course,subject_name=subject_name,subject_code=subject_code,semester=semester,credits=credits,teacher=teacher,description=description,status=status)
+        tbl_course.objects.create(course=course,subject_name=subject_name,subject_code=subject_code,semester=semester,credits=credits,teacher=teacher,description=description,status=status)
         messages.success(req,"Subject added successfullly !! ")
         return redirect('view_subjects')
-    return render(req,"admin/add_subject.html",{"teachers":teachers})
+    context={
+        "teachers":teachers,
+        "courses":courses,
+    }
+    return render(req,"admin/add_subject.html",context)
 
 def view_subjects(req):
-    subjects=Subject.objects.all()
-    active_count=Subject.objects.filter(status="Active").count()
-    inactive_count=Subject.objects.filter(status="Inactive").count()
-    semesters=Subject.objects.values_list("semester",flat=True)
+    subjects=tbl_subject.objects.all()
+    active_count=tbl_subject.objects.filter(status="Active").count()
+    inactive_count=tbl_subject.objects.filter(status="Inactive").count()
+    semesters=tbl_subject.objects.values_list("semester",flat=True)
     context={
         "subjects":subjects,
         "active_count":active_count,
@@ -411,17 +435,17 @@ def add_student(req):
         password=req.POST['password']
         status=req.POST['status']
         user_obj=User.objects.create_user(username=user,password=password,email=email)
-        Student.objects.create(enrollment_no=enrollment_no,name=name,email=email,mobile=mobile,course=course,session=session,semester=semester,user=user_obj,password=password,status=status)
-        messages.success(req,"Student added successfully !! ")
+        tbl_student.objects.create(enrollment_no=enrollment_no,name=name,email=email,mobile=mobile,course=course,session=session,semester=semester,user=user_obj,password=password,status=status)
+        messages.success(req,"tbl_student added successfully !! ")
         return redirect('view_students')
     return render(req,"admin/add_student.html")
 
 def view_students(req):
-    students=Student.objects.all()
-    active_count=Student.objects.filter(status="Active").count()
-    inactive_count=Student.objects.filter(status="Inactive").count()
-    semesters=Student.objects.values_list("semester",flat=True)
-    courses=Student.objects.values_list("course",flat=True)
+    students=tbl_student.objects.all()
+    active_count=tbl_student.objects.filter(status="Active").count()
+    inactive_count=tbl_student.objects.filter(status="Inactive").count()
+    semesters=tbl_student.objects.values_list("semester",flat=True)
+    courses=tbl_student.objects.values_list("course",flat=True)
     context={
         "students":students,
         "active_count":active_count,
@@ -432,7 +456,7 @@ def view_students(req):
     return render(req,"admin/view_students.html",context)
 
 def edit_student(req,id):
-    student=Student.objects.get(id=id)
+    student=tbl_student.objects.get(id=id)
     if req.method == "POST":
         enrollment_no=req.POST['enrollment_no']
         name=req.POST['name']
@@ -459,20 +483,20 @@ def edit_student(req,id):
         student.user.email = email
         student.user.save()
         student.save()
-        messages.success(req,"Student data updated successfully !! ")
+        messages.success(req,"tbl_student data updated successfully !! ")
         return redirect('view_students')
     return render(req,"admin/edit_student.html",{"student":student})
 
 def delete_student(req,id):
-    student=Student.objects.get(id=id)
+    student=tbl_student.objects.get(id=id)
     if req.method == "POST":
         student.user.delete()
-        messages.success(req,"Student deleted successfully!!")
+        messages.success(req,"tbl_student deleted successfully!!")
         return redirect("view_students")
     return render(req,"admin/delete_student.html",{"student":student})
 
 def add_studymaterial(req):
-    teachers=Teacher.objects.filter(status="Active").all()
+    teachers=tbl_teacher.objects.filter(status="Active").all()
     if req.method == 'POST':
         title=req.POST['title']
         course=req.POST['course']
@@ -492,7 +516,7 @@ def view_studymaterial(req):
     materials=StudyMaterial.objects.all()
     active_count=StudyMaterial.objects.filter(status="Active").count()
     inactive_count=StudyMaterial.objects.filter(status="Inactive").count()
-    courses=Course.objects.values_list('course_name',flat=True).distinct()
+    courses=tbl_course.objects.values_list('course_name',flat=True).distinct()
     material_types=StudyMaterial.objects.values_list('material_type',flat=True).distinct()
     context={
         "materials":materials,
@@ -504,7 +528,7 @@ def view_studymaterial(req):
     return render(req,"admin/view_studymaterial.html",context)
 def edit_studymaterial(req,id):
     material=StudyMaterial.objects.get(id=id)
-    teachers=Teacher.objects.filter(status="Active").all()
+    teachers=tbl_teacher.objects.filter(status="Active").all()
     context={
         "material":material,
         "teachers":teachers,
@@ -533,7 +557,7 @@ def delete_studymaterial(req,id):
     return render(req,"admin/delete_studymaterial.html",{"material":material})
 
 def upload_assignment(req):
-    teachers=Teacher.objects.filter(status="Active").all()
+    teachers=tbl_teacher.objects.filter(status="Active").all()
     if req.method == 'POST':
         title=req.POST['title']
         course=req.POST['course']
@@ -553,8 +577,8 @@ def view_assignment(req):
     assignments=Assignment.objects.all()
     active_count=Assignment.objects.filter(status="Active").count()
     inactive_count=Assignment.objects.filter(status="Inactive").count()
-    courses=Course.objects.values_list('course_name',flat=True).distinct()
-    subjects=Subject.objects.values_list('subject_name',flat=True).distinct()
+    courses=tbl_course.objects.values_list('course_name',flat=True).distinct()
+    subjects=tbl_subject.objects.values_list('subject_name',flat=True).distinct()
     context={
         "assignments":assignments,
         "active_count":active_count,
@@ -566,7 +590,7 @@ def view_assignment(req):
 
 def edit_assignment(req,id):
     assignment=Assignment.objects.get(id=id)
-    teachers=Teacher.objects.filter(status="Active").all()
+    teachers=tbl_teacher.objects.filter(status="Active").all()
     context={
         "assignment":assignment,
         "teachers":teachers,
@@ -603,11 +627,11 @@ def delete_assignment(req,id):
 
 # Teacher view
 def teacherdash(req):
-    username=Teacher.objects.get(user=req.user)
+    username=tbl_teacher.objects.get(user=req.user)
     return render(req,"teacher/teacherdash.html",{"username":username})
 
 def teacher_studymaterial(req):
-    username=Teacher.objects.get(user=req.user)
+    username=tbl_teacher.objects.get(user=req.user)
     context={
         "username":username,
     }
@@ -631,7 +655,7 @@ def tchview_studymaterial(req):
     return render(req,"teacher/tchview_studymaterial.html",{"study_materials":study_materials})
 
 def techupload_assignment(req):
-    username=Teacher.objects.get(user=req.user)
+    username=tbl_teacher.objects.get(user=req.user)
     if req.method == 'POST':
         title=req.POST['title']
         course=req.POST['course']
@@ -651,7 +675,7 @@ def tchview_assignment(req):
     assignments=Assignment.objects.all()
     active_count=Assignment.objects.filter(status="Active").count()
     inactive_count=Assignment.objects.filter(status="Inactive").count()
-    courses=Course.objects.values_list('course_name',flat=True).distinct()
+    courses=tbl_course.objects.values_list('course_name',flat=True).distinct()
     context={
         "assignments":assignments,
         "active_count":active_count,
@@ -664,24 +688,97 @@ def current_session(req):
     academic_sessions=AcademicSession.objects.all()
     return render(req,"teacher/current_session.html",{"academic_sessions":academic_sessions})
 
-# Student view
+# tbl_student view
 def studentdash(req):
-    username=Student.objects.get(user=req.user)
-    course=username.course
-    total_courses=Course.objects.count()
-    # Student ke course aur semester ke subjects
-    subjects = Subject.objects.filter(
-        course=course,
-        semester=username.semester,
-        status="Active"
-    )
-     # Total subjects
-    total_subjects = subjects.count()
+    username=tbl_student.objects.get(user=req.user)
     context={
-        "total_courses":total_courses,
         "username":username,
-        "total_subjects":total_subjects,
     }
-
     return render(req,"student/studentdash.html",context)
+# Test the filtter and search using ORM
+def filter_test(req):
+    teachers=tbl_teacher.objects.all()
+    status=req.GET.get('status')
+    department=req.GET.get("department")
+    if status or department:
+        if status:
+            teachers=teachers.filter(status=status)
+        if department:
+            teachers=teachers.filter(department=department)
+    context={
+        "teachers":teachers,
+    }
+    return render(req,"admin/filter_test.html",context)
+
+def search_test(req):
+    teachers=tbl_teacher.objects.all()
+    kwd=req.GET.get('search','').strip()
+    print(kwd)
+    if kwd:
+        teachers=tbl_teacher.objects.filter(name__icontains=kwd)
+        if not teachers.exists():
+            teachers=tbl_teacher.objects.filter(department__icontains=kwd)
+        if not teachers.exists():
+            teachers=tbl_teacher.objects.filter(designation__icontains=kwd)
+    context={
+        "teachers":teachers,
+        "kwd":kwd,
+    }
+    return render(req,"admin/search_test.html",context)
+
+# google meet code 
+@login_required
+def online_class(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    if request.user.is_superuser:
+        return redirect('superadmin_schedule_class')
+    if hasattr(request.user, 'Teacher'):
+        return redirect('teacher_schedule_class')
+    return HttpResponse('Only teachers and superadmin can schedule classes.', status=403)
+
+
+def superadmin_schedule_class(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    if not request.user.is_superuser:
+        return HttpResponse('Only superadmin can schedule classes.', status=403)
+    return render(request, 'admin/onlineclass.html', {
+        'teachers': tbl_teacher.objects.select_related('user').order_by('name'),
+        'courses': tbl_course.objects.all(),
+        'subjects': tbl_subject.objects.all(),
+        'fixed_teacher': None,
+    })
+
+
+def teacher_schedule_class(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    if not hasattr(request.user, 'Teacher'):
+        return HttpResponse('Only teachers can schedule classes.', status=403)
+    profile = request.user.Teacher
+    return render(request, 'teacher/onlineclass.html', {
+        'courses': profile.courses.all() if hasattr(profile, 'courses') else tbl_course.objects.all(),
+        'subjects': tbl_subject.objects.all(),
+        'fixed_teacher': request.user,
+    })
+
+
+def _refresh_meeting_statuses(queryset):
+    from datetime import datetime, timedelta
+    from django.utils import timezone
+    now = timezone.now()
+    for item in queryset.filter(status='live'):
+        start = item.started_at
+        if not start:
+            start = datetime.combine(item.class_date, item.class_time)
+            if timezone.is_naive(start):
+                start = timezone.make_aware(start, timezone.get_current_timezone())
+        if now >= start + timedelta(minutes=item.duration):
+            item.status = 'closed'
+            item.save(update_fields=['status'])
+    return queryset
+
+def online_class(req):
+    return render(req,"admin/onlineclass.html")
 

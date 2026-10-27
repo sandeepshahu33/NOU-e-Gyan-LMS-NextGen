@@ -1,0 +1,66 @@
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+
+{% block title %}
+Filter test
+{% endblock title %}
+
+
+{% block content %}
+<h1 class="text-center">Learning filter using Django ORM</h1>
+<form action="" method="get" class="form-control" style="margin:50px auto;width:60%">
+    <table class="table">
+        <tr>
+            <td>status
+                <select name="status" id="" class="form-select">
+                    <option value="">All</option>
+                    <option value="Active">Active </option>
+                    <option value="Inactive">Inactive </option>
+                </select>
+            </td>
+            <td><button type="submit" class="btn btn-success mt-4">Filter</button></td>
+        </tr>
+        <tr>
+            <td>department
+                <select name="department" id="" class="form-select">
+                    <option value="">All</option>
+                    <option value="AI&ML">AI&ML </option>
+                    <option value="Web Development">Web Development </option>
+                    <option value="CE">CE</option>
+                </select>
+            </td>
+            <td><button type="submit" class="btn btn-success mt-4">Filter</button></td>
+        </tr>
+
+    </table>
+</form>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Sr.No.</th>
+        <th>Teacher</th>
+        <th>Employee Id</th>
+        <th>Department</th>
+        <th>Designation</th>
+        <th>contact No</th>
+        <th>Status</th>
+    </tr>
+    
+    {% for t in teachers %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{t.name}}</td>
+        <td>{{t.employee_id}}</td>
+        <td>{{t.department}}</td>
+        <td>{{t.designation}}</td>
+        <td>{{t.mobile}}</td>
+        <td>{{t.status}}</td>
+    </tr>
+        
+    {% endfor %}
+        
+</table>
+
+
+{% endblock content %}

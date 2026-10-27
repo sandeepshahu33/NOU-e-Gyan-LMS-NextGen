@@ -200,9 +200,9 @@
 
             <div class="sidebar-user-info">
                 <div class="sidebar-user-name">
-                    {{ request.user.username|default:'Student' }} ({{ username.name | default:"Student" }})
+                    {{ request.user.username|default:'Student' }} 
                 </div>
-                <div class="sidebar-user-role">Student Administrator</div>
+                <div class="sidebar-user-role">{{ request.user.Student.name|default:"Student" }}</div>
             </div>
         </div>
     </div>
@@ -270,7 +270,7 @@
                             <div class="fw-bold text-dark">
                                  {{ request.user|default:"Student" }}
                             </div>
-                            <small class="text-secondary">{{ username.name | default:"Student" }}</small>
+                            <small class="text-secondary">{{ request.user.Student.name | default:"Student" }}</small>
                             
                         </div>
                     </li>

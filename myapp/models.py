@@ -11,7 +11,7 @@ class AcademicSession(models.Model):
     create_at=models.DateTimeField(auto_now_add=True)
 
 
-class Course(models.Model):
+class tbl_course(models.Model):
     id = models.AutoField(primary_key=True)
     session=models.CharField(max_length=150)
     course_name=models.CharField(max_length=150)
@@ -20,8 +20,10 @@ class Course(models.Model):
     duration=models.CharField(max_length=50)
     description=models.TextField()
     status=models.CharField(max_length=20)
+    def __str__(self):
+        return f"{self.course_name} {self.session} "
 
-class Teacher(models.Model):
+class tbl_teacher(models.Model):
     id = models.AutoField(primary_key=True)
     employee_id=models.CharField(max_length=30,unique=True)
     name=models.CharField(max_length=150)
@@ -36,7 +38,7 @@ class Teacher(models.Model):
     def __str__(self):
         return self.name
 
-class Subject(models.Model):
+class tbl_subject(models.Model):
     id = models.AutoField(primary_key=True)
     course=models.CharField(max_length=150)
     subject_name=models.CharField(max_length=150)
@@ -49,7 +51,7 @@ class Subject(models.Model):
     def __str__(self):
         return f"{self.subject_name} -- {self.subject_code}"
 
-class Student(models.Model):
+class tbl_student(models.Model):
     id = models.AutoField(primary_key=True)
     enrollment_no=models.CharField(max_length=50,unique=True)
     name=models.CharField(max_length=150)
@@ -96,3 +98,83 @@ class Assignment(models.Model):
 
     def __str__(self):
         return f"{self.title} {self.course}"
+
+
+class GoogleCredential(models.Model):
+
+    access_token = models.TextField()
+
+    refresh_token = models.TextField(
+        null=True,
+        blank=True
+    )
+
+    connected = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return "Main Google Account"
+
+
+class GoogleMeeting(models.Model):
+
+    class_title = models.CharField(
+        max_length=200
+    )
+
+    course = models.CharField(
+        max_length=100
+    )
+
+    subject = models.CharField(
+        max_length=100
+    )
+
+    teacher = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    class_date = models.DateField()
+
+    class_time = models.TimeField()
+
+    duration = models.IntegerField()
+
+    agenda = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    meeting_url = models.URLField(
+        blank=True,
+        null=True
+    )
+
+    google_space_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        default="scheduled"
+    )
+
+    started_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.class_title

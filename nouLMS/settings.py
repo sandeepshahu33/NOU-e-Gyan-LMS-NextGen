@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 
 # Quick-start development settings - unsuitable for production
@@ -119,6 +122,24 @@ STATIC_URL = 'static/'
 MEDIA_URL="/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-LOGIN_URL='/'
+# Google Meet Configuration
+GOOGLE_CLIENT_SECRETS_FILE = BASE_DIR / 'client_secret.json' 
+GOOGLE_REDIRECT_URI = 'http://127.0.0.1:8000/google/callback/' 
+GOOGLE_SCOPES = [
+    'https://www.googleapis.com/auth/meetings.space.created' 
+] 
+LOGIN_URL = '/admin/login/'
 
-LOGOUT_URL='/'
+MAILERS = {
+    'default': {
+        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    },
+}
+GOOGLE_CLIENT_SECRETS_FILE = BASE_DIR / 'client_secret.json'
+
+GOOGLE_REDIRECT_URI = "http://127.0.0.1:8000/google/callback/"
+
+GOOGLE_SCOPES = [
+    'https://www.googleapis.com/auth/meetings.space.created'
+]
+

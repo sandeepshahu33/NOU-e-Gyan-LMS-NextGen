@@ -70,6 +70,71 @@ urlpatterns = [
     # Student urls
     path('studentdash/',studentdash,name='studentdash'),
     path('logout/',user_logout,name='logout'),
+    # Test filter using django ORM
+    path('filter_test/',filter_test,name='filter_test'),
+    path('search_test/',search_test,name='search_test'),
+
+    path('online_class/',online_class,name='online_class'),
+    # =================================================
+    # GOOGLE CONNECT
+    # =================================================
+
+    path(
+        "google/login/",
+        google_login,
+        name="google_login"
+    ),
+
+    path(
+        "google/callback/",
+        google_callback,
+        name="google_callback"
+    ),
+
+    # =================================================
+    # SCHEDULE MEETING
+    # =================================================
+
+    path(
+        "schedule-meeting/",
+        schedule_meeting,
+        name="schedule_meeting"
+    ),
+
+    # =================================================
+    # START CLASS
+    # =================================================
+
+    path(
+        "meeting/<int:id>/start/",
+        start_meeting,
+        name="start_meeting"
+    ),
+
+    # =================================================
+    # STUDENT CLASSES
+    # =================================================
+
+    path("teacher/classes/", teacher_meetings, name="teacher_classes"),
+    path("superadmin/classes/", superadmin_meetings, name="superadmin_classes"),
+
+    path(
+        "student/classes/",
+        student_classes,
+        name="student_classes"
+    ),
+
+    # =================================================
+    # JOIN MEETING
+    # =================================================
+
+    path(
+        "meeting/<int:id>/join/",
+        join_meeting,
+        name="join_meeting"
+    ),
+   path("superadmin/online-classes/schedule/",superadmin_schedule_class,name="superadmin_schedule_class"),
+   path("teacher/online-classes/schedule/",teacher_schedule_class,name="teacher_schedule_class"),
 ]
 
 if settings.DEBUG:urlpatterns += static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

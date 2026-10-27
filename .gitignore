@@ -1,0 +1,10 @@
+
+# Google OAuth credentials
+client_secret.json
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env

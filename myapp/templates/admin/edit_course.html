@@ -126,20 +126,13 @@
                             Academic Session <span>*</span>
                         </label>
 
-                        <select id="session_id"
-                                name="session_id"
-                                >
-                            {% for s in sessions %}
-                                <option
-                                    value="{{ s.id }}"
-                                    {% if s.id == course.session_id.id %}
-                                        selected
-                                    {% endif %}>
-                                    {{ s.session_name }}
-                                </option>
-                            {% endfor %}
-
-                        </select>
+                        <select id="session_id" name="session">
+    {% for s in sessions %}
+        <option value="{{ s.session_name }}">
+            {{ s.session_name }}
+        </option>
+    {% endfor %}
+</select>
 
                         <small>Select the session assigned to this course.</small>
                     </div>

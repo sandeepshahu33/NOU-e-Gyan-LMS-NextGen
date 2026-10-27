@@ -125,12 +125,12 @@
                 <div class="teacher-field">
                     <label for="password">Initial Password</label>
                     <input type="password" id="password" name="password"
-                           placeholder="Set password in the Django User account"
+                           placeholder="Set password "
                            autocomplete="new-password">
-                    <small>
+                    {% comment %} <small>
                         Store passwords securely using Django's
                         <code>set_password()</code>, never as plain text.
-                    </small>
+                    </small> {% endcomment %}
                 </div>
 
                 <div class="teacher-field">

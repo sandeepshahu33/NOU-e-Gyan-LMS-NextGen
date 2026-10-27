@@ -211,7 +211,7 @@
 
             <div class="sidebar-user-info">
                 <div class="sidebar-user-name">
-                    {{ request.user.username|default:'Teacher' }} ({{ username.name | default:"Teacher" }})
+                    {{ request.user|default:'Teacher' }} ({{ username | default:"Teacher" }})
                 </div>
                 <div class="sidebar-user-role">Teacher Administrator</div>
             </div>

@@ -59,11 +59,15 @@
                         <label for="course">
                             Course Name <span>*</span>
                         </label>
+                        <select id="course" name="course">
+                            <option value="" selected disabled>Select your course </option>
+                            {% for c in courses %}
+                                <option value="{{ c.course_name }}">{{ c.course_name }} - {{c.course_code}}</option>
+                            {% endfor %}
+                        </select>
 
-                        <input type="text" id="course" name="course" maxlength="150"
-                            placeholder="e.g. Bachelor of Computer Applications"
-                            value="{{ request.POST.course|default:'' }}" required>
                     </div>
+                    
 
                     <!-- Subject Name -->
                     <div class="subject-field">
