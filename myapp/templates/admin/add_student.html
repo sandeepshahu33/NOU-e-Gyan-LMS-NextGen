@@ -126,29 +126,41 @@
 
             <div class="as-form-grid">
 
-                <div class="as-field">
-                    <label for="course">Course <span>*</span></label>
-                    <input
-                        type="text"
-                        id="course"
-                        name="course"
-                        placeholder="e.g. BCA, MCA, B.Tech"
-                        value="{{ request.POST.course|default:'' }}"
-                        maxlength="150"
-                        required>
-                </div>
+                <!-- Course -->
+                    <div class="as-field">
+                        <label for="course">
+                            Course Name <span>*</span>
+                        </label>
+                        <select id="course" name="course">
+                            <option value="" selected disabled>Select your course </option>
+                            {% for c in courses %}
+                                <option value="{{ c.course_name }}">{{ c.course_name }} - {{c.course_code}}</option>
+                            {% endfor %}
+                        </select>
 
-                <div class="as-field">
-                    <label for="session">Academic Session <span>*</span></label>
-                    <input
-                        type="text"
-                        id="session"
-                        name="session"
-                        placeholder="e.g. 2026-2029"
-                        value="{{ request.POST.session|default:'' }}"
-                        maxlength="150"
-                        required>
-                </div>
+                    </div>
+
+                <!-- Academic Session -->
+                    <div class="as-field">
+                        <label for="session">
+                            Academic Session <span>*</span>
+                        </label>
+
+                        <select id="session" name="session" required>
+                            <option value="" disabled selected>Select Academic Session</option>
+
+                            {% for session in sessions %}
+                            <option
+                                value="{{ session.session_name }}">
+                                {{ session.session_name}}
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                        <small>Select the academic year for this course.</small>
+                    </div>
+
+
 
                 <div class="as-field">
                     <label for="semester">Semester <span>*</span></label>
@@ -208,7 +220,6 @@
                             name="password"
                             placeholder="Create a strong password"
                             minlength="3"
-                            autocomplete="new-password"
                             required>
                         <button
                             type="button"

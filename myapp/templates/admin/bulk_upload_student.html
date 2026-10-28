@@ -1,0 +1,226 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Bulk Upload Students | NOU LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/bulk_upload_student.css' %}">
+
+<div class="bulk-student-page">
+
+    <!-- Page Header -->
+    <div class="bs-page-header">
+        <div>
+            <span class="bs-breadcrumb">ADMINISTRATION / STUDENTS</span>
+            <h2>Bulk Upload Students</h2>
+            <p>Register multiple students at once using a CSV file.</p>
+        </div>
+
+        <a href="{% url 'view_students' %}" class="bs-back-btn">
+            ← View Students
+        </a>
+    </div>
+
+    <!-- Django Messages -->
+    {% if messages %}
+    <div class="bs-messages">
+        {% for message in messages %}
+        <div class="bs-message bs-message-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Upload Card -->
+    <div class="bs-card">
+
+        <div class="bs-card-header">
+            <div class="bs-card-icon">⇧</div>
+            <div>
+                <h3>Import Student Records</h3>
+                <p>Upload a CSV file containing student information.</p>
+            </div>
+        </div>
+
+        <div class="bs-divider"></div>
+
+        <form method="POST"
+              action=""
+              enctype="multipart/form-data"
+              class="bs-upload-form">
+
+            {% csrf_token %}
+
+            <label for="student_csv" class="bs-label">
+                Select Student CSV File <span>*</span>
+            </label>
+
+            <div class="bs-upload-area">
+                <div class="bs-upload-icon">⇧</div>
+
+                <h4>Choose your CSV file</h4>
+                <p>Supported format: .csv</p>
+
+                <input type="file"
+                       id="student_csv"
+                       name="file"
+                       accept=".csv,text/csv"
+                       required>
+
+                <small id="bs-selected-file">No file selected</small>
+            </div>
+
+            <div class="bs-info-note">
+                <span>ⓘ</span>
+                <p>
+                    Each row represents one student. Make sure the first row
+                    contains the exact column names shown in the CSV guide below.
+                </p>
+            </div>
+
+            <div class="bs-actions">
+                <a href="{% url 'view_students' %}" class="bs-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="bs-reset-btn">
+                    Reset
+                </button>
+
+                <button type="submit" class="bs-submit-btn">
+                    ⇧ Upload Students
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- CSV Format Guide -->
+    <div class="bs-card bs-guide-card">
+
+        <div class="bs-guide-header">
+            <div>
+                <span class="bs-guide-label">FILE REQUIREMENTS</span>
+                <h3>CSV Format Guide</h3>
+                <p>Use all 10 column names exactly as shown.</p>
+            </div>
+
+            <span class="bs-csv-badge">.CSV</span>
+        </div>
+
+        <div class="bs-table-wrapper">
+            <table class="bs-table">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>enrollment_no</td>
+                        <td>Unique enrollment number</td>
+                        <td>NOU2026001</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>Student's full name</td>
+                        <td>Rahul Kumar</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>Student's email address</td>
+                        <td>rahul@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>mobile</td>
+                        <td>Contact number</td>
+                        <td>9876501001</td>
+                    </tr>
+                    <tr>
+                        <td>course</td>
+                        <td>Student's course name</td>
+                        <td>BCA</td>
+                    </tr>
+                    <tr>
+                        <td>session</td>
+                        <td>Academic session</td>
+                        <td>2026-2029</td>
+                    </tr>
+                    <tr>
+                        <td>semester</td>
+                        <td>Current semester</td>
+                        <td>Semester 1</td>
+                    </tr>
+                    <tr>
+                        <td>username</td>
+                        <td>Login username</td>
+                        <td>NOU2026001</td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>Initial login password</td>
+                        <td>Student@123</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>Account status</td>
+                        <td>Active</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CSV Example -->
+        <div class="bs-example-heading">
+            <h4>Example CSV Content</h4>
+            <p>Use this structure in Excel or any spreadsheet application.</p>
+        </div>
+
+        <pre class="bs-code">enrollment_no,name,email,mobile,course,session,semester,username,password,status
+NOU2026001,Rahul Kumar,rahul.kumar@example.com,9876501001,BCA,2026-2029,Semester 1,NOU2026001,Student@123,Active
+NOU2026002,Priya Sharma,priya.sharma@example.com,9876501002,MCA,2026-2028,Semester 1,NOU2026002,Student@456,Active
+NOU2026003,Amit Verma,amit.verma@example.com,9876501003,B.Tech,2026-2030,Semester 1,NOU2026003,Student@789,Inactive</pre>
+
+        <div class="bs-warning-note">
+            <strong>Important:</strong>
+            Enrollment numbers, emails and usernames should be unique.
+            Course, session and semester values must match the values expected
+            by your project. Passwords must be hashed using Django's
+            authentication system, not saved as plain text.
+        </div>
+
+        <div class="bs-tip-note">
+            <span>✦</span>
+            <p>
+                <strong>Tip:</strong> In Excel, select
+                <strong>Save As → CSV UTF-8 (Comma delimited) (*.csv)</strong>.
+                Keep the header row unchanged and avoid empty required fields.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="bs-footer">
+        ✦ NOU e-Gyan LMS <span>•</span> Student Management
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const csvInput = document.getElementById("student_csv");
+    const selectedFile = document.getElementById("bs-selected-file");
+
+    csvInput.addEventListener("change", function () {
+        selectedFile.textContent = this.files.length
+            ? this.files[0].name
+            : "No file selected";
+    });
+});
+</script>
+
+{% endblock %}

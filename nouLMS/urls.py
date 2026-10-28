@@ -37,16 +37,20 @@ urlpatterns = [
     path('view_teacher/',view_teacher,name='view_teacher'),
     path('edit_teacher/<id>/',edit_teacher,name='edit_teacher'),
     path('delete_teacher/<id>/',delete_teacher,name='delete_teacher'),
+    path('bulk/upload/teacher/',bulk_upload_teacher,name='bulk_upload_teacher'),
 
 
     path('add_subject/',add_subject,name='add_subject'),
     path('view_subjects/',view_subjects,name='view_subjects'),
+    path('edit_subject/<id>/',edit_subject,name='edit_subject'),
+    path('delete_subject/<id>/',delete_subject,name='delete_subject'),
 
     path('add_student/',add_student,name='add_student'),
     path('view_students/',view_students,name='view_students'),
     path('view_students/',view_students,name='view_students'),
     path('edit_student/<id>/',edit_student,name='edit_student'),
     path('delete_student/<id>/',delete_student,name='delete_student'),
+    path('bulk/upload/student/',bulk_upload_student,name='bulk_upload_student'),
 
     path('add_studymaterial/',add_studymaterial,name='add_studymaterial'),
     path('view_studymaterial/',view_studymaterial,name='view_studymaterial'),

@@ -85,36 +85,46 @@
                 </div>
 
 
-                <!-- Course -->
-                <div class="form-group">
-                    <label for="course">
-                        Course <span>*</span>
-                    </label>
+                
+<!-- Course -->
+<div class="form-group">
+    <label for="course">
+        Course <span>*</span>
+    </label>
 
-                    <input type="text"
-                           id="course"
-                           name="course"
-                           value="{{ assignment.course }}"
-                           maxlength="150"
-                           placeholder="Enter course name"
-                           required>
-                </div>
+    <select id="course" name="course" required>
+        <option value="" disabled>Select your course</option>
+
+        {% for c in courses %}
+            <option value="{{ c.course_name }}"
+                {% if assignment.course == c.course_name %}selected{% endif %}>
+                {{ c.course_name }} - {{ c.course_code }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
 
 
-                <!-- Subject -->
-                <div class="form-group">
-                    <label for="subject">
-                        Subject <span>*</span>
-                    </label>
 
-                    <input type="text"
-                           id="subject"
-                           name="subject"
-                           value="{{ assignment.subject }}"
-                           maxlength="150"
-                           placeholder="Enter subject name"
-                           required>
-                </div>
+                
+<!-- Subject -->
+<div class="form-group">
+    <label for="subject">
+        Subject <span>*</span>
+    </label>
+
+    <select id="subject" name="subject" required>
+        <option value="" disabled>Select your subject</option>
+
+        {% for s in subjects %}
+            <option value="{{ s.subject_name }}"
+                {% if assignment.subject == s.subject_name %}selected{% endif %}>
+                {{ s.subject_name }} - ({{ s.subject_code }})
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
 
 
                 <!-- Due Date -->

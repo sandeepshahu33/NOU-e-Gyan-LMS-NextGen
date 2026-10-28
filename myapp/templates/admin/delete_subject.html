@@ -1,0 +1,100 @@
+
+{% extends "admin/adminbase.html" %}
+{% load static %}
+
+{% block title %}Delete Subject{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/delete_subject.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="delete-subject-page">
+
+    <div class="delete-subject-card">
+
+        <!-- Header -->
+        <div class="delete-header">
+            <div class="delete-icon">
+                <i class="bi bi-trash3"></i>
+            </div>
+
+            <div>
+                <span class="delete-eyebrow">ACADEMIC MANAGEMENT</span>
+                <h2>Delete Subject</h2>
+                <p>Review the subject details before deleting.</p>
+            </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="delete-warning">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <div>
+                <strong>Are you sure you want to delete this subject?</strong>
+                <p>This action cannot be undone.</p>
+            </div>
+        </div>
+
+        <!-- Subject Details -->
+        <div class="subject-details">
+
+            <div class="detail-item">
+                <span>Subject Name</span>
+                <strong>{{ subject.subject_name }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Subject Code</span>
+                <strong>{{ subject.subject_code }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Course</span>
+                <strong>{{ subject.course }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Semester</span>
+                <strong>{{ subject.semester }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Credits</span>
+                <strong>{{ subject.credits }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Teacher</span>
+                <strong>{{ subject.teacher|default:"Not Assigned" }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Status</span>
+                <strong class="status-value">{{ subject.status }}</strong>
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="delete-actions">
+                <a href="{% url 'view_subjects' %}" class="btn-cancel">
+                    <i class="bi bi-arrow-left"></i>
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn-delete">
+                    <i class="bi bi-trash3"></i>
+                    Delete Subject
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

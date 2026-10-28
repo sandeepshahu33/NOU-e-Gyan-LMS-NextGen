@@ -1,0 +1,220 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Bulk Upload Teachers | NOU e-Gyan LMS{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/bulk_upload_teacher.css' %}">
+
+<div class="bulk-teacher-page">
+
+    <!-- Page Header -->
+    <div class="bulk-page-header">
+        <div>
+            <span class="bulk-breadcrumb">ADMIN PANEL / TEACHERS</span>
+            <h2>Bulk Upload Teachers</h2>
+            <p>Import multiple faculty members using a CSV file.</p>
+        </div>
+
+        <a href="{% url 'view_teacher' %}" class="back-btn">
+            ← Back to Teachers
+        </a>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="bulk-upload-card">
+
+        <div class="card-heading">
+            <div class="heading-icon">⇧</div>
+            <div>
+                <h3>Import Teacher Records</h3>
+                <p>Upload a CSV file containing teacher information.</p>
+            </div>
+        </div>
+
+        <div class="card-divider"></div>
+
+        <!-- Django Messages -->
+        {% if messages %}
+            <div class="message-container">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Upload Form -->
+        <form method="POST"
+              action=""
+              enctype="multipart/form-data"
+              class="bulk-upload-form">
+
+            {% csrf_token %}
+
+            <label class="upload-label" for="csv_file">
+                Select CSV File <span>*</span>
+            </label>
+
+            <div class="upload-area">
+                <div class="upload-icon">⇧</div>
+                <h4>Choose your teacher CSV file</h4>
+                <p>Supported format: .csv</p>
+
+                <input type="file"
+                       id="csv_file"
+                       name="file"
+                       accept=".csv,text/csv"
+                       required>
+
+                <small id="selected-file">
+                    No file selected
+                </small>
+            </div>
+
+            <div class="upload-note">
+                <span>ⓘ</span>
+                <p>
+                    Make sure your CSV contains all required column names
+                    and valid teacher details. Each row represents one teacher.
+                </p>
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'view_teacher' %}" class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="reset" class="reset-btn">
+                    Reset
+                </button>
+
+                <button type="submit" class="upload-btn">
+                    ⇧ Upload Teachers
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- CSV Format Guide -->
+    <div class="csv-guide-card">
+
+        <div class="guide-heading">
+            <div>
+                <span class="guide-label">FILE REQUIREMENTS</span>
+                <h3>CSV File Format</h3>
+                <p>Use these exact column names in the first row.</p>
+            </div>
+            <span class="csv-badge">.CSV</span>
+        </div>
+
+        <div class="csv-table-wrapper">
+            <table class="csv-table">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>employee_id</td>
+                        <td>Unique employee ID</td>
+                        <td>TCH001</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>Teacher's full name</td>
+                        <td>Rahul Kumar</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>Unique email address</td>
+                        <td>rahul@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>mobile</td>
+                        <td>Contact number</td>
+                        <td>9876543210</td>
+                    </tr>
+                    <tr>
+                        <td>department</td>
+                        <td>Academic department</td>
+                        <td>Computer Science</td>
+                    </tr>
+                    <tr>
+                        <td>designation</td>
+                        <td>Faculty designation</td>
+                        <td>Assistant Professor</td>
+                    </tr>
+                    <tr>
+                        <td>username</td>
+                        <td>Login account username</td>
+                        <td>TCH001</td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>Initial password</td>
+                        <td>TempPass123!</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>Account status</td>
+                        <td>Active</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="format-warning">
+            <strong>Important:</strong>
+            The username must be unique. Email and employee ID must not
+            already exist. Passwords must be securely hashed using Django's
+            authentication system, never stored as plain text.
+        </div>
+
+        <div class="csv-example-heading">
+            <h4>Example CSV Content</h4>
+            <p>Copy this format into Excel or save it as a .csv file.</p>
+        </div>
+
+        <pre class="csv-code">employee_id,name,email,mobile,department,designation,username,password,status
+TCH001,Rahul Kumar,rahul@example.com,9876543210,Computer Science,Assistant Professor,TCH001,TempPass123!,Active
+TCH002,Priya Sharma,priya@example.com,9876543211,Mathematics,Lecturer,TCH002,TempPass456!,Active
+TCH003,Amit Verma,amit@example.com,9876543212,Physics,Assistant Professor,TCH003,TempPass789!,Inactive</pre>
+
+        <div class="format-tip">
+            <span>✦</span>
+            <p>
+                <strong>Tip:</strong> Keep the first row as the header.
+                Do not leave required fields empty. Save the file as
+                <strong>CSV UTF-8 (Comma delimited) (*.csv)</strong>.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="bulk-page-footer">
+        ✦ NOU e-Gyan LMS <span>•</span> Faculty Management
+    </div>
+
+</div>
+
+<script>
+    const csvInput = document.getElementById("csv_file");
+    const selectedFile = document.getElementById("selected-file");
+
+    csvInput.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            selectedFile.textContent = this.files[0].name;
+        } else {
+            selectedFile.textContent = "No file selected";
+        }
+    });
+</script>
+
+{% endblock %}

@@ -20,6 +20,7 @@ from django.utils import timezone
 from django.db import transaction
 from django.urls import reverse
 from urllib.parse import quote
+from pprint import pprint
 
 # Google Meet integration lives in google_meet.py; keep URL-facing names here.
 from .google_meet import (
@@ -278,7 +279,7 @@ def add_course(req):
         status=req.POST['status']
         tbl_course.objects.create(course_name=course_name,course_code=course_code,session=session,level=level,duration=duration,description=description,status=status)
         messages.success(req,"Course is added successfully!!")
-        return redirect('view-courses')
+        return redirect('view_courses')
     return render(req,'admin/add_course.html',{"sessions":session})
 
 def view_courses(req):
@@ -394,6 +395,22 @@ def delete_teacher(req,id):
         return redirect('view_teacher')
     return render(req,"admin/delete_teacher.html",{"teacher":teacher})
 
+def bulk_upload_teacher(req):
+    if req.method=='POST':
+        file=req.FILES.get("file")
+        try:
+            if file:
+                data=file.read().decode('utf-8-sig').splitlines()
+                header=csv.DictReader(data)
+                for row in header:
+                    user_obj=User.objects.create_user(username=row['username'],password=row['password'],email=row['email'])
+                    tbl_teacher.objects.create(employee_id=row['employee_id'],name=row['name'],email=row['email'],mobile=row['mobile'],department=row['department'],designation=row['designation'],user=user_obj,password=row['password'],status=row['status'])
+                messages.success(req,"Bulk Teacher uploaded successfullly !!")
+                return redirect('view_teacher')
+        except Exception as ex:
+            print("Error : ",ex)
+    return render(req,"admin/bulk_upload_teacher.html")
+
 def add_subject(req):
     teachers=tbl_teacher.objects.all()
     courses=tbl_course.objects.filter(status="Active")
@@ -406,7 +423,7 @@ def add_subject(req):
         teacher=req.POST['teacher']
         description=req.POST['description']
         status=req.POST['status']
-        tbl_course.objects.create(course=course,subject_name=subject_name,subject_code=subject_code,semester=semester,credits=credits,teacher=teacher,description=description,status=status)
+        tbl_subject.objects.create(course=course,subject_name=subject_name,subject_code=subject_code,semester=semester,credits=credits,teacher=teacher,description=description,status=status)
         messages.success(req,"Subject added successfullly !! ")
         return redirect('view_subjects')
     context={
@@ -419,7 +436,7 @@ def view_subjects(req):
     subjects=tbl_subject.objects.all()
     active_count=tbl_subject.objects.filter(status="Active").count()
     inactive_count=tbl_subject.objects.filter(status="Inactive").count()
-    semesters=tbl_subject.objects.values_list("semester",flat=True)
+    semesters=tbl_subject.objects.values_list("semester",flat=True).distinct()
     context={
         "subjects":subjects,
         "active_count":active_count,
@@ -428,7 +445,56 @@ def view_subjects(req):
     }
     return render(req,"admin/view_subjects.html",context)
 
+def edit_subject(req,id):
+    subject=tbl_subject.objects.get(id=id)
+    teachers=tbl_teacher.objects.filter(status="Active")
+    courses=tbl_course.objects.filter(status="Active")
+
+    context={
+        "subject":subject,
+        "teachers":teachers,
+        "courses":courses
+    }
+    if req.method == "POST":
+        course=req.POST['course']
+        subject_name=req.POST['subject_name']
+        subject_code=req.POST['subject_code']
+        semester=req.POST['semester']
+        credits=req.POST['credits']
+        teacher=req.POST['teacher']
+        description=req.POST['description']
+        status=req.POST['status']
+        subject.course=course
+        subject.subject_name=subject_name
+        subject.subject_code=subject_code
+        subject.semester=semester
+        subject.credits=credits
+        subject.teacher=teacher
+        subject.description=description
+        subject.status=status
+        subject.save()
+        messages.success(req,"Subject updated successfullly !! ")
+        return redirect('view_subjects')
+    return render(req,"admin/edit_subject.html",context)
+
+def delete_subject(req,id):
+    subject=tbl_subject.objects.get(id=id)
+    context={
+        "subject":subject,
+    }
+    if req.method == "POST":
+        subject.delete()
+        messages.success(req,"Subject deleted successfully !!")
+        return redirect('view_subjects')
+    return render(req,"admin/delete_subject.html",context)
+
 def add_student(req):
+    sessions=AcademicSession.objects.filter(status="Active").all()
+    courses=tbl_course.objects.filter(status="Active")
+    context={
+        "sessions":sessions,
+        "courses":courses,
+    }
     if req.method == "POST":
         enrollment_no=req.POST['enrollment_no']
         name=req.POST['name']
@@ -444,14 +510,14 @@ def add_student(req):
         tbl_student.objects.create(enrollment_no=enrollment_no,name=name,email=email,mobile=mobile,course=course,session=session,semester=semester,user=user_obj,password=password,status=status)
         messages.success(req,"tbl_student added successfully !! ")
         return redirect('view_students')
-    return render(req,"admin/add_student.html")
+    return render(req,"admin/add_student.html",context)
 
 def view_students(req):
     students=tbl_student.objects.all()
     active_count=tbl_student.objects.filter(status="Active").count()
     inactive_count=tbl_student.objects.filter(status="Inactive").count()
-    semesters=tbl_student.objects.values_list("semester",flat=True)
-    courses=tbl_student.objects.values_list("course",flat=True)
+    semesters=tbl_student.objects.values_list("semester",flat=True).distinct()
+    courses=tbl_student.objects.values_list("course",flat=True).distinct()
     context={
         "students":students,
         "active_count":active_count,
@@ -463,6 +529,13 @@ def view_students(req):
 
 def edit_student(req,id):
     student=tbl_student.objects.get(id=id)
+    sessions=AcademicSession.objects.filter(status="Active").all()
+    courses=tbl_course.objects.filter(status="Active")
+    context={
+        "sessions":sessions,
+        "courses":courses,
+        "student":student,
+    }
     if req.method == "POST":
         enrollment_no=req.POST['enrollment_no']
         name=req.POST['name']
@@ -491,7 +564,7 @@ def edit_student(req,id):
         student.save()
         messages.success(req,"tbl_student data updated successfully !! ")
         return redirect('view_students')
-    return render(req,"admin/edit_student.html",{"student":student})
+    return render(req,"admin/edit_student.html",context)
 
 def delete_student(req,id):
     student=tbl_student.objects.get(id=id)
@@ -501,8 +574,32 @@ def delete_student(req,id):
         return redirect("view_students")
     return render(req,"admin/delete_student.html",{"student":student})
 
+def bulk_upload_student(req):
+    if req.method=='POST':
+        file=req.FILES.get("file")
+        try:
+            if file:
+                data=file.read().decode('utf-8-sig').splitlines()
+                header=csv.DictReader(data)
+                for row in header:
+                    user_obj=User.objects.create_user(username=row['username'],password=row['password'],email=row['email'])
+                    tbl_student.objects.create(enrollment_no=row['enrollment_no'],name=row['name'],email=row['email'],mobile=row['mobile'],course=row['course'],session=row['session'],semester=row['semester'],user=user_obj,password=row['password'],status=row['status'])
+                messages.success(req,"Bulk students uploaded successfully !! ")
+                return redirect('view_students')
+        except Exception as ex:
+            print("Error : ",ex)
+    return render(req,"admin/bulk_upload_student.html")
+
+
 def add_studymaterial(req):
     teachers=tbl_teacher.objects.filter(status="Active").all()
+    courses=tbl_course.objects.filter(status="Active").all()
+    subjects=tbl_subject.objects.filter(status="Active").all()
+    context={
+        "teachers":teachers,
+        "courses":courses,
+        "subjects":subjects,
+    }
     if req.method == 'POST':
         title=req.POST['title']
         course=req.POST['course']
@@ -516,7 +613,7 @@ def add_studymaterial(req):
         StudyMaterial.objects.create(title=title,course=course,subject=subject,material_type=material_type,file=file,external_url=external_url,description=description,uploaded_by=uploaded_by,status=status)
         messages.success(req,"Study Material uploaded successfully!!")
         return redirect('view_studymaterial')
-    return render(req,"admin/add_studymaterial.html",{"teachers":teachers})
+    return render(req,"admin/add_studymaterial.html",context)
 
 def view_studymaterial(req):
     materials=StudyMaterial.objects.all()
@@ -535,9 +632,13 @@ def view_studymaterial(req):
 def edit_studymaterial(req,id):
     material=StudyMaterial.objects.get(id=id)
     teachers=tbl_teacher.objects.filter(status="Active").all()
+    courses=tbl_course.objects.filter(status="Active").all()
+    subjects=tbl_subject.objects.filter(status="Active").all()
     context={
         "material":material,
         "teachers":teachers,
+        "courses":courses,
+        "subjects":subjects,
     }
     if req.method=="POST":
         title=req.POST['title']
@@ -545,11 +646,22 @@ def edit_studymaterial(req,id):
         subject=req.POST['subject']
         material_type=req.POST['material_type']
         file=req.FILES.get('file')
-        external_url=req.POST['external_url']
+        external_url = req.POST.get('external_url', '').strip()
         description=req.POST['description']
         uploaded_by=req.POST['uploaded_by']
         status=req.POST['status']
-        StudyMaterial.objects.filter(id=id).update(title=title,course=course,subject=subject,material_type=material_type,file=file,external_url=external_url,description=description,uploaded_by=uploaded_by,status=status)
+        material.title=title
+        material.course=course
+        material.subject=subject
+        material.material_type=material_type
+        material.description=description
+        material.uploaded_by=uploaded_by
+        material.status=status
+        if file:
+            material.file=file
+        if external_url:
+            material.external_url=external_url
+        material.save()
         messages.success(req,"Study material updated successfully !!")
         return redirect("view_studymaterial")
     return render(req,"admin/edit_studymaterial.html",context)
@@ -564,6 +676,13 @@ def delete_studymaterial(req,id):
 
 def upload_assignment(req):
     teachers=tbl_teacher.objects.filter(status="Active").all()
+    courses=tbl_course.objects.filter(status="Active").all()
+    subjects=tbl_subject.objects.filter(status="Active").all()
+    context={
+        "teachers":teachers,
+        "courses":courses,
+        "subjects":subjects,
+        }
     if req.method == 'POST':
         title=req.POST['title']
         course=req.POST['course']
@@ -577,7 +696,7 @@ def upload_assignment(req):
         Assignment.objects.create(title=title,course=course,subject=subject,due_date=due_date,total_marks=total_marks,attachment=attachment,instructions=instructions,created_by=created_by,status=status)
         messages.success(req,"Assignment uploaded successfully!!")
         return redirect('view_assignment')
-    return render(req,"admin/upload_assignment.html",{"teachers":teachers})
+    return render(req,"admin/upload_assignment.html",context)
 
 def view_assignment(req):
     assignments=Assignment.objects.all()
@@ -597,20 +716,34 @@ def view_assignment(req):
 def edit_assignment(req,id):
     assignment=Assignment.objects.get(id=id)
     teachers=tbl_teacher.objects.filter(status="Active").all()
+    courses=tbl_course.objects.filter(status="Active").all()
+    subjects=tbl_subject.objects.filter(status="Active").all()
     context={
         "assignment":assignment,
         "teachers":teachers,
+        "courses":courses,
+        "subjects":subjects,
     }
     if req.method == 'POST':
-        assignment.title=req.POST['title']
-        assignment.course=req.POST['course']
-        assignment.subject=req.POST['subject']
-        assignment.due_date=req.POST['due_date']
-        assignment.total_marks=req.POST['total_marks']
-        assignment.attachment=req.FILES.get('attachment')
-        assignment.instructions=req.POST['instructions']
-        assignment.created_by=req.POST['created_by']
-        assignment.status=req.POST['status']
+        title=req.POST['title']
+        course=req.POST['course']
+        subject=req.POST['subject']
+        due_date=req.POST['due_date']
+        total_marks=req.POST['total_marks']
+        attachment=req.FILES.get('attachment')
+        instructions=req.POST['instructions']
+        created_by=req.POST['created_by']
+        status=req.POST['status']
+        assignment.title=title
+        assignment.course=course
+        assignment.subject=subject
+        assignment.due_date=due_date
+        assignment.total_marks=total_marks
+        assignment.instructions=instructions
+        assignment.created_by=created_by
+        assignment.status=status
+        if attachment:
+            assignment.attachment=attachment
         assignment.save()
         messages.success(req,"Assignment updated successfully !! ")
         return redirect('view_assignment')
@@ -789,14 +922,7 @@ def _refresh_meeting_statuses(queryset):
 #     return render(req,"admin/onlineclass.html")
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@cache_control(
-no_cache=True,
-must_revalidate=True,
-no_store=True
-)
 def student_code_lab(request):
-
-
     context = {
     'languages': LANGUAGES,
     'starter_code': STARTER_CODE,

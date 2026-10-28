@@ -262,51 +262,47 @@
 
             <div class="es-form-grid">
 
+                {% comment %} new code start {% endcomment %}
+                
+<!-- Course -->
+<div class="es-field">
+    <label for="course">
+        Course <span>*</span>
+    </label>
 
-                <!-- Course -->
+    <select id="course" name="course" required>
+        <option value="" disabled>Select your course</option>
 
-                <div class="es-field">
-
-                    <label for="course">
-
-                        Course
-                        <span>*</span>
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="course"
-                        name="course"
-                        placeholder="e.g. BCA, MCA, B.Tech"
-                        value="{{ student.course }}"
-                        maxlength="150"
-                        required>
-
-                </div>
+        {% for c in courses %}
+            <option value="{{ c.course_name }}"
+                {% if student.course == c.course_name %}selected{% endif %}>
+                {{ c.course_name }} - {{ c.course_code }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
 
 
-                <!-- Session -->
+                
+<!-- Academic Session -->
+<div class="es-field">
+    <label for="session">
+        Academic Session <span>*</span>
+    </label>
 
-                <div class="es-field">
+    <select id="session" name="session" required>
+        <option value="" disabled>Select Academic Session</option>
 
-                    <label for="session">
+        {% for session in sessions %}
+            <option value="{{ session.session_name }}"
+                {% if student.session == session.session_name %}selected{% endif %}>
+                {{ session.session_name }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
 
-                        Academic Session
-                        <span>*</span>
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="session"
-                        name="session"
-                        placeholder="e.g. 2026-2029"
-                        value="{{ student.session }}"
-                        maxlength="150"
-                        required>
-
-                </div>
+                {% comment %} new code end {% endcomment %}
 
 
                 <!-- Semester -->
@@ -490,8 +486,7 @@
                             id="password"
                             name="password"
                             placeholder="Leave blank to keep previous password"
-                            minlength="3"
-                            autocomplete="new-password">
+                            minlength="3">
 
 
                         <button

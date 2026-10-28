@@ -92,36 +92,40 @@
                            required>
                 </div>
                 <!-- Course -->
-                <div class="form-group">
+                <!-- Course -->
+<div class="form-group">
+    <label for="course">
+        Course Name <span>*</span>
+    </label>
 
-                    <label for="course">
+    <select id="course" name="course" required>
+        <option value="" disabled>Select your course</option>
 
-                        Course
-                        <span>*</span>
-
-                    </label>
-                    <input type="text"
-                           id="course"
-                           name="course"
-                           value="{{ material.course }}"
-                           placeholder="e.g. B.Tech Computer Science"
-                           maxlength="200"
-                           required>
-                </div>
+        {% for c in courses %}
+            <option value="{{ c.course_name }}"
+                {% if material.course == c.course_name %}selected{% endif %}>
+                {{ c.course_name }} - {{ c.course_code }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
                 <!-- Subject -->
-                <div class="form-group">
-                    <label for="subject">
-                        Subject
-                        <span>*</span>
-                    </label>
-                    <input type="text"
-                           id="subject"
-                           name="subject"
-                           value="{{ material.subject }}"
-                           placeholder="e.g. Database Management System"
-                           maxlength="200"
-                           required>
-                </div>
+<div class="form-group">
+    <label for="subject">
+        Subject Name <span>*</span>
+    </label>
+
+    <select id="subject" name="subject" required>
+        <option value="" disabled>Select your subject</option>
+
+        {% for s in subjects %}
+            <option value="{{ s.subject_name }}"
+                {% if material.subject == s.subject_name %}selected{% endif %}>
+                {{ s.subject_name }} - ({{ s.subject_code }})
+            </option>
+        {% endfor %}
+    </select>
+</div>
                 <!-- Material Type -->
 
                 <div class="form-group">
