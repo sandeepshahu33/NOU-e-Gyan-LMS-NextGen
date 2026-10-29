@@ -771,8 +771,12 @@ def teacherdash(req):
 
 def teacher_studymaterial(req):
     username=tbl_teacher.objects.get(user=req.user)
+    courses=tbl_course.objects.filter(status="Active").all()
+    subjects=tbl_subject.objects.filter(status="Active").all()
     context={
         "username":username,
+        "courses":courses,
+        "subjects":subjects,
     }
     if req.method == 'POST':
         title=req.POST['title']
@@ -786,7 +790,7 @@ def teacher_studymaterial(req):
         status=req.POST['status']
         StudyMaterial.objects.create(title=title,course=course,subject=subject,material_type=material_type,file=file,external_url=external_url,description=description,uploaded_by=uploaded_by,status=status)
         messages.success(req,"Study Material uploaded successfully!!")
-        return redirect('teacherdash')
+        return redirect('tchview_studymaterial')
     return render(req,"teacher/teacher_studymaterial.html",context)
 
 def tchview_studymaterial(req):
