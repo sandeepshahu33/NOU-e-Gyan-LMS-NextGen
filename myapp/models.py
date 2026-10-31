@@ -99,6 +99,22 @@ class Assignment(models.Model):
     def __str__(self):
         return f"{self.title} {self.course}"
 
+class Attendance(models.Model):
+    STATUS_CHOICES=[
+        ("Present","Present"),
+        ("Absent","Absent"),
+        ("Leave","Leave"),
+    ]
+    username=models.CharField( max_length=20)
+    name=models.CharField(max_length=150)
+    course=models.CharField(max_length=150)
+    status=models.CharField(max_length=20,choices=STATUS_CHOICES,default="Present")
+    date=models.DateField()
+    class Meta:
+        unique_together = ('username', 'date')
+    def __str__(self):
+        return f"{self.username} - {self.name} - {self.status} -{self.course}"
+
 
 class GoogleCredential(models.Model):
 

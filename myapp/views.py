@@ -8,7 +8,7 @@ from django.db.models import Count
 from datetime import date
 from django.utils import timezone
 # Create your views here.
-
+from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 import csv
 import json
@@ -34,6 +34,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
 from .compiler_helper import LANGUAGES, STARTER_CODE, run_code
+
+from django.utils.dateparse import parse_date
 
 
 
@@ -868,6 +870,157 @@ def search_test(req):
         "kwd":kwd,
     }
     return render(req,"admin/search_test.html",context)
+
+
+def attendance(req):
+
+    # Active Courses
+    courses = tbl_course.objects.filter(status="Active")
+    if req.method == "POST":
+        selected_date = req.POST.get('date')
+        total_students = tbl_student.objects.filter(
+            status="Active",
+            course=req.POST.get('course')
+        )
+        for counter, student in enumerate(total_students, start=1):
+
+            username = req.POST.get(f'username_{counter}')
+            name = req.POST.get(f'name_{counter}')
+            course = req.POST.get(f'course_{counter}')
+            status = req.POST.get(f'status_{counter}')
+
+            Attendance.objects.update_or_create(
+                username=username,
+                date=selected_date,
+                defaults={
+                    'name': name,
+                    'course': course,
+                    'status': status
+                }
+            )
+        return redirect('attendance')
+
+    # Get selected date and course from GET request
+    selected_date = req.GET.get('date') or timezone.localdate().isoformat()
+    selected_course = req.GET.get('course', '')
+
+    # Convert date string into Python date object
+    selected_date = parse_date(selected_date)
+
+    if selected_date is None:
+        selected_date = timezone.localdate()
+
+    # Get all active students
+    students = tbl_student.objects.none()
+
+    # Show students only when course is selected
+    if selected_course:
+        students = tbl_student.objects.filter(
+            status="Active",
+            course=selected_course
+        )
+
+    # Get attendance records for selected date
+    attendance_records = Attendance.objects.filter(date=selected_date)
+
+    # Apply course filter to attendance records also
+    if selected_course:
+        attendance_records = attendance_records.filter(course=selected_course)
+
+    # Create username and status mapping
+    attendance_status = {
+        record.username: record.status
+        for record in attendance_records
+    }
+
+    # Attach saved attendance status to each student
+    for student in students:
+        student.attendance_status = attendance_status.get(
+            student.user.username,
+            "Present"
+        )
+
+    context = {
+        "courses": courses,
+        "students": students,
+        "selected_date": selected_date.isoformat(),
+        "selected_course": selected_course,
+    }
+
+    return render(req, "admin/attendance.html", context)
+
+# def attendance(req):
+#     courses=tbl_course.objects.filter(status="Active").all()
+#     students=tbl_student.objects.filter(status="Active").all()
+#     context={
+#         "courses":courses,
+#         "students":students,
+#     }
+#     return render(req,"admin/attendance.html",context)
+
+
+def attendance_report(req):
+    courses = tbl_course.objects.filter(status="Active")
+    selected_course = req.GET.get('course', '')
+    # Active students
+    students = tbl_student.objects.filter(status="Active")
+    # Course filter through Django
+    if selected_course:
+        students = students.filter(course=selected_course)
+    # Attendance counts username-wise
+    attendance_records = Attendance.objects.values('username').annotate(
+        total_classes=Count('id'),
+        present_count=Count('id', filter=Q(status='Present')),
+        absent_count=Count('id', filter=Q(status='Absent')),
+        leave_count=Count('id', filter=Q(status='Leave'))
+    )
+
+    # Convert attendance records into dictionary
+    attendance_data = {
+        record['username']: record
+        for record in attendance_records
+    }
+
+    attendance_summary = []
+    # Student-wise attendance summary
+    for student in students:
+
+        username = student.user.username
+
+        data = attendance_data.get(username, {})
+
+        total_classes = data.get('total_classes', 0)
+        present_count = data.get('present_count', 0)
+        absent_count = data.get('absent_count', 0)
+        leave_count = data.get('leave_count', 0)
+
+        # Exclude Leave from percentage
+        counted_classes = present_count + absent_count
+
+        if counted_classes > 0:
+            present_percentage = round(
+                (present_count / counted_classes) * 100, 1
+            )
+        else:
+            present_percentage = 0
+
+        attendance_summary.append({
+            'enrollment_no': student.enrollment_no,
+            'name': student.name,
+            'total_classes': total_classes,
+            'present_count': present_count,
+            'absent_count': absent_count,
+            'leave_count': leave_count,
+            'present_percentage': present_percentage
+        })
+
+    context = {
+        'courses': courses,
+        'selected_course': selected_course,
+        'attendance_summary': attendance_summary,
+    }
+
+    return render(req, 'admin/attendance_report.html', context)
 
 # google meet code 
 @login_required

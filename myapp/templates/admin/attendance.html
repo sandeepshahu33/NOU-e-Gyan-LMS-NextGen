@@ -1,0 +1,354 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/attendance.css' %}">
+
+<div class="attendance-page">
+
+    <!-- Header -->
+    <div class="attendance-header">
+        <div>
+            <h3 class="text-light">
+                <i class="bi bi-calendar2-check"></i>
+                Daily Attendance
+            </h3>
+            <p>Manage and record daily student attendance</p>
+        </div>
+
+        <div class="header-icon">
+            <i class="bi bi-clipboard2-check"></i>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="attendance-filter">
+
+        <div class="section-heading">
+            <i class="bi bi-funnel"></i>
+            Attendance Filters
+        </div>
+
+        <form method="GET">
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-4 col-md-6">
+                    <label class="filter-label">Attendance Date</label>
+                    <input type="date"
+                           name="date"
+                           class="filter-control"
+                           value="{{ selected_date }}">
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <label class="filter-label">Select Course</label>
+
+                    <select name="course" class="filter-control">
+                        <option value="">Select your course</option>
+
+                        {% for c in courses %}
+                        <option value="{{ c.course_name }}"
+                        {% if selected_course == c.course_name %}selected{% endif %}>
+                            {{ c.course_name }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                    <button type="submit" class="filter-btn">
+                        <i class="bi bi-search"></i>
+                        Load Students
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- Attendance Form -->
+    <form method="POST" id="attendanceForm">
+
+        {% csrf_token %}
+
+        <input type="hidden" name="date" value="{{ selected_date }}">
+        <input type="hidden" name="course" value="{{ selected_course }}">
+
+        <!-- Statistics -->
+        <div class="attendance-stats">
+
+            <div class="stat-card">
+                <div class="stat-icon total-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div>
+                    <h4 id="totalCount">{{ students|length }}</h4>
+                    <p>Total Students</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon present-icon">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <div>
+                    <h4 id="presentCount">0</h4>
+                    <p>Present</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon absent-icon">
+                    <i class="bi bi-person-x"></i>
+                </div>
+                <div>
+                    <h4 id="absentCount">0</h4>
+                    <p>Absent</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon leave-icon">
+                    <i class="bi bi-calendar-minus"></i>
+                </div>
+                <div>
+                    <h4 id="leaveCount">0</h4>
+                    <p>On Leave</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Student List -->
+        <div class="attendance-card">
+
+            <div class="attendance-card-header">
+                <div>
+                    <h4>
+                        <i class="bi bi-person-lines-fill"></i>
+                        Student Attendance List
+                    </h4>
+                    <p>Select attendance status for each student</p>
+                </div>
+
+                {% comment %} <button type="button"
+                        class="select-all-btn"
+                        onclick="markAllPresent()">
+                    <i class="bi bi-check2-all"></i>
+                    Mark All Present
+                </button> {% endcomment %}
+                <div class="attendance-actions">
+
+    <button type="button" class="bulk-btn present-btn"
+            onclick="markAll('Present')">
+        <i class="bi bi-check-circle"></i>
+        All Present
+    </button>
+
+    <button type="button" class="bulk-btn absent-btn"
+            onclick="markAll('Absent')">
+        <i class="bi bi-x-circle"></i>
+        All Absent
+    </button>
+
+    <button type="button" class="bulk-btn leave-btn"
+            onclick="markAll('Leave')">
+        <i class="bi bi-calendar2-minus"></i>
+        All Leave
+    </button>
+
+</div>
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="attendance-table">
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            
+                            <th>Student Name</th>
+                            <th>Enrollment No.</th>
+                            <th>User Name</th>
+                            <th>Course</th>
+                            <th>Attendance Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for s in students %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>
+                                <div class="student-info">
+
+                                    <div class="student-avatar">
+                                        {{ s.name|first|upper }}
+                                    </div>
+
+                                    <div>
+                                        <div class="student-name">
+                                            {{ s.name }}
+                                        </div>
+
+                                        
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>{{ s.enrollment_no }}</td>
+                            <td><div class="student-username">{{ s.user.username }}</div></td>
+
+                            <td>{{ s.course }}</td>
+
+                            <td>
+
+                                <input type="hidden"
+                                       name="username_{{ forloop.counter }}"
+                                       value="{{ s.user.username }}">
+
+                                <input type="hidden"
+                                       name="name_{{ forloop.counter }}"
+                                       value="{{ s.name }}">
+
+                                <input type="hidden"
+                                       name="course_{{ forloop.counter }}"
+                                       value="{{ s.course }}">
+
+                                <select name="status_{{ forloop.counter }}"
+                                        class="status-select"
+                                        onchange="updateAttendance()">
+
+                                    <option value="Present"
+                                    {% if s.attendance_status == 'Present' %}selected{% endif %}>
+                                        Present
+                                    </option>
+
+                                    <option value="Absent"
+                                    {% if s.attendance_status == 'Absent' %}selected{% endif %}>
+                                        Absent
+                                    </option>
+
+                                    <option value="Leave"
+                                    {% if s.attendance_status == 'Leave' %}selected{% endif %}>
+                                        Leave
+                                    </option>
+
+                                </select>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-state">
+                                    <i class="bi bi-people"></i>
+                                    <h5>No Students Found</h5>
+                                    <p>Select a course and date to load students.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% if students %}
+
+            <div class="attendance-footer">
+
+                <div class="footer-note">
+                    <i class="bi bi-info-circle"></i>
+                    Verify attendance before saving.
+                </div>
+
+                <button type="submit" class="save-btn">
+                    <i class="bi bi-save"></i>
+                    Save Attendance
+                </button>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+// Attendance counters
+function updateAttendance() {
+
+    let selects = document.querySelectorAll('.status-select');
+
+    let present = 0;
+    let absent = 0;
+    let leave = 0;
+
+    selects.forEach(function(select) {
+
+        if (select.value === 'Present') {
+            present++;
+            select.className = 'status-select status-present';
+        }
+        else if (select.value === 'Absent') {
+            absent++;
+            select.className = 'status-select status-absent';
+        }
+        else if (select.value === 'Leave') {
+            leave++;
+            select.className = 'status-select status-leave';
+        }
+
+    });
+
+    document.getElementById('presentCount').innerText = present;
+    document.getElementById('absentCount').innerText = absent;
+    document.getElementById('leaveCount').innerText = leave;
+}
+
+// Mark all students present
+// Mark All Attendance
+function markAll(status) {
+
+    // Get all attendance dropdowns
+    let dropdowns = document.querySelectorAll('.status-select');
+
+    // Loop through all dropdowns
+    dropdowns.forEach(function(dropdown) {
+
+        // Set selected attendance status
+        dropdown.value = status;
+
+    });
+
+    // Update attendance summary
+    updateAttendance();
+}
+
+// Initial counters
+document.addEventListener('DOMContentLoaded', function() {
+    updateAttendance();
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,513 @@
+
+/* ===================================
+   NOU NEXT GEN LMS
+   ATTENDANCE PAGE
+   Burgundy | Gold | Ivory
+=================================== */
+
+.attendance-page {
+    padding: 25px;
+    background: #fbf4f6;
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    color: #382630;
+}
+
+/* Header */
+
+.attendance-header {
+    background: linear-gradient(120deg, #54182d, #762640);
+    border-radius: 16px;
+    padding: 25px 28px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 22px rgba(84, 24, 45, .13);
+}
+
+.attendance-header h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 7px;
+}
+
+.attendance-header p {
+    color: #f1dce3;
+    font-size: 13px;
+    margin: 0;
+}
+
+.header-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.13);
+    border: 1px solid rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    color: #e7c16e;
+}
+
+/* Filter Section */
+
+.attendance-filter {
+    background: #fff;
+    padding: 23px;
+    border-radius: 15px;
+    margin-bottom: 22px;
+    border: 1px solid #eadde2;
+    box-shadow: 0 4px 15px rgba(84,24,45,.04);
+}
+
+.section-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: #54182d;
+    margin-bottom: 18px;
+}
+
+.filter-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #54182d;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.filter-control {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #eadde2;
+    border-radius: 9px;
+    padding: 0 13px;
+    background: #fbf8f9;
+    color: #382630;
+    font-size: 13px;
+    outline: none;
+    transition: .3s;
+}
+
+.filter-control:focus {
+    border-color: #c49a43;
+    box-shadow: 0 0 0 3px rgba(196,154,67,.12);
+}
+
+.filter-btn {
+    height: 45px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 9px;
+    background: #762640;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    transition: .3s;
+    width: 100%;
+    cursor: pointer;
+}
+
+.filter-btn:hover {
+    background: #54182d;
+    transform: translateY(-2px);
+}
+
+/* Statistics Cards */
+
+.attendance-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 23px;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 18px;
+    border: 1px solid #eadde2;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    box-shadow: 0 4px 12px rgba(84,24,45,.035);
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    font-size: 20px;
+}
+
+.stat-card h4 {
+    font-size: 23px;
+    font-weight: 700;
+    margin: 0;
+    color: #54182d;
+}
+
+.stat-card p {
+    font-size: 12px;
+    color: #887780;
+    margin: 3px 0 0;
+}
+
+.total-icon {
+    background: #f3e8ec;
+    color: #762640;
+}
+
+.present-icon {
+    background: #e5f4eb;
+    color: #278653;
+}
+
+.absent-icon {
+    background: #fce9e9;
+    color: #d34d4d;
+}
+
+.leave-icon {
+    background: #fff4dc;
+    color: #b88626;
+}
+
+/* Attendance Table Card */
+
+.attendance-card {
+    background: #fff;
+    border: 1px solid #eadde2;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(84,24,45,.04);
+}
+
+.attendance-card-header {
+    padding: 20px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid #f0e5e9;
+}
+
+.attendance-card-header h4 {
+    color: #54182d;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.attendance-card-header p {
+    font-size: 12px;
+    color: #98858d;
+    margin: 5px 0 0;
+}
+
+.select-all-btn {
+    border: 1px solid #c49a43;
+    color: #8b6822;
+    background: #fffaf0;
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.select-all-btn:hover {
+    background: #c49a43;
+    color: #fff;
+}
+
+/* Table */
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+.attendance-table thead {
+    background: #fbf4f6;
+}
+
+.attendance-table th {
+    padding: 15px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #762640;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.attendance-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f3eaed;
+    font-size: 13px;
+    color: #57454d;
+    vertical-align: middle;
+}
+
+.attendance-table tbody tr:hover {
+    background: #fdf9fa;
+}
+
+/* Student Information */
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.student-avatar {
+    height: 37px;
+    width: 37px;
+    border-radius: 10px;
+    background: #f3e8ec;
+    color: #762640;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.student-name {
+    font-weight: 600;
+    color: #54182d;
+}
+
+.student-username {
+    color: #a08d95;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+/* Status Dropdown */
+
+.status-select {
+    width: 125px;
+    height: 36px;
+    border-radius: 8px;
+    padding: 0 9px;
+    border: 1px solid #eadde2;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    background: #fff;
+    cursor: pointer;
+}
+
+.status-select:focus {
+    border-color: #c49a43;
+}
+
+.status-select.status-present {
+    color: #21834d;
+    background: #edf8f1;
+    border-color: #d3ecdc;
+}
+
+.status-select.status-absent {
+    color: #c34444;
+    background: #fff0f0;
+    border-color: #f5dada;
+}
+
+.status-select.status-leave {
+    color: #a77a20;
+    background: #fff8e8;
+    border-color: #f2e2b9;
+}
+
+/* Empty State */
+
+.empty-state {
+    text-align: center;
+    padding: 45px 15px;
+    color: #9b858e;
+}
+
+.empty-state i {
+    font-size: 38px;
+    color: #c49a43;
+    margin-bottom: 12px;
+}
+
+.empty-state h5 {
+    color: #54182d;
+    font-weight: 700;
+}
+
+/* Footer */
+
+.attendance-footer {
+    padding: 19px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-note {
+    color: #97858d;
+    font-size: 12px;
+}
+
+.save-btn {
+    background: #762640;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.save-btn:hover {
+    background: #54182d;
+    box-shadow: 0 5px 13px rgba(84,24,45,.2);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+
+@media(max-width: 992px) {
+
+    .attendance-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media(max-width: 576px) {
+
+    .attendance-page {
+        padding: 13px;
+    }
+
+    .attendance-header {
+        padding: 19px;
+    }
+
+    .attendance-header h3 {
+        font-size: 19px;
+    }
+
+    .header-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 21px;
+    }
+
+    .attendance-stats {
+        gap: 9px;
+    }
+
+    .stat-card {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .stat-card h4 {
+        font-size: 19px;
+    }
+
+    .stat-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+}
+
+/* Bulk Attendance Buttons */
+
+.attendance-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.bulk-btn {
+    border: none;
+    outline: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+/* All Present */
+
+.present-btn {
+    background: #e6f4ec;
+    color: #198754;
+    border: 1px solid #b8dfc8;
+}
+
+.present-btn:hover {
+    background: #1f9d62;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* All Absent */
+
+.absent-btn {
+    background: #fbe9ec;
+    color: #c03950;
+    border: 1px solid #efc1ca;
+}
+
+.absent-btn:hover {
+    background: #c03950;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* All Leave */
+
+.leave-btn {
+    background: #f8efd9;
+    color: #9a7025;
+    border: 1px solid #e5d2a5;
+}
+
+.leave-btn:hover {
+    background: #c49a43;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Button click effect */
+
+.bulk-btn:active {
+    transform: scale(0.97);
+}

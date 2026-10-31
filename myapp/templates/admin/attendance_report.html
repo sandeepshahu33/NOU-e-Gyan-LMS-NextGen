@@ -1,0 +1,298 @@
+
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% block title %}Attendance Report | NOU LMS{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/attendance_report.css' %}">
+
+<div class="attendance-report">
+
+    <!-- Page Header -->
+    <div class="report-header">
+
+        <div class="header-left">
+
+            <div class="header-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div>
+                <h3>Student Attendance Summary</h3>
+                <p>Course-wise attendance overview</p>
+            </div>
+
+        </div>
+
+        {% if selected_course %}
+        <div class="course-badge">
+            <i class="bi bi-mortarboard-fill"></i>
+            {{ selected_course }}
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <!-- Filter Section -->
+    <form method="GET"
+          action="{% url 'attendance_report' %}"
+          class="filter-section">
+
+        <!-- Course Filter - Django -->
+        <div class="filter-group">
+
+            <label for="course">Select Course</label>
+
+            <select name="course" id="course">
+
+                <option value="">All Courses</option>
+
+                {% for c in courses %}
+
+                    <option value="{{ c.course_name }}"
+                        {% if selected_course == c.course_name %}selected{% endif %}>
+                        {{ c.course_name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- Student Search - JavaScript -->
+        <div class="filter-group search-group">
+
+            <label for="attendanceSearch">Search Student</label>
+
+            <div class="search-box">
+
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="search"
+                    id="attendanceSearch"
+                    placeholder="Search by name or enrollment no."
+                    oninput="filterAttendance()"
+                    aria-label="Search students"
+                    autocomplete="off">
+
+            </div>
+
+        </div>
+
+
+        <!-- Filter Buttons -->
+        <div class="filter-actions">
+
+            <button type="submit" class="filter-btn">
+                <i class="bi bi-funnel-fill"></i>
+                Apply Filter
+            </button>
+
+            <a href="{% url 'attendance_report' %}" class="reset-btn">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Reset
+            </a>
+
+        </div>
+
+    </form>
+
+
+    <!-- Attendance Table Card -->
+    <div class="table-wrapper">
+
+        <table class="attendance-table" id="attendanceTable">
+
+            <thead>
+                <tr>
+                    <th>SR NO.</th>
+                    <th>ENROLLMENT NO.</th>
+                    <th>STUDENT NAME</th>
+                    <th>TOTAL CLASSES</th>
+                    <th>PRESENT</th>
+                    <th>ABSENT</th>
+                    <th>LEAVE</th>
+                    <th>PRESENT %</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                {% for student in attendance_summary %}
+
+                <tr>
+
+                    <!-- Serial Number -->
+                    <td>
+                        {{ forloop.counter }}
+                    </td>
+
+                    <!-- Enrollment Number -->
+                    <td class="enrollment">
+                        {{ student.enrollment_no }}
+                    </td>
+
+                    <!-- Student Name -->
+                    <td class="student-name">
+                        {{ student.name }}
+                    </td>
+
+                    <!-- Total Classes -->
+                    <td>
+                        <span class="total-badge">
+                            {{ student.total_classes }}
+                        </span>
+                    </td>
+
+                    <!-- Present -->
+                    <td>
+                        <span class="present-badge">
+                            <i class="bi bi-check-lg"></i>
+                            {{ student.present_count }}
+                        </span>
+                    </td>
+
+                    <!-- Absent -->
+                    <td>
+                        <span class="absent-badge">
+                            <i class="bi bi-x-lg"></i>
+                            {{ student.absent_count }}
+                        </span>
+                    </td>
+
+                    <!-- Leave -->
+                    <td>
+                        <span class="leave-badge">
+                            <i class="bi bi-calendar2-minus"></i>
+                            {{ student.leave_count }}
+                        </span>
+                    </td>
+
+                    <!-- Percentage -->
+                    <td class="percentage">
+                        {{ student.present_percentage }}%
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="8">
+                        <div class="empty-message">
+                            <i class="bi bi-clipboard2-x"></i>
+                            <p>No attendance records found.</p>
+                        </div>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Table Footer -->
+    <div class="attendance-table-footer">
+
+        <span>
+            Showing
+            <strong id="visibleStudentCount">{{ attendance_summary|length }}</strong>
+            student(s)
+        </span>
+
+        <span>
+            NOU LMS · Attendance Management
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- JavaScript Search -->
+<script>
+
+    function filterAttendance() {
+
+        const searchInput = document.getElementById('attendanceSearch');
+
+        const search = searchInput.value.toLowerCase().trim();
+
+        const rows = document.querySelectorAll(
+            '#attendanceTable tbody tr'
+        );
+
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+
+            // Ignore empty state row
+            if (row.querySelector('.empty-message')) {
+                return;
+            }
+
+            // Search complete row text
+            const matches = row.innerText.toLowerCase().includes(search);
+
+            row.style.display = matches ? '' : 'none';
+
+            if (matches) {
+                visibleCount++;
+            }
+
+        });
+
+
+        // Update visible student count
+        document.getElementById('visibleStudentCount').textContent =
+            visibleCount;
+
+
+        // Remove previous no-result message
+        let oldMessage = document.getElementById('noAttendanceResult');
+
+        if (oldMessage) {
+            oldMessage.remove();
+        }
+
+
+        // Show message if no student matches
+        if (visibleCount === 0 && search !== '') {
+
+            const tbody = document.querySelector(
+                '#attendanceTable tbody'
+            );
+
+            const tr = document.createElement('tr');
+
+            tr.id = 'noAttendanceResult';
+
+            tr.innerHTML = `
+                <td colspan="8">
+                    <div class="empty-message">
+                        <i class="bi bi-search"></i>
+                        <p>No matching student found.</p>
+                    </div>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+
+        }
+
+    }
+
+</script>
+
+{% endblock %}
