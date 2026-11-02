@@ -831,6 +831,7 @@ def tchview_assignment(req):
 
 def current_session(req):
     academic_sessions=AcademicSession.objects.all()
+    # academic_sessions=AcademicSession.objects.filter(status="Active").all()
     return render(req,"teacher/current_session.html",{"academic_sessions":academic_sessions})
 
 # tbl_student view
@@ -840,40 +841,8 @@ def studentdash(req):
         "username":username,
     }
     return render(req,"student/studentdash.html",context)
-# Test the filtter and search using ORM
-def filter_test(req):
-    teachers=tbl_teacher.objects.all()
-    status=req.GET.get('status')
-    department=req.GET.get("department")
-    if status or department:
-        if status:
-            teachers=teachers.filter(status=status)
-        if department:
-            teachers=teachers.filter(department=department)
-    context={
-        "teachers":teachers,
-    }
-    return render(req,"admin/filter_test.html",context)
-
-def search_test(req):
-    teachers=tbl_teacher.objects.all()
-    kwd=req.GET.get('search','').strip()
-    print(kwd)
-    if kwd:
-        teachers=tbl_teacher.objects.filter(name__icontains=kwd)
-        if not teachers.exists():
-            teachers=tbl_teacher.objects.filter(department__icontains=kwd)
-        if not teachers.exists():
-            teachers=tbl_teacher.objects.filter(designation__icontains=kwd)
-    context={
-        "teachers":teachers,
-        "kwd":kwd,
-    }
-    return render(req,"admin/search_test.html",context)
-
 
 def attendance(req):
-
     # Active Courses
     courses = tbl_course.objects.filter(status="Active")
     if req.method == "POST":
@@ -898,7 +867,7 @@ def attendance(req):
                     'status': status
                 }
             )
-        return redirect('attendance')
+        return redirect('attendance_report')
 
     # Get selected date and course from GET request
     selected_date = req.GET.get('date') or timezone.localdate().isoformat()
@@ -964,6 +933,7 @@ def attendance_report(req):
     selected_course = req.GET.get('course', '')
     # Active students
     students = tbl_student.objects.filter(status="Active")
+    total_students = tbl_student.objects.filter(status="Active").count()
     # Course filter through Django
     if selected_course:
         students = students.filter(course=selected_course)
@@ -1018,6 +988,7 @@ def attendance_report(req):
         'courses': courses,
         'selected_course': selected_course,
         'attendance_summary': attendance_summary,
+        "total_students":total_students,
     }
 
     return render(req, 'admin/attendance_report.html', context)

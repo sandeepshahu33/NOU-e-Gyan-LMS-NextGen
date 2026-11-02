@@ -77,10 +77,7 @@ urlpatterns = [
     # Student urls
     path('studentdash/',studentdash,name='studentdash'),
     path('logout/',user_logout,name='logout'),
-    # Test filter using django ORM
-    path('filter_test/',filter_test,name='filter_test'),
-    path('search_test/',search_test,name='search_test'),
-
+    
     path('online_class/',online_class,name='online_class'),
     # =================================================
     # GOOGLE CONNECT
